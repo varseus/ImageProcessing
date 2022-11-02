@@ -2,7 +2,7 @@ package imageprocessing.model;
 
 /**
  * This interface represents the operations that should
- * be offered by an processable image.
+ * be offered by a processable image.
  */
 public interface Image {
   /**

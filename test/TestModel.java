@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import imageprocessing.controller.ImageProcessingController;
+import imageprocessing.controller.TextScriptedImageProcessingController;
 import imageprocessing.model.BasePPMImage;
 import imageprocessing.model.BasePPMImageProcessingModel;
 import imageprocessing.model.Image;
@@ -7,6 +8,8 @@ import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.model.Pixel;
 import imageprocessing.model.RGBPixel;
 import imageprocessing.view.ImageProcessingView;
+import imageprocessing.view.TextScriptImageProcessingView;
+import java.io.StringReader;
 import java.util.ArrayList;
 import org.junit.Test;
 /**
@@ -15,13 +18,17 @@ import org.junit.Test;
  */
 public class TestModel {
   private Image I;
+  private ImageProcessingModel model;
+  private TextScriptImageProcessingView view;
+  private ImageProcessingController controller;
+  private Readable userInput;
   /**
    * test the constructor with null.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNull(){
-    ArrayList<ArrayList<Pixel>> pixel = new ArrayList<ArrayList<Pixel>>();
-    BasePPMImage I = new BasePPMImage(pixel, 255);
+    ArrayList<ArrayList<Pixel>> pixels = null;
+    BasePPMImage I = new BasePPMImage(pixels, 255);
   }
   /**
    * test the constructor with pixels' size is 0.
@@ -80,6 +87,22 @@ public void testConstructorNotRectangular() {
   public void testConstructorWithFilePath(){
   this.I = new BasePPMImage("Koala.ppm");
   assertEquals(I, "Koala.ppm"); // not sure is correct
+  }
+  /**
+   * test the convert to PPM method.
+   */
+  @Test
+  public void testConvertToPPM(){
+
+  }
+  /**
+   * test the redComponent method.
+   */
+  @Test
+  public void testRedComponent(){
+    this.I = new BasePPMImage("Koala.ppm");
+    I.redComponent();
+    assertEquals(I, "koala-red-greyscale.png");
   }
 }
 
