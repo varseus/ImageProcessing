@@ -1,8 +1,5 @@
 package imageprocessing.controller;
 
-import imageprocessing.model.ImageProcessingModel;
-import imageprocessing.view.TextScriptedImageProcessingView;
-
 /**
  * This interface represents operations that should be offered
  * by a controller for the image processor.

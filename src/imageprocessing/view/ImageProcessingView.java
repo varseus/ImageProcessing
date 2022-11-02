@@ -6,7 +6,7 @@ import java.io.IOException;
  * This class represents operations that should be
  * offered by a text-based view of the image processor.
  */
-public interface TextScriptedImageProcessingView {
+public interface ImageProcessingView {
   /**
    * Render a specific message to the provided data destination.
    * @param message the message to be transmitted
