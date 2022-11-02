@@ -15,7 +15,7 @@ public interface ImageProcessingModel {
    * @param filepath  the location to load the image from
    * @throws IllegalArgumentException if the filePath is invalid
    */
-  void loadImageFromPPM(String imageName, String filepath) throws IllegalArgumentException;
+  Void loadImageFromPPM(String imageName, String filepath) throws IllegalArgumentException;
 
   /**
    * Save the specified image as a PPM at the specified file path.
@@ -23,9 +23,9 @@ public interface ImageProcessingModel {
    * @param imageName the name of the image to save
    * @param filepath  the location to save the image to
    * @throws IllegalArgumentException if the image does not exist or filePath is invalid
-   * @throws IOException if unable to write the file
+   * @throws IOException              if unable to write the file
    */
-  void saveImageToPPM(String imageName, String filepath)
+  Void saveImageToPPM(String imageName, String filepath)
           throws IllegalArgumentException, IOException;
 
   /**
@@ -36,7 +36,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void redComponent(String imageName, String destImageName) throws IllegalArgumentException;
+  Void redComponent(String imageName, String destImageName) throws IllegalArgumentException;
 
   /**
    * Create greyscale using only the green component of the given image,
@@ -46,7 +46,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void greenComponent(String imageName, String destImageName)
+  Void greenComponent(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -57,7 +57,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void blueComponent(String imageName, String destImageName)
+  Void blueComponent(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -69,7 +69,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void horizontalFlip(String imageName, String destImageName)
+  Void horizontalFlip(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -81,7 +81,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException;
+  Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException;
 
   /**
    * Create a greyscale using only the value component of a given image,
@@ -91,7 +91,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void valueComponent(String imageName, String destImageName)
+  Void valueComponent(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -102,7 +102,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void intensityComponent(String imageName, String destImageName)
+  Void intensityComponent(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -113,7 +113,7 @@ public interface ImageProcessingModel {
    * @param destImageName the name to give the new image
    * @throws IllegalArgumentException if the image does not exist
    */
-  void lumaComponent(String imageName, String destImageName)
+  Void lumaComponent(String imageName, String destImageName)
           throws IllegalArgumentException;
 
   /**
@@ -123,9 +123,10 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to brighten
    * @param destImageName the name to give the new image
+   * @param amount        the amount to brighten by
    * @throws IllegalArgumentException if the image does not exist
    */
-  void brighten(String imageName, String destImageName)
+  Void brighten(String imageName, String destImageName, int amount)
           throws IllegalArgumentException;
 
   /**
@@ -135,8 +136,9 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to darken
    * @param destImageName the name to give the new image
+   * @param amount        the amount to darken by
    * @throws IllegalArgumentException if the image does not exist
    */
-  void darken(String imageName, String destImageName)
+  Void darken(String imageName, String destImageName, int amount)
           throws IllegalArgumentException;
 }

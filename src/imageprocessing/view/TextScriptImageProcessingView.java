@@ -2,25 +2,21 @@ package imageprocessing.view;
 
 import imageprocessing.model.BasePPMImageProcessingModel;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * the {@code TextScriptImageProcessingView} represent the view method for the image processing model.
  */
 public class TextScriptImageProcessingView implements ImageProcessingView{
-  private Appendable appendable;
-  private BasePPMImageProcessingModel model;
+  private final Appendable appendable;
 
   /**
    * the Constructor for TextScriptImageProcessingView.
    * @param model the model for the image processing model
    * @param appendable the appendable for the view
    */
-  public TextScriptImageProcessingView(BasePPMImageProcessingModel model, Appendable appendable){
-    if (model == null || appendable == null){
-      throw new IllegalStateException();
-    }
-    this.model = model;
-    this.appendable = appendable;
+  public TextScriptImageProcessingView(Appendable appendable){
+    this.appendable = Objects.requireNonNull(appendable);
   }
 
   /**
@@ -28,7 +24,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView{
    * @param model the model for the image processing model
    */
   public TextScriptImageProcessingView(BasePPMImageProcessingModel model) {
-    this(model,System.out);
+    this(System.out);
   }
   /**
    * Render a specific message to the provided data destination.

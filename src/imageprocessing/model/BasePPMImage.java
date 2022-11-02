@@ -120,21 +120,22 @@ public class BasePPMImage implements Image {
 
   @Override
   public byte[] convertToPPM() {
-    String ppmString = String.format(
-            "%s\n%d\n%d\n%d\n",
-            "P3",
-            this.pixels.get(0).size(),
-            this.pixels.size(),
-            this.maxValue);
+    StringBuilder ppmString = new StringBuilder(
+            String.format(
+                    "%s\n%d\n%d\n%d\n",
+                    "P3",
+                    this.pixels.get(0).size(),
+                    this.pixels.size(),
+                    this.maxValue));
 
     int i = 1;
     for (ArrayList<Pixel> row : this.pixels) {
       i++;
       for (Pixel pixel : row) {
-        ppmString += pixel.toString() + "\n";
+        ppmString.append(pixel.toString() + "\n");
       }
     }
-    return ppmString.getBytes();
+    return ppmString.toString().getBytes();
   }
 
   /**

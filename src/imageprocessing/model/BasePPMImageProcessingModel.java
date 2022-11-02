@@ -29,8 +29,10 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the filepath is invalid or the image is not found/invalid
    */
   @Override
-  public void loadImageFromPPM(String imageName, String filepath) throws IllegalArgumentException {
+  public Void loadImageFromPPM(String filepath, String imageName)
+          throws IllegalArgumentException {
     images.put(imageName, new BasePPMImage(filepath));
+    return null;
   }
 
   // demo main
@@ -39,8 +41,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
 
     model.loadImageFromPPM("koala", "res/Koala.ppm");
     System.out.println("done");
-    try {model.saveImageToPPM("koala", "res/newKoala.ppm");}
-    catch (Exception e) {
+    try {
+      model.saveImageToPPM("koala", "res/newKoala.ppm");
+    } catch (Exception e) {
       System.out.println(e.toString());
     }
   }
@@ -48,11 +51,12 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   /**
    * @param imageName the name of the image to save
    * @param filepath  the location to save the image to
-   * @throws IOException if unable to write to file
+   * @throws IOException              if unable to write to file
    * @throws IllegalArgumentException if the image is not found or if the filepath is ill-formed
    */
   @Override
-  public void saveImageToPPM(String imageName, String filepath) throws IOException, IllegalArgumentException {
+  public Void saveImageToPPM(String imageName, String filepath)
+          throws IOException, IllegalArgumentException {
     Image image;
     byte[] imageData;
 
@@ -64,7 +68,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
 
     imageData = image.convertToPPM();
 
-    if(!filepath.substring(filepath.length()-4, filepath.length()).equals(".ppm")) {
+    if (!filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
       throw new IllegalArgumentException("Filepath must end in .ppm");
     }
 
@@ -79,8 +83,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
       fos.close();
     } catch (Exception e) {
       System.out.println(e.toString());
-      throw new IOException("Unable to write to file.");
+      throw new IOException("ERROR: unable to write to file.");
     }
+    return null;
   }
 
   /**
@@ -92,9 +97,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).redComponent());
+    return null;
   }
+
   /**
    * Create greyscale using only the green component of the given image,
    * and load it with the given name. Overwrites the destination name if already taken.
@@ -104,9 +111,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).greenComponent());
+    return null;
   }
+
   /**
    * Create a greyscale using only the blue component of the given image,
    * and load it with the given name. Overwrites the destination name if already taken.
@@ -116,9 +125,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).blueComponent());
+    return null;
   }
+
   /**
    * Create an image that is the horizontally flipped version
    * of the specified image, and load it with the given name.
@@ -129,9 +140,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).horizontalFlip());
+    return null;
   }
+
   /**
    * Create an image that is the vertically flipped version
    * of the specified image, and load it with the given name.
@@ -142,9 +155,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).verticalFlip());
+    return null;
   }
+
   /**
    * Create a greyscale using only the value component of a given image,
    * and load it with the given name. Overwrites the destination name if already taken.
@@ -154,9 +169,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void valueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void valueComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).valueComponent());
+    return null;
   }
+
   /**
    * Create a greyscale using only the intensity component of a given image,
    * and load it with the given name. Overwrites the destination name if already taken.
@@ -166,9 +183,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void intensityComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void intensityComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).intensityComponent());
+    return null;
   }
+
   /**
    * Create a greyscale using only the luma component of a given image,
    * and load it with the given name. Overwrites the destination name if already taken.
@@ -178,9 +197,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void lumaComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void lumaComponent(String imageName, String destImageName) throws IllegalArgumentException {
     images.put(destImageName, images.get(imageName).lumaComponent());
+    return null;
   }
+
   /**
    * Create an image that is brighter than the given image by 10 units (unless
    * already fully brightened), and load it with the given name. Overwrites
@@ -191,9 +212,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void brighten(String imageName, String destImageName) throws IllegalArgumentException {
-    images.put(destImageName, images.get(imageName).brighten(10));
+  public Void brighten(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+    images.put(destImageName, images.get(imageName).brighten(amount));
+    return null;
   }
+
   /**
    * Create an image that is darker than the given image by 10 units (unless
    * already fully darkened), and load it with the given name.
@@ -204,7 +227,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public void darken(String imageName, String destImageName) throws IllegalArgumentException {
-    images.put(destImageName, images.get(imageName).darken(10));
+  public Void darken(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+    images.put(destImageName, images.get(imageName).darken(amount));
+    return null;
   }
 }
