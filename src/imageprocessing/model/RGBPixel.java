@@ -1,5 +1,9 @@
 package imageprocessing.model;
 
+/**
+ * the {@code RGBPixel} represent operations that should be offered
+ *  * by a pixel in an image which is processable.
+ */
 public class RGBPixel implements Pixel{
   final int R;
   final int G;

@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 /**
- * This class represents operations offered by an image which
+ * the {@code BasePPMImage} represents operations offered by an image which
  * is processable and can be converted to ASCII PPM. Operations include:
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
  * flip horizontally/vertically, and load/save image to and from PPM.

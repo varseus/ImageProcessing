@@ -5,6 +5,9 @@ import imageprocessing.model.Pixel;
 import imageprocessing.model.RGBPixel;
 import org.junit.Test;
 
+/**
+ * the {@code TestModel} to test the methods in RGBPixel class.
+ */
 public class RGBPixelTest {
 
   private Pixel pixel;

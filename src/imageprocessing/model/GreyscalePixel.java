@@ -1,5 +1,8 @@
 package imageprocessing.model;
 
+/**
+ * the {@code TestModel} represent the GreyscalePixel.
+ */
 public class GreyscalePixel extends RGBPixel{
   /**
    * Instantiates this pixel with the given greyscale value.

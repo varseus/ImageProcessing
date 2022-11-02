@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class represents the operations and state of an image processor,
+ * the {@code BasePPMImageProcessingModel} represents the operations and state of an image processor,
  * intended to process a set of PPM images. Operations include: get red/green/blue components,
  * get value/intensity/luma components, bright, darken, flip horizontally/vertically,
  * and load/save image to and from PPM.
