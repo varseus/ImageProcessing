@@ -25,6 +25,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName the name to give the loaded image
    * @param file      the file to load the image from
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the file is invalid
    */
   @Override
@@ -37,6 +38,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   /**
    * @param imageName the name of the image to save
    * @param filepath  the location to save the image to
+   * @return null object for use in Callable<> lambda
    * @throws IOException              if unable to write to file
    * @throws IllegalArgumentException if the image is not found
    */
@@ -68,6 +70,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the red component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -86,15 +89,16 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the green component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
   public Void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
-   try {
-     images.put(destImageName, images.get(imageName).greenComponent());
-   }catch(Exception e) {
-     throw new IllegalArgumentException("Given image name does not exist in this processor.");
-   }
+    try {
+      images.put(destImageName, images.get(imageName).greenComponent());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
     return null;
   }
 
@@ -104,13 +108,14 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the blue component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
   public Void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).blueComponent());
-    }catch(Exception e) {
+    } catch (Exception e) {
       throw new IllegalArgumentException("Given image name does not exist in this processor.");
     }
     return null;
@@ -123,17 +128,18 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to horizontally flip
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
   public Void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).horizontalFlip());    }catch(Exception e) {
+      images.put(destImageName, images.get(imageName).horizontalFlip());
+    } catch (Exception e) {
       throw new IllegalArgumentException("Given image name does not exist in this processor.");
     }
     return null;
   }
-
 
   /**
    * Create an image that is the vertically flipped version
@@ -142,6 +148,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to vertically flip
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -160,6 +167,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the value component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -178,6 +186,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the intensity component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -196,6 +205,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the luma component of
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -215,6 +225,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to brighten
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
@@ -234,6 +245,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    *
    * @param imageName     the name of the image to darken
    * @param destImageName the name to give the new image
+   * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override

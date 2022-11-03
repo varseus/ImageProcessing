@@ -242,7 +242,7 @@ public class TestModel {
    * Tests getting redComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail3() throws IOException {
+  public void testComponentFailFail3() throws IOException {
     this.model.redComponent("notKoala", "koala");
   }
 
@@ -250,63 +250,63 @@ public class TestModel {
    * Tests getting greenComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail4() throws IOException {
+  public void testComponentFailFail4() throws IOException {
     this.model.greenComponent("notKoala", "koala");
   }
   /**
    * Tests getting blueComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail5() throws IOException {
+  public void testComponentFailFail5() throws IOException {
     this.model.blueComponent("notKoala", "koala");
   }
   /**
    * Tests getting horizontalFlip for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail6() throws IOException {
+  public void testComponentFailFail6() throws IOException {
     this.model.horizontalFlip("notKoala", "koala");
   }
   /**
    * Tests getting verticalFlip for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail7() throws IOException {
+  public void testComponentFailFail7() throws IOException {
     this.model.verticalFlip("notKoala", "koala");
   }
   /**
    * Tests getting valueComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail8() throws IOException {
+  public void testComponentFailFail8() throws IOException {
     this.model.valueComponent("notKoala", "koala");
   }
   /**
    * Tests getting intensityComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail9() throws IOException {
+  public void testComponentFailFail9() throws IOException {
     this.model.intensityComponent("notKoala", "koala");
   }
   /**
    * Tests getting lumaComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail10() throws IOException {
+  public void testComponentFailFail10() throws IOException {
     this.model.lumaComponent("notKoala", "koala");
   }
   /**
    * Tests getting brighten for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail11() throws IOException {
+  public void testComponentFailFail11() throws IOException {
     this.model.brighten("notKoala", "koala", 10);
   }
   /**
    * Tests getting darken for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testLoadImageFromPPMFail12() throws IOException {
+  public void testComponentFailFail12() throws IOException {
     this.model.darken("notKoala", "koala", 10);
   }
 

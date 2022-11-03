@@ -26,9 +26,10 @@ class BasePPMImage implements Image {
    * @param maxValue the maxValue of each pixel
    * @throws IllegalArgumentException if any pixel has the wrong maxValue,
    *                                  the matrix is not rectangular, or the image is empty;
+   * @throws NullPointerException if null args
    */
   public BasePPMImage(ArrayList<ArrayList<Pixel>> pixels, int maxValue)
-          throws IllegalArgumentException {
+          throws IllegalArgumentException, NullPointerException {
     this.pixels = Objects.requireNonNull(pixels);
     this.maxValue = maxValue;
     if (pixels.size() == 0 || pixels.get(0).size() == 0) {

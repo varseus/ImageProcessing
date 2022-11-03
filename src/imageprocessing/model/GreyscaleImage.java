@@ -14,6 +14,7 @@ class GreyscaleImage extends BasePPMImage {
    * @param maxValue the maxValue of each pixel
    * @throws IllegalArgumentException if any pixel has the wrong maxValue, maxValue is negative,
    *                                  the matrix is not rectangular, or the image is empty;
+   * @throws NullPointerException if null args
    */
   public GreyscaleImage(ArrayList<ArrayList<GreyscalePixel>> pixels, int maxValue) throws IllegalArgumentException {
     super(// type cast the ArrayList of GreyscalePixels to an ArrayList of Pixels:
