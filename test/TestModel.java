@@ -237,27 +237,12 @@ public class TestModel {
   public void testLoadImageFromPPMFail2() throws IOException {
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/Koala"), "koala");
   }
+
+  /**
+   * Tests getting redComponent for an image that doesn't exist.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testLoadImageFromPPMFail3() throws IOException {
+    this.model.redComponent("notKoala", "koala");
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

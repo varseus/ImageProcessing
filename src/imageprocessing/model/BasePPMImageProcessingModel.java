@@ -24,7 +24,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName the name to give the loaded image
-   * @param file  the file to load the image from
+   * @param file      the file to load the image from
    * @throws IllegalArgumentException if the file is invalid
    */
   @Override
@@ -56,7 +56,7 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     file.append(imageData);
 
     if (file instanceof FileWriter) {
-      ((FileWriter)file).close();
+      ((FileWriter) file).close();
     }
 
     return null;
@@ -72,7 +72,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
-    images.put(destImageName, images.get(imageName).redComponent());
+    try {
+      images.put(destImageName, images.get(imageName).redComponent());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
     return null;
   }
 
