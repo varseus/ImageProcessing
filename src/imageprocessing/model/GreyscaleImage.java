@@ -3,6 +3,9 @@ package imageprocessing.model;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ *  The {@code GreyscaleImage} represents the grey image.
+ */
 class GreyscaleImage extends BasePPMImage {
   /**
    * Instantiates this GreyscaleImage with the given pixels and max value.

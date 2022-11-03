@@ -16,6 +16,11 @@ class GreyscalePixel extends RGBPixel{
     super(value, value, value, maxValue);
   }
 
+  /**
+   * to convert the pixel to grey.
+   * @param amount the name of the pixel to brighten
+   * @return pixel in grey.
+   */
   @Override
   public GreyscalePixel brighten(int amount) {
     return new GreyscalePixel(
