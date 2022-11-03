@@ -2,13 +2,15 @@ package imageprocessing.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.FilterWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * the {@code BasePPMImageProcessingModel} represents the operations and state of an image processor,
+ * The {@code BasePPMImageProcessingModel} represents the operations and state of an image processor,
  * intended to process a set of PPM images. Operations include: get red/green/blue components,
  * get value/intensity/luma components, bright, darken, flip horizontally/vertically,
  * and load/save image to and from PPM.
@@ -35,30 +37,17 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     return null;
   }
 
-  // demo main
-  public static void main(String[] args) {
-    BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
-
-    model.loadImageFromPPM("koala", "res/Koala.ppm");
-    System.out.println("done");
-    try {
-      model.saveImageToPPM("koala", "res/newKoala.ppm");
-    } catch (Exception e) {
-      System.out.println(e.toString());
-    }
-  }
-
   /**
    * @param imageName the name of the image to save
    * @param filepath  the location to save the image to
    * @throws IOException              if unable to write to file
-   * @throws IllegalArgumentException if the image is not found or if the filepath is ill-formed
+   * @throws IllegalArgumentException if the image is not found
    */
   @Override
-  public Void saveImageToPPM(String imageName, String filepath)
+  public Void saveImageToPPM(String imageName, Appendable file)
           throws IOException, IllegalArgumentException {
     Image image;
-    byte[] imageData;
+    StringBuilder imageData;
 
     try {
       image = Objects.requireNonNull(this.images.get(imageName));
@@ -67,24 +56,12 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     }
 
     imageData = image.convertToPPM();
+    file.append(imageData);
 
-    if (!filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
-      throw new IllegalArgumentException("Filepath must end in .ppm");
+    if (file instanceof FileWriter) {
+      ((FileWriter)file).close();
     }
 
-    try {
-      File fileObj = new File(filepath);
-      if (!fileObj.createNewFile()) {
-        throw new IllegalArgumentException(
-                "Cannot save file because something already exists at the given location!");
-      }
-      FileOutputStream fos = new FileOutputStream(filepath);
-      fos.write(imageData);
-      fos.close();
-    } catch (Exception e) {
-      System.out.println(e.toString());
-      throw new IOException("ERROR: unable to write to file.");
-    }
     return null;
   }
 

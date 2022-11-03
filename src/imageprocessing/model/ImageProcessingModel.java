@@ -25,7 +25,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist or filePath is invalid
    * @throws IOException              if unable to write the file
    */
-  Void saveImageToPPM(String imageName, String filepath)
+  Void saveImageToPPM(String imageName, Appendable file)
           throws IllegalArgumentException, IOException;
 
   /**

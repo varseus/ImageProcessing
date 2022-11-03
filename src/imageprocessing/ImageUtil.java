@@ -1,5 +1,8 @@
 package imageprocessing;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -10,6 +13,36 @@ import java.io.FileInputStream;
  * as required.
  */
 public class ImageUtil {
+
+  public static FileWriter getFileFromFilepath(String filepath)
+          throws IllegalArgumentException, IOException {
+
+    if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
+      throw new IllegalArgumentException("Filepath must end in .ppm");
+    }
+
+    try {
+      File fileObj = new File(filepath);
+      if (!fileObj.createNewFile()) {
+        fileObj.mkdirs();
+        fileObj.delete();
+        fileObj.createNewFile();
+      }
+    } catch (Exception e) {
+      if (e instanceof NullPointerException) {
+        throw new IllegalArgumentException("Invalid filepath.");
+      } else {
+        throw new IOException("ERROR: could not handle file object.");
+      }
+    }
+
+    try {
+      FileWriter writer = new FileWriter(filepath);
+      return writer;
+    } catch (Exception e) {
+      throw new IOException("ERROR: unable to write to file.");
+    }
+  }
 
   /**
    * Read an image file in the PPM format and print the colors.

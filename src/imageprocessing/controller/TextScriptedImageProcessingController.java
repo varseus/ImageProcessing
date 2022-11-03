@@ -1,18 +1,15 @@
 package imageprocessing.controller;
 
+import java.awt.*;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.io.InputStreamReader;
 
+import imageprocessing.ImageUtil;
 import imageprocessing.model.BasePPMImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
@@ -68,29 +65,29 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   public void startProcessor() throws IOException {
     Map<String, Callable> commandMap = new HashMap<String, Callable>();
     commandMap.put("load", (() -> (
-            this.model.loadImageFromPPM(this.getNextToken(), this.getNextToken()))));
+            this.model.loadImageFromPPM(this.getFrom(), this.getTo()))));
     commandMap.put("save", (() -> (
-            this.model.saveImageToPPM(this.getNextToken(), this.getNextToken()))));
+            this.model.saveImageToPPM(this.getFrom(), ImageUtil.getFileFromFilepath(this.getTo())))));
     commandMap.put("red-component", (() -> (
-            this.model.redComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.redComponent(this.getFrom(), this.getTo()))));
     commandMap.put("green-component", (() -> (
-            this.model.greenComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.greenComponent(this.getFrom(), this.getTo()))));
     commandMap.put("blue-component", (() -> (
-            this.model.blueComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.blueComponent(this.getFrom(), this.getTo()))));
     commandMap.put("value-component", (() -> (
-            this.model.valueComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.valueComponent(this.getFrom(), this.getTo()))));
     commandMap.put("intensity-component", (() -> (
-            this.model.intensityComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.intensityComponent(this.getFrom(), this.getTo()))));
     commandMap.put("luma-component", (() -> (
-            this.model.lumaComponent(this.getNextToken(), this.getNextToken()))));
+            this.model.lumaComponent(this.getFrom(), this.getTo()))));
     commandMap.put("horizontal-flip", (() -> (
-            this.model.horizontalFlip(this.getNextToken(), this.getNextToken()))));
+            this.model.horizontalFlip(this.getFrom(), this.getTo()))));
     commandMap.put("vertical-flip", (() -> (
-            this.model.verticalFlip(this.getNextToken(), this.getNextToken()))));
+            this.model.verticalFlip(this.getFrom(), this.getTo()))));
     commandMap.put("brighten", (() -> (
-            this.model.brighten(this.getNextToken(), this.getNextToken(), this.getNextIntToken()))));
+            this.model.brighten(this.getFrom(), this.getTo(), this.getNextIntToken()))));
     commandMap.put("darken", (() -> (
-            this.model.darken(this.getNextToken(), this.getNextToken(), this.getNextIntToken()))));
+            this.model.darken(this.getFrom(), this.getTo(), this.getNextIntToken()))));
 
 
     String nextToken = this.getNextToken().toLowerCase().trim();
@@ -99,20 +96,26 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     } else {
       try {
         this.view.renderMessage("Attempting to do " + nextToken + ".\n");
-        commandMap.get(nextToken).call();
-        this.view.renderMessage("Success!\n");
+        if (commandMap.containsKey(nextToken)) {
+          this.view.renderMessage("... doing " + nextToken + " from ");
+          commandMap.get(nextToken).call();
+          this.view.renderMessage("Success!\n");
+        } else {
+          this.view.renderMessage("Command " + nextToken + " not identified.\n");
+        }
         this.startProcessor();
       } catch (Exception e) {
         if (e instanceof IllegalArgumentException) {
           this.view.renderMessage("\n" + e.toString() + "\n");
+          this.startProcessor();
         } else {
-          throw new IOException("Unable to read from input/write to output.");
+          throw new IOException(e.toString());
         }
       }
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
     TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
     StringBuilder input = new StringBuilder("load res/Koala.ppm koala\nq\n");
@@ -120,14 +123,9 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
             model,
             view,
-            new StringReader(input.toString())
-    );
+            new InputStreamReader(System.in));
 
-    try {
-      controller.startProcessor();
-    } catch (Exception e) {
-
-    }
+    controller.startProcessor();
   }
 
   private String getNextToken() throws IOException {
@@ -138,11 +136,27 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     }
   }
 
-  private int getNextIntToken() throws IllegalArgumentException {
+  private String getFrom() throws IOException {
+    String nextToken = this.getNextToken();
+    this.view.renderMessage(nextToken);
+    return nextToken;
+  }
+
+  private String getTo() throws IOException {
+    String nextToken = this.getNextToken();
+    this.view.renderMessage(" to " + nextToken + "...\n");
+    return nextToken;
+  }
+
+  private int getNextIntToken() throws IllegalArgumentException, IOException {
     try {
       return this.userInput.nextInt();
-    } catch (Exception E) {
-      throw new IllegalArgumentException("\nLast field for brighten/darken must be an integer.");
+    } catch (Exception e) {
+      if (e instanceof IOException) {
+        throw new IOException(e.toString());
+      } else {
+        throw new IllegalArgumentException("\nLast field for brighten/darken must be an integer.");
+      }
     }
   }
 }

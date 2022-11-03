@@ -3,7 +3,7 @@ package imageprocessing.model;
 /**
  * the {@code TestModel} represent the GreyscalePixel.
  */
-public class GreyscalePixel extends RGBPixel{
+class GreyscalePixel extends RGBPixel{
   /**
    * Instantiates this pixel with the given greyscale value.
    *
@@ -14,5 +14,12 @@ public class GreyscalePixel extends RGBPixel{
    */
   public GreyscalePixel(int value, int maxValue) throws IllegalArgumentException {
     super(value, value, value, maxValue);
+  }
+
+  @Override
+  public GreyscalePixel brighten(int amount) {
+    return new GreyscalePixel(
+            Math.max(Math.min(this.R + amount, this.maxValue), 0),
+            this.maxValue);
   }
 }

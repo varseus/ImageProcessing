@@ -3,10 +3,10 @@ package imageprocessing.model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * the {@code BasePPMImage} represents operations offered by an image which
@@ -14,7 +14,7 @@ import java.util.function.Function;
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
  * flip horizontally/vertically, and load/save image to and from PPM.
  */
-public class BasePPMImage implements Image {
+class BasePPMImage implements Image {
   private final ArrayList<ArrayList<Pixel>> pixels;
   private final int maxValue;
 
@@ -23,14 +23,13 @@ public class BasePPMImage implements Image {
    *
    * @param pixels   the pixels in this image as a matrix
    * @param maxValue the maxValue of each pixel
-   * @throws IllegalArgumentException if any pixel has the wrong maxValue, maxValue is negative,
+   * @throws IllegalArgumentException if any pixel has the wrong maxValue,
    *                                  the matrix is not rectangular, or the image is empty;
    */
   public BasePPMImage(ArrayList<ArrayList<Pixel>> pixels, int maxValue)
           throws IllegalArgumentException {
     this.pixels = Objects.requireNonNull(pixels);
     this.maxValue = maxValue;
-
     if (pixels.size() == 0 || pixels.get(0).size() == 0) {
       throw new IllegalArgumentException("Cannot have empty image.");
     }
@@ -77,7 +76,7 @@ public class BasePPMImage implements Image {
     //read the file line by line, and populate a string. This will throw away any comment lines
     while (sc.hasNextLine()) {
       String s = sc.nextLine();
-      if (s.charAt(0) != '#') {
+      if (s.length()>0 && s.charAt(0) != '#') {
         builder.append(s + System.lineSeparator());
       }
     }
@@ -113,13 +112,12 @@ public class BasePPMImage implements Image {
   }
 
   /**
-   * convert the image to PPM format.
+   * Convert the image to PPM format.
    *
    * @return byte array containing the data for the PPM file.
    */
-
   @Override
-  public byte[] convertToPPM() {
+  public StringBuilder convertToPPM() {
     StringBuilder ppmString = new StringBuilder(
             String.format(
                     "%s\n%d\n%d\n%d\n",
@@ -135,7 +133,7 @@ public class BasePPMImage implements Image {
         ppmString.append(pixel.toString() + "\n");
       }
     }
-    return ppmString.toString().getBytes();
+    return ppmString;
   }
 
   /**
@@ -147,11 +145,26 @@ public class BasePPMImage implements Image {
    */
   private Image mapImagePixels(Function<Pixel, Pixel> pixelFunction) {
     return new BasePPMImage(
-            new ArrayList(
-                    Arrays.asList(
-                            this.pixels.stream().map(
-                                    row -> (row.stream().map(
-                                            pixel -> pixelFunction.apply(pixel)))))),
+            new ArrayList<ArrayList<Pixel>>(
+                    this.pixels.stream().map(
+                            row -> new ArrayList<Pixel>((row.stream().map(
+                                    pixel -> pixelFunction.apply(pixel))).collect(Collectors.toList()))).collect(Collectors.toList())),
+            this.maxValue);
+  }
+
+  /**
+   * Maps an Image to a new GreyScaleImage by applying the given
+   * function to each pixel.
+   *
+   * @param pixelFunction to apply to each pixel
+   * @return the new greyscale image
+   */
+  private GreyscaleImage mapImagePixelsGreyscale(Function<Pixel, GreyscalePixel> pixelFunction) {
+    return new GreyscaleImage(
+            new ArrayList<ArrayList<GreyscalePixel>>(
+                    this.pixels.stream().map(
+                            row -> new ArrayList<GreyscalePixel>((row.stream().map(
+                                    pixel -> pixelFunction.apply(pixel))).collect(Collectors.toList()))).collect(Collectors.toList())),
             this.maxValue);
   }
 
@@ -161,8 +174,8 @@ public class BasePPMImage implements Image {
    * @return the red component image
    */
   @Override
-  public Image redComponent() {
-    return this.mapImagePixels(pixel -> pixel.redComponent());
+  public GreyscaleImage redComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.redComponent());
   }
 
   /**
@@ -171,8 +184,8 @@ public class BasePPMImage implements Image {
    * @return the green component image
    */
   @Override
-  public Image greenComponent() {
-    return this.mapImagePixels(pixel -> pixel.greenComponent());
+  public GreyscaleImage greenComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.greenComponent());
   }
 
   /**
@@ -181,8 +194,8 @@ public class BasePPMImage implements Image {
    * @return the blue component image
    */
   @Override
-  public Image blueComponent() {
-    return this.mapImagePixels(pixel -> pixel.blueComponent());
+  public GreyscaleImage blueComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.blueComponent());
   }
 
   /**
@@ -227,8 +240,8 @@ public class BasePPMImage implements Image {
    * @return the value component image
    */
   @Override
-  public Image valueComponent() {
-    return this.mapImagePixels(pixel -> pixel.valueComponent());
+  public GreyscaleImage valueComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.valueComponent());
   }
 
   /**
@@ -237,8 +250,8 @@ public class BasePPMImage implements Image {
    * @return the intensity component image
    */
   @Override
-  public Image intensityComponent() {
-    return this.mapImagePixels(pixel -> pixel.intensityComponent());
+  public GreyscaleImage intensityComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.intensityComponent());
   }
 
   /**
@@ -247,8 +260,8 @@ public class BasePPMImage implements Image {
    * @return the luma component image
    */
   @Override
-  public Image lumaComponent() {
-    return this.mapImagePixels(pixel -> pixel.lumaComponent());
+  public GreyscaleImage lumaComponent() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.lumaComponent());
   }
 
   /**

@@ -4,13 +4,13 @@ package imageprocessing.model;
  * This interface represents the operations that should
  * be offered by a processable image.
  */
-public interface Image {
+interface Image {
   /**
    * Convert this image to ASCII PPM.
    *
-   * @return byte array containing the data for the PPM file.
+   * @return a string containing the data for the PPM file.
    */
-  byte[] convertToPPM();
+  StringBuilder convertToPPM();
 
   /**
    * Create a greyscale using only the red component of this image.

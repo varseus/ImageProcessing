@@ -4,11 +4,11 @@ package imageprocessing.model;
  * the {@code RGBPixel} represent operations that should be offered
  *  * by a pixel in an image which is processable.
  */
-public class RGBPixel implements Pixel{
-  final int R;
-  final int G;
-  final int B;
-  final int maxValue;
+class RGBPixel implements Pixel{
+  protected final int R;
+  protected final int G;
+  protected final int B;
+  protected final int maxValue;
 
   /**
    * Instantiate this pixel with the given rgb values.
@@ -39,7 +39,7 @@ public class RGBPixel implements Pixel{
    * @return the red component pixel
    */
   @Override
-  public Pixel redComponent() {
+  public GreyscalePixel redComponent() {
     return new GreyscalePixel(this.R, this.maxValue);
   }
   /**
@@ -48,7 +48,7 @@ public class RGBPixel implements Pixel{
    * @return the green component pixel
    */
   @Override
-  public Pixel greenComponent() {
+  public GreyscalePixel greenComponent() {
     return new GreyscalePixel(this.G, this.maxValue);
   }
   /**
@@ -57,7 +57,7 @@ public class RGBPixel implements Pixel{
    * @return the blue component pixel
    */
   @Override
-  public Pixel blueComponent() {
+  public GreyscalePixel blueComponent() {
     return new GreyscalePixel(this.B, this.maxValue);
   }
   /**
@@ -66,7 +66,7 @@ public class RGBPixel implements Pixel{
    * @return the value component pixel
    */
   @Override
-  public Pixel valueComponent() {
+  public GreyscalePixel valueComponent() {
     return new GreyscalePixel(Math.max(this.R, Math.max(this.G, this.B)), this.maxValue);
   }
   /**
@@ -75,7 +75,7 @@ public class RGBPixel implements Pixel{
    * @return the intensity component pixel
    */
   @Override
-  public Pixel intensityComponent() {
+  public GreyscalePixel intensityComponent() {
     return new GreyscalePixel((this.R + this.G + this.B)/3, this.maxValue);
   }
   /**
@@ -84,7 +84,7 @@ public class RGBPixel implements Pixel{
    * @return the luma component pixel
    */
   @Override
-  public Pixel lumaComponent() {
+  public GreyscalePixel lumaComponent() {
     return new GreyscalePixel(
             Math.min((int)(0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue),
             this.maxValue);
@@ -99,9 +99,9 @@ public class RGBPixel implements Pixel{
   @Override
   public Pixel brighten(int amount) {
     return new RGBPixel(
-            Math.min(this.R + amount, this.maxValue),
-            Math.min(this.G + amount, this.maxValue),
-            Math.min(this.B + amount, this.maxValue),
+            Math.max(Math.min(this.R + amount, this.maxValue), 0),
+            Math.max(Math.min(this.G + amount, this.maxValue), 0),
+            Math.max(Math.min(this.B + amount, this.maxValue), 0),
             this.maxValue);
   }
   /**

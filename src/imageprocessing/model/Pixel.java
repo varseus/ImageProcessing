@@ -4,48 +4,48 @@ package imageprocessing.model;
  * This class represents operations that should be offered
  * by a pixel in an image which is processable.
  */
-public interface Pixel {
+interface Pixel {
   /**
    * Create a greyscale pixel using only the red component of this pixel.
    *
    * @return the red component pixel
    */
-  Pixel redComponent();
+  GreyscalePixel redComponent();
 
   /**
    * Create a greyscale pixel using only the green component of this image.
    *
    * @return the green component pixel
    */
-  Pixel greenComponent();
+  GreyscalePixel greenComponent();
 
   /**
    * Create a greyscale pixel using only the blue component of this pixel.
    *
    * @return the blue component pixel
    */
-  Pixel blueComponent();
+  GreyscalePixel blueComponent();
 
   /**
    * Create a greyscale pixel using only the value component of this pixel.
    *
    * @return the value component pixel
    */
-  Pixel valueComponent();
+  GreyscalePixel valueComponent();
 
   /**
    * Create a greyscale pixel using only the intensity component of this pixel.
    *
    * @return the intensity component pixel
    */
-  Pixel intensityComponent();
+  GreyscalePixel intensityComponent();
 
   /**
    * Create a greyscale pixel using only the luma component of this pixel.
    *
    * @return the luma component pixel
    */
-  Pixel lumaComponent();
+  GreyscalePixel lumaComponent();
 
   /**
    * Create a pixel that is brighter than this image by the specified amount if units (unless
@@ -79,3 +79,6 @@ public interface Pixel {
    */
   int byteSize();
 }
+
+// model should not need file info
+// greyscale image
