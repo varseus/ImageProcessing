@@ -1,6 +1,7 @@
 package imageprocessing.controller;
 
-import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,9 +66,9 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   public void startProcessor() throws IOException {
     Map<String, Callable> commandMap = new HashMap<String, Callable>();
     commandMap.put("load", (() -> (
-            this.model.loadImageFromPPM(this.getFrom(), this.getTo()))));
+            this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(this.getFrom()), this.getTo()))));
     commandMap.put("save", (() -> (
-            this.model.saveImageToPPM(this.getFrom(), ImageUtil.getFileFromFilepath(this.getTo())))));
+            this.model.saveImageToPPM(this.getFrom(), ImageUtil.getFileWriterFromFilepath(this.getTo())))));
     commandMap.put("red-component", (() -> (
             this.model.redComponent(this.getFrom(), this.getTo()))));
     commandMap.put("green-component", (() -> (

@@ -12,10 +12,10 @@ public interface ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName the name to give the loaded image
-   * @param filepath  the location to load the image from
+   * @param file  the file to load the image from
    * @throws IllegalArgumentException if the filePath is invalid
    */
-  Void loadImageFromPPM(String imageName, String filepath) throws IllegalArgumentException;
+  Void loadImageFromPPM(Readable file, String filepath) throws IllegalArgumentException;
 
   /**
    * Save the specified image as a PPM at the specified file path.

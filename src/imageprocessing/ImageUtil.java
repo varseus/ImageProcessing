@@ -1,8 +1,10 @@
 package imageprocessing;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -14,7 +16,7 @@ import java.io.FileInputStream;
  */
 public class ImageUtil {
 
-  public static FileWriter getFileFromFilepath(String filepath)
+  public static FileWriter getFileWriterFromFilepath(String filepath)
           throws IllegalArgumentException, IOException {
 
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
@@ -37,10 +39,21 @@ public class ImageUtil {
     }
 
     try {
-      FileWriter writer = new FileWriter(filepath);
-      return writer;
+      return new FileWriter(filepath);
     } catch (Exception e) {
       throw new IOException("ERROR: unable to write to file.");
+    }
+  }
+
+  public static FileReader getFileReaderFromFilePath(String filepath) {
+    if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
+      throw new IllegalArgumentException("Filepath must end in .ppm");
+    }
+
+    try {
+      return new FileReader(new File(Objects.requireNonNull(filepath)));
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Cannot load from that file. Please make sure it is a valid file.");
     }
   }
 
@@ -50,14 +63,13 @@ public class ImageUtil {
    * @param filename the path of the file.
    * @author OOD professors
    */
-  public static void readPPM(String filename) {
+  public static StringBuilder readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
 
     try {
       sc = new Scanner(new FileInputStream(filename));
     } catch (FileNotFoundException e) {
-      System.out.println("File " + filename + " not found!");
-      return;
+      throw new IllegalArgumentException("File " + filename + " not found!");
     }
     StringBuilder builder = new StringBuilder();
     //read the file line by line, and populate a string. This will throw away any comment lines
@@ -68,30 +80,7 @@ public class ImageUtil {
       }
     }
 
-    //now set up the scanner to read from the string we just built
-    sc = new Scanner(builder.toString());
-
-    String token;
-
-    token = sc.next();
-    if (!token.equals("P3")) {
-      System.out.println("Invalid PPM file: plain RAW file should begin with P3");
-    }
-    int width = sc.nextInt();
-    System.out.println("Width of image: " + width);
-    int height = sc.nextInt();
-    System.out.println("Height of image: " + height);
-    int maxValue = sc.nextInt();
-    System.out.println("Maximum value of a color in this file (usually 255): " + maxValue);
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int r = sc.nextInt();
-        int g = sc.nextInt();
-        int b = sc.nextInt();
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
-      }
-    }
+    return builder;
   }
 
   // demo main

@@ -1,9 +1,6 @@
 package imageprocessing.model;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.FilterWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,13 +24,13 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName the name to give the loaded image
-   * @param filepath  the location to load the image from
-   * @throws IllegalArgumentException if the filepath is invalid or the image is not found/invalid
+   * @param file  the file to load the image from
+   * @throws IllegalArgumentException if the file is invalid
    */
   @Override
-  public Void loadImageFromPPM(String filepath, String imageName)
+  public Void loadImageFromPPM(Readable file, String imageName)
           throws IllegalArgumentException {
-    images.put(imageName, new BasePPMImage(filepath));
+    images.put(imageName, new BasePPMImage(file));
     return null;
   }
 

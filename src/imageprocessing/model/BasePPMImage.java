@@ -2,6 +2,7 @@ package imageprocessing.model;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -59,40 +60,53 @@ class BasePPMImage implements Image {
    * Instantiates this BasePPMImage by loading from a PPM file at
    * the given destination.
    *
-   * @param filePath the location of the PPM file to load from
+   * @param file the file of the PPM file to load from
    * @throws IllegalArgumentException if the file is not found or is invalid
    */
-  public BasePPMImage(String filePath) throws IllegalArgumentException {
+  public BasePPMImage(Readable file) throws IllegalArgumentException, NullPointerException {
     this.pixels = new ArrayList<ArrayList<Pixel>>();
     Scanner sc;
-
-    try {
-      sc = new Scanner(new FileInputStream(filePath));
-    } catch (FileNotFoundException e) {
-      throw new IllegalArgumentException("File " + filePath + " not found!");
-    }
+    sc = new Scanner(file);
 
     StringBuilder builder = new StringBuilder();
     //read the file line by line, and populate a string. This will throw away any comment lines
     while (sc.hasNextLine()) {
       String s = sc.nextLine();
-      if (s.length()>0 && s.charAt(0) != '#') {
+      if (s.length() > 0 && s.charAt(0) != '#') {
         builder.append(s + System.lineSeparator());
       }
     }
 
+    sc.close();
     //now set up the scanner to read from the string we just built
     sc = new Scanner(builder.toString());
 
     String token;
-    token = sc.next();
+
+    if(sc.hasNext()) {
+      token = sc.next();
+    } else {
+      throw new IllegalArgumentException("Cannot read empty file.");
+    }
+
 
     if (!token.equals("P3")) {
       throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
     }
-    int width = sc.nextInt();
-    int height = sc.nextInt();
-    this.maxValue = sc.nextInt();
+    int width;
+    int height;
+    if (sc.hasNext())
+      width = sc.nextInt();
+    else
+      throw new IllegalArgumentException("Cannot load from invalid file type.");
+    if (sc.hasNext())
+      height = sc.nextInt();
+    else
+      throw new IllegalArgumentException("Cannot load from invalid file type.");
+    if (sc.hasNext())
+      this.maxValue = sc.nextInt();
+    else
+      throw new IllegalArgumentException("Cannot load from invalid file type");
 
     for (int i = 0; i < height; i++) {
       ArrayList<Pixel> row = new ArrayList<Pixel>();
@@ -208,7 +222,7 @@ class BasePPMImage implements Image {
     ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
     for (int i = 0; i < this.pixels.size(); i++) {
       ArrayList<Pixel> row = new ArrayList<Pixel>();
-      for (int j = this.pixels.size() - 1; j >= 0; j--) {
+      for (int j = this.pixels.get(0).size() - 1; j >= 0; j--) {
         row.add(this.pixels.get(i).get(j));
       }
 
