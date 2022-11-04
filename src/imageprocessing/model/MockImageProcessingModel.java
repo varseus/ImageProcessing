@@ -7,53 +7,38 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * The {@code BasePPMImageProcessingModel} represents the operations and state of an image processor,
- * intended to process a set of PPM images. Operations include: get red/green/blue components,
- * get value/intensity/luma components, bright, darken, flip horizontally/vertically,
- * and load/save image to and from PPM.
+ * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
+ * all calls made to it to a log.
  */
-public class BasePPMImageProcessingModel implements ImageProcessingModel {
-  private final Map<String, Image> images;
+public class MockImageProcessingModel implements ImageProcessingModel {
+  private final Appendable log;
 
-  public BasePPMImageProcessingModel() {
-    this.images = new HashMap<String, Image>();
+  public MockImageProcessingModel(Appendable log) {
+    this.log = log;
   }
 
-  /**
-   * Load the PPM image from the specified filePath and assign it
-   * the given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName the name to give the loaded image
-   * @param file      the file to load the image from
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the file is invalid
-   */
   @Override
   public Void loadImageFromPPM(Readable file, String imageName)
           throws IllegalArgumentException {
-    images.put(imageName, new BasePPMImage(file));
+    try {
+      this.log.append("loading file to " + imageName + ".\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
     return null;
   }
 
-  /**
-   * Export the given image as a ppm.
-   *
-   * @param imageName the name of the image to save
-   * @return StringBuilder containing the PPM data
-   * @throws IllegalArgumentException if the image is not found
-   */
   @Override
   public StringBuilder saveImageToPPM(String imageName)
           throws IllegalArgumentException {
-    Image image;
-
     try {
-      image = Objects.requireNonNull(this.images.get(imageName));
+      this.log.append("saving " + imageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Image " + imageName + " does not exist.");
+      System.out.println(e);
     }
 
-    return image.convertToPPM();
+    return null;
   }
 
   /**
@@ -68,9 +53,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).redComponent());
+      this.log.append("red " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -87,9 +72,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).greenComponent());
+      this.log.append("green " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -106,9 +91,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).blueComponent());
+      this.log.append("blue " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -126,9 +111,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).horizontalFlip());
+      this.log.append("horizontal " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -146,9 +131,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).verticalFlip());
+      this.log.append("vertical " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -165,9 +150,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void valueComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).valueComponent());
+      this.log.append("value " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -184,9 +169,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void intensityComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).intensityComponent());
+      this.log.append("intensity " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -203,9 +188,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void lumaComponent(String imageName, String destImageName) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).lumaComponent());
+      this.log.append("luma " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -223,9 +208,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void brighten(String imageName, String destImageName, int amount) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).brighten(amount));
+      this.log.append("brighten " + imageName + " to " + destImageName + " " + amount + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }
@@ -243,9 +228,9 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
   @Override
   public Void darken(String imageName, String destImageName, int amount) throws IllegalArgumentException {
     try {
-      images.put(destImageName, images.get(imageName).darken(amount));
+      this.log.append("darken " + imageName + " to " + destImageName + " " + amount + "\n");
     } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      System.out.println(e);
     }
     return null;
   }

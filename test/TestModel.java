@@ -6,11 +6,8 @@ import imageprocessing.model.BasePPMImageProcessingModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Scanner;
 
 /**
  * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class.
@@ -25,37 +22,36 @@ public class TestModel {
   }
 
   /**
-   * Test saving something that has been loaded.
+   * Test saving something.
    */
   @Test
-  public void testLoadImageFromPPM() throws IOException {
+  public void testSaveImageFromPPM() throws IOException {
     Appendable actual = new StringBuilder();
     String expected = ImageUtil.readPPM("res/Koala.ppm").toString()
             .replace("\n", " ");
 
-    this.model.saveImageToPPM("koala", actual);
-
     assertEquals(
             expected.toString(),
-            actual.toString().replace("\n", " "));
+            this.model.saveImageToPPM("koala")
+                    .toString().replace("\n", " "));
   }
 
   /**
-   * Test loading something that has been saved.
+   * Test loading something.
    */
   @Test
-  public void testSaveImageToPPM() throws IOException {
+  public void testLoadImageToPPM() throws IOException {
     StringBuilder actual = new StringBuilder();
-    StringBuilder expected = new StringBuilder();
+    String expected = ImageUtil.readPPM("res/Koala.ppm").toString()
+            .replace("\n", " ");
 
-    this.model.saveImageToPPM("koala", expected);
     this.model.loadImageFromPPM(new StringReader(expected.toString()),
             "newKoala");
-    this.model.saveImageToPPM("newKoala", actual);
 
     assertEquals(
             expected.toString().replace("\n", " "),
-            actual.toString().replace("\n", " "));
+            this.model.saveImageToPPM("newKoala")
+                    .toString().replace("\n", " "));
   }
 
   /**
@@ -67,9 +63,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.redComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-red-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -83,9 +79,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.greenComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-green-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -99,9 +95,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.blueComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-blue-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -115,9 +111,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.valueComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-value-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -131,9 +127,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.lumaComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-luma-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -147,9 +143,9 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.intensityComponent("koala", "koalaComponent");
-    this.model.saveImageToPPM("koalaComponent", actual);
+    actual = this.model.saveImageToPPM("koalaComponent");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-intensity-greyscale.ppm"), "actualKoalaComponent");
-    this.model.saveImageToPPM("actualKoalaComponent", expected);
+    expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -163,10 +159,10 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.horizontalFlip("koala", "koalaFlip");
-    this.model.saveImageToPPM("koalaFlip", actual);
+    actual = this.model.saveImageToPPM("koalaFlip");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-horizontal.ppm"),
             "actualKoalaFlip");
-    this.model.saveImageToPPM("actualKoalaFlip", expected);
+    expected  =this.model.saveImageToPPM("actualKoalaFlip");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -180,10 +176,10 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.verticalFlip("koala", "koalaFlip");
-    this.model.saveImageToPPM("koalaFlip", actual);
+    actual = this.model.saveImageToPPM("koalaFlip");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-vertical.ppm"),
             "actualKoalaFlip");
-    this.model.saveImageToPPM("actualKoalaFlip", expected);
+    expected = this.model.saveImageToPPM("actualKoalaFlip");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -197,10 +193,10 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.brighten("koala", "koalaBrighten", 50);
-    this.model.saveImageToPPM("koalaBrighten", actual);
+    actual = this.model.saveImageToPPM("koalaBrighten");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-brighter-by-50.ppm"),
             "actualKoalaBrighten");
-    this.model.saveImageToPPM("actualKoalaBrighten", expected);
+    expected = this.model.saveImageToPPM("actualKoalaBrighten");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -214,10 +210,10 @@ public class TestModel {
     StringBuilder expected = new StringBuilder();
 
     this.model.darken("koala", "koalaDarken", 50);
-    this.model.saveImageToPPM("koalaDarken", actual);
+    actual = this.model.saveImageToPPM("koalaDarken");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-darken-by-50.ppm"),
             "actualKoalaDarken");
-    this.model.saveImageToPPM("actualKoalaDarken", expected);
+    expected = this.model.saveImageToPPM("actualKoalaDarken");
 
     assertEquals(expected.toString(), actual.toString());
   }

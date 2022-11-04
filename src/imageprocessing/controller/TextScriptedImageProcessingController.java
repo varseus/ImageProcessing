@@ -1,7 +1,5 @@
 package imageprocessing.controller;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +22,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   private final ImageProcessingModel model;
   private final TextScriptImageProcessingView view;
   private final Scanner userInput;
+  private final Map<String, Callable> commandMap;
 
   /**
    * Instantiates this controller with the given model, view, and scanner.
@@ -39,6 +38,32 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     this.model = Objects.requireNonNull(model);
     this.view = Objects.requireNonNull(view);
     this.userInput = new Scanner(Objects.requireNonNull(userInput));
+
+    this.commandMap = new HashMap<String, Callable>();
+    this.commandMap.put("load", (() -> (
+            this.loadHelper(this.getFrom(), this.getTo()))));
+    this.commandMap.put("save", (() -> (
+            this.saveHelper(this.getFrom(), this.getTo()))));
+    this.commandMap.put("red-component", (() -> (
+            this.model.redComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("green-component", (() -> (
+            this.model.greenComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("blue-component", (() -> (
+            this.model.blueComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("value-component", (() -> (
+            this.model.valueComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("intensity-component", (() -> (
+            this.model.intensityComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("luma-component", (() -> (
+            this.model.lumaComponent(this.getFrom(), this.getTo()))));
+    this.commandMap.put("horizontal-flip", (() -> (
+            this.model.horizontalFlip(this.getFrom(), this.getTo()))));
+    this.commandMap.put("vertical-flip", (() -> (
+            this.model.verticalFlip(this.getFrom(), this.getTo()))));
+    this.commandMap.put("brighten", (() -> (
+            this.model.brighten(this.getFrom(), this.getTo(), this.getNextIntToken()))));
+    this.commandMap.put("darken", (() -> (
+            this.model.darken(this.getFrom(), this.getTo(), this.getNextIntToken()))));
   }
 
   /**
@@ -58,57 +83,57 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
    * > vertical-flip IMAGE-NAME DEST-IMAGE-NAME
    * > brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT
    * > darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT
+   * > q
+   * > quit
+   * > h
+   * > help
    * </p>
    *
    * @throws IOException if unable to successfully read input or transmit output
    */
   @Override
   public void startProcessor() throws IOException {
-    Map<String, Callable> commandMap = new HashMap<String, Callable>();
-    commandMap.put("load", (() -> (
-            this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(this.getFrom()), this.getTo()))));
-    commandMap.put("save", (() -> (
-            this.model.saveImageToPPM(this.getFrom(), ImageUtil.getFileWriterFromFilepath(this.getTo())))));
-    commandMap.put("red-component", (() -> (
-            this.model.redComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("green-component", (() -> (
-            this.model.greenComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("blue-component", (() -> (
-            this.model.blueComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("value-component", (() -> (
-            this.model.valueComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("intensity-component", (() -> (
-            this.model.intensityComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("luma-component", (() -> (
-            this.model.lumaComponent(this.getFrom(), this.getTo()))));
-    commandMap.put("horizontal-flip", (() -> (
-            this.model.horizontalFlip(this.getFrom(), this.getTo()))));
-    commandMap.put("vertical-flip", (() -> (
-            this.model.verticalFlip(this.getFrom(), this.getTo()))));
-    commandMap.put("brighten", (() -> (
-            this.model.brighten(this.getFrom(), this.getTo(), this.getNextIntToken()))));
-    commandMap.put("darken", (() -> (
-            this.model.darken(this.getFrom(), this.getTo(), this.getNextIntToken()))));
+    this.view.renderMessage("WELCOME TO IMAGE PROCESSOR\n" +
+            "Enter 'q' to quite. Enter 'help' for a list of commands\n");
 
+    this.process();
+  }
 
+  private void process() throws IOException {
     String nextToken = this.getNextToken().toLowerCase().trim();
     if (nextToken.equals("q") || nextToken.equals("quit")) {
       this.view.renderMessage("Bye!\n");
+    } else if (nextToken.equals("h") || nextToken.equals("help")) {
+      this.view.renderMessage("Commands to try:\n" +
+              "   load IMAGE-PATH IMAGE-NAME\n" +
+              "   save IMAGE-NAME IMAGE-PATH\n" +
+              "   red-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   blue-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   green-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   value-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   intensity-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   luma-component IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   horizontal-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   vertical-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
+              "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n");
+      this.process();
     } else {
       try {
         this.view.renderMessage("Attempting to do " + nextToken + ".\n");
         if (commandMap.containsKey(nextToken)) {
-          this.view.renderMessage("... doing " + nextToken + " from ");
           commandMap.get(nextToken).call();
           this.view.renderMessage("Success!\n");
         } else {
           this.view.renderMessage("Command " + nextToken + " not identified.\n");
         }
-        this.startProcessor();
+        this.process();
       } catch (Exception e) {
         if (e instanceof IllegalArgumentException) {
-          this.view.renderMessage("\n" + e.toString() + "\n");
-          this.startProcessor();
+          String error = e.toString();
+          error = error.substring(error.indexOf("Exception:") + 10);
+          this.view.renderMessage(error + "\n");
+          this.process();
         } else {
           throw new IOException(e.toString());
         }
@@ -119,7 +144,6 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   public static void main(String[] args) throws IOException {
     BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
     TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
-    StringBuilder input = new StringBuilder("load res/Koala.ppm koala\nq\n");
 
     TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
             model,
@@ -131,21 +155,21 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
 
   private String getNextToken() throws IOException {
     try {
-      return this.userInput.next();
+      return this.userInput.next().trim();
     } catch (Exception E) {
       throw new IOException("No more inputs found.");
     }
   }
 
   private String getFrom() throws IOException {
-    String nextToken = this.getNextToken();
-    this.view.renderMessage(nextToken);
+    String nextToken = this.getNextToken().trim();
+    this.view.renderMessage("... From: " + nextToken +" ...\n");
     return nextToken;
   }
 
   private String getTo() throws IOException {
-    String nextToken = this.getNextToken();
-    this.view.renderMessage(" to " + nextToken + "...\n");
+    String nextToken = this.getNextToken().trim();
+    this.view.renderMessage("... To: " + nextToken +" ...\n");
     return nextToken;
   }
 
@@ -156,8 +180,18 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
       if (e instanceof IOException) {
         throw new IOException(e.toString());
       } else {
-        throw new IllegalArgumentException("\nLast field for brighten/darken must be an integer.");
+        throw new IllegalArgumentException("Last field for brighten/darken must be an integer.");
       }
     }
+  }
+
+  private Void loadHelper(String from, String to) throws IllegalArgumentException {
+    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(from), to);
+    return null;
+  }
+
+  private Void saveHelper(String from, String to) throws IllegalArgumentException, IOException {
+    ImageUtil.writeToFile(this.model.saveImageToPPM(from), to);
+    return null;
   }
 }

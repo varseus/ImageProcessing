@@ -16,7 +16,7 @@ import java.io.FileInputStream;
  */
 public class ImageUtil {
 
-  public static FileWriter getFileWriterFromFilepath(String filepath)
+  public static void writeToFile(StringBuilder data, String filepath)
           throws IllegalArgumentException, IOException {
 
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
@@ -25,11 +25,6 @@ public class ImageUtil {
 
     try {
       File fileObj = new File(filepath);
-      if (!fileObj.createNewFile()) {
-        fileObj.mkdirs();
-        fileObj.delete();
-        fileObj.createNewFile();
-      }
     } catch (Exception e) {
       if (e instanceof NullPointerException) {
         throw new IllegalArgumentException("Invalid filepath.");
@@ -39,7 +34,7 @@ public class ImageUtil {
     }
 
     try {
-      return new FileWriter(filepath);
+      ((new FileWriter(filepath, false)).append(data.toString())).close();
     } catch (Exception e) {
       throw new IOException("ERROR: unable to write to file.");
     }
@@ -47,13 +42,14 @@ public class ImageUtil {
 
   public static FileReader getFileReaderFromFilePath(String filepath) {
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
-      throw new IllegalArgumentException("Filepath must end in .ppm");
+      throw new IllegalArgumentException("Invalid filepath, " + filepath + ", filepath must end in .ppm");
     }
 
     try {
       return new FileReader(new File(Objects.requireNonNull(filepath)));
     } catch (Exception e) {
-      throw new IllegalArgumentException("Cannot load from that file. Please make sure it is a valid file.");
+      throw new IllegalArgumentException("Cannot load from file, " + filepath +
+              ". Please make sure it is a valid file.");
     }
   }
 

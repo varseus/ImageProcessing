@@ -13,20 +13,20 @@ public interface ImageProcessingModel {
    *
    * @param imageName the name to give the loaded image
    * @param file  the file to load the image from
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the filePath is invalid
    */
   Void loadImageFromPPM(Readable file, String filepath) throws IllegalArgumentException;
 
   /**
-   * Save the specified image as a PPM at the specified file path.
+   * Export the given image as a ppm.
    *
    * @param imageName the name of the image to save
-   * @param filepath  the location to save the image to
-   * @throws IllegalArgumentException if the image does not exist or filePath is invalid
-   * @throws IOException              if unable to write the file
+   * @return StringBuilder containing the PPM data
+   * @throws IllegalArgumentException if the image does not exist
    */
-  Void saveImageToPPM(String imageName, Appendable file)
-          throws IllegalArgumentException, IOException;
+  StringBuilder saveImageToPPM(String imageName)
+          throws IllegalArgumentException;
 
   /**
    * Create a greyscale using only the red component of the given image,
@@ -34,6 +34,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the red component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void redComponent(String imageName, String destImageName) throws IllegalArgumentException;
@@ -44,6 +45,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the green component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void greenComponent(String imageName, String destImageName)
@@ -55,6 +57,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to take the blue component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void blueComponent(String imageName, String destImageName)
@@ -67,6 +70,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to horizontally flip
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void horizontalFlip(String imageName, String destImageName)
@@ -79,6 +83,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to vertically flip
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException;
@@ -89,6 +94,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the value component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void valueComponent(String imageName, String destImageName)
@@ -100,6 +106,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the intensity component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void intensityComponent(String imageName, String destImageName)
@@ -111,6 +118,7 @@ public interface ImageProcessingModel {
    *
    * @param imageName     the name of the image to get the luma component of
    * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void lumaComponent(String imageName, String destImageName)
@@ -124,6 +132,7 @@ public interface ImageProcessingModel {
    * @param imageName     the name of the image to brighten
    * @param destImageName the name to give the new image
    * @param amount        the amount to brighten by
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void brighten(String imageName, String destImageName, int amount)
@@ -137,6 +146,7 @@ public interface ImageProcessingModel {
    * @param imageName     the name of the image to darken
    * @param destImageName the name to give the new image
    * @param amount        the amount to darken by
+   * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   Void darken(String imageName, String destImageName, int amount)
