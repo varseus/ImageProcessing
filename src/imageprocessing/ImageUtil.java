@@ -11,11 +11,18 @@ import java.io.FileInputStream;
 
 
 /**
- * This class contains utility methods to read a PPM image from file and simply print its contents. Feel free to change this method
- * as required.
+ * This class contains utility methods to read and write PPM
+ * images to and from files.
  */
 public class ImageUtil {
-
+  /**
+   * Writes the given data to file at the specified filepath.
+   *
+   * @param data     to write to file
+   * @param filepath
+   * @throws IllegalArgumentException if invalid filepath
+   * @throws IOException              if unable to write to file
+   */
   public static void writeToFile(StringBuilder data, String filepath)
           throws IllegalArgumentException, IOException {
 
@@ -40,7 +47,15 @@ public class ImageUtil {
     }
   }
 
-  public static FileReader getFileReaderFromFilePath(String filepath) {
+  /**
+   * Exports the data from a file at a specified filepath to a readable object.
+   *
+   * @param filepath where the target file is
+   * @return a readable object with the data
+   * @throws IllegalArgumentException if filepath is invalid
+   */
+  public static FileReader getFileReaderFromFilePath(String filepath)
+          throws IllegalArgumentException {
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
       throw new IllegalArgumentException("Invalid filepath, " + filepath + ", filepath must end in .ppm");
     }
@@ -54,6 +69,7 @@ public class ImageUtil {
   }
 
   /**
+   * Util to help testing.
    * Read an image file in the PPM format and print the colors.
    *
    * @param filename the path of the file.
@@ -77,19 +93,6 @@ public class ImageUtil {
     }
 
     return builder;
-  }
-
-  // demo main
-  public static void main(String[] args) {
-    String filename;
-
-    if (args.length > 0) {
-      filename = args[0];
-    } else {
-      filename = "res/Koala.ppm";
-    }
-
-    ImageUtil.readPPM(filename);
   }
 }
 

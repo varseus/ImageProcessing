@@ -560,4 +560,14 @@ public class TestController {
                     "vertical koala to koalaV\n",
             modelLog.toString());
   }
+
+  /**
+   * Tests that the controller throws an error if it does
+   * not find inputs.
+   */
+  @Test(expected = IOException.class)
+  public void testNoMoreInputs() throws IOException {
+    this.setUp("");
+    this.controller.startProcessor();
+  }
 }

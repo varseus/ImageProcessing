@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- *  The {@code GreyscaleImage} represents the grey image.
+ *  The {@code GreyscaleImage} represents an image composed of only grey pixels.
  */
 class GreyscaleImage extends BasePPMImage {
   /**

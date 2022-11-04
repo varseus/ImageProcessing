@@ -1,5 +1,4 @@
 package imageprocessing.view;
-
 import java.io.IOException;
 
 /**

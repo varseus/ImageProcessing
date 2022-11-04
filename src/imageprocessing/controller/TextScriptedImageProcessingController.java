@@ -26,6 +26,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
 
   /**
    * Instantiates this controller with the given model, view, and scanner.
+   * And creates the commandMap.
    *
    * @param model     to represent the game state
    * @param view      to transmit output from the game
@@ -67,6 +68,24 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   }
 
   /**
+   * Entry point for running this ImageProcessing controller
+   * inputting and outputting to console.
+   *
+   * @param args command line args
+   * @throws IOException if unable to transmit/read data
+   */
+  public static void main(String[] args) throws IOException {
+    BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
+    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
+    TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
+            model,
+            view,
+            new InputStreamReader(System.in));
+
+    controller.startProcessor();
+  }
+
+  /**
    * Starts this image processor, reading from this.in and transmitting to this.view.
    *
    * <p>
@@ -87,7 +106,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
    * > quit
    * > h
    * > help
-   * </p>
+   * .</p>
    *
    * @throws IOException if unable to successfully read input or transmit output
    */
@@ -99,10 +118,17 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     this.process();
   }
 
+  /**
+   * Fields and parses inputs, then calls the associated command.
+   *
+   * @throws IOException if unable to field inputs
+   */
   private void process() throws IOException {
     String nextToken = this.getNextToken().toLowerCase().trim();
+
     if (nextToken.equals("q") || nextToken.equals("quit")) {
       this.view.renderMessage("Bye!\n");
+
     } else if (nextToken.equals("h") || nextToken.equals("help")) {
       this.view.renderMessage("Commands to try:\n" +
               "   load IMAGE-PATH IMAGE-NAME\n" +
@@ -118,6 +144,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
               "   brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
               "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n");
       this.process();
+
     } else {
       try {
         this.view.renderMessage("Attempting to do " + nextToken + ".\n");
@@ -128,31 +155,27 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
           this.view.renderMessage("Command " + nextToken + " not identified.\n");
         }
         this.process();
+
       } catch (Exception e) {
         if (e instanceof IllegalArgumentException) {
           String error = e.toString();
-          error = error.substring(error.indexOf("Exception:") + 10);
-          this.view.renderMessage(error + "\n");
+          this.view.renderMessage(
+                  error.substring(error.indexOf("Exception:") + 10) + "\n");
           this.process();
-        } else {
+
+        } else { // an IO error occured
           throw new IOException(e.toString());
         }
       }
     }
   }
 
-  public static void main(String[] args) throws IOException {
-    BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
-    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
-
-    TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
-            model,
-            view,
-            new InputStreamReader(System.in));
-
-    controller.startProcessor();
-  }
-
+  /**
+   * Fields the next token.
+   *
+   * @return the next token
+   * @throws IOException if no next token
+   */
   private String getNextToken() throws IOException {
     try {
       return this.userInput.next().trim();
@@ -161,18 +184,37 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     }
   }
 
+  /**
+   * Fields the nextToken, and outputs it as a 'from' to the view.
+   *
+   * @return the next token
+   * @throws IOException if no more tokens
+   */
   private String getFrom() throws IOException {
     String nextToken = this.getNextToken().trim();
-    this.view.renderMessage("... From: " + nextToken +" ...\n");
+    this.view.renderMessage("... From: " + nextToken + " ...\n");
     return nextToken;
   }
 
+  /**
+   * Fields the nextToken, and outputs it as a 'to' to the view.
+   *
+   * @return the next token
+   * @throws IOException if no more tokens
+   */
   private String getTo() throws IOException {
     String nextToken = this.getNextToken().trim();
-    this.view.renderMessage("... To: " + nextToken +" ...\n");
+    this.view.renderMessage("... To: " + nextToken + " ...\n");
     return nextToken;
   }
 
+  /**
+   * Fields the next token as an integer.
+   *
+   * @return the next token as an integer
+   * @throws IllegalArgumentException if the next token is not an integer
+   * @throws IOException              if no more tokens
+   */
   private int getNextIntToken() throws IllegalArgumentException, IOException {
     try {
       return this.userInput.nextInt();
@@ -185,11 +227,30 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     }
   }
 
+  /**
+   * Uses the model and utils to load a ppm image from the given filepath
+   * to a given image name.
+   *
+   * @param from filepath of ppm image
+   * @param to   name to load the image to
+   * @return null for use in Callable<> lambda
+   * @throws IllegalArgumentException if filepath is invalid
+   */
   private Void loadHelper(String from, String to) throws IllegalArgumentException {
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(from), to);
     return null;
   }
 
+  /**
+   * Uses the model and utils to save an image from the model
+   * to a given file as a ppm.
+   *
+   * @param from name to load the image from
+   * @param to   filepath of ppm image to save to
+   * @return null for use in Callable<> lambda
+   * @throws IllegalArgumentException if filepath is invalid
+   * @throws IOException              if unable to write file
+   */
   private Void saveHelper(String from, String to) throws IllegalArgumentException, IOException {
     ImageUtil.writeToFile(this.model.saveImageToPPM(from), to);
     return null;

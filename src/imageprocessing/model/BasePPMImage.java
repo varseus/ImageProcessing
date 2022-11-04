@@ -1,8 +1,5 @@
 package imageprocessing.model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;

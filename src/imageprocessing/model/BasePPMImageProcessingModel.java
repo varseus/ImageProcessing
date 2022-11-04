@@ -1,7 +1,5 @@
 package imageprocessing.model;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,26 +12,6 @@ import java.util.Objects;
  */
 public class BasePPMImageProcessingModel implements ImageProcessingModel {
   private final Map<String, Image> images;
-
-  public BasePPMImageProcessingModel() {
-    this.images = new HashMap<String, Image>();
-  }
-
-  /**
-   * Load the PPM image from the specified filePath and assign it
-   * the given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName the name to give the loaded image
-   * @param file      the file to load the image from
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the file is invalid
-   */
-  @Override
-  public Void loadImageFromPPM(Readable file, String imageName)
-          throws IllegalArgumentException {
-    images.put(imageName, new BasePPMImage(file));
-    return null;
-  }
 
   /**
    * Export the given image as a ppm.
@@ -54,6 +32,26 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     }
 
     return image.convertToPPM();
+  }
+
+  public BasePPMImageProcessingModel() {
+    this.images = new HashMap<String, Image>();
+  }
+
+  /**
+   * Load the PPM image from the specified filePath and assign it
+   * the given name. Overwrites the destination name if already taken.
+   *
+   * @param imageName the name to give the loaded image
+   * @param file      the file to load the image from
+   * @return null object for use in Callable<> lambda
+   * @throws IllegalArgumentException if the file is invalid
+   */
+  @Override
+  public Void loadImageFromPPM(Readable file, String imageName)
+          throws IllegalArgumentException {
+    images.put(imageName, new BasePPMImage(file));
+    return null;
   }
 
   /**
