@@ -127,9 +127,11 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     String nextToken = this.getNextToken().toLowerCase().trim();
 
     if (nextToken.equals("q") || nextToken.equals("quit")) {
+      // quit
       this.view.renderMessage("Bye!\n");
 
     } else if (nextToken.equals("h") || nextToken.equals("help")) {
+      // get help
       this.view.renderMessage("Commands to try:\n" +
               "   load IMAGE-PATH IMAGE-NAME\n" +
               "   save IMAGE-NAME IMAGE-PATH\n" +
@@ -146,6 +148,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
       this.process();
 
     } else {
+      // parse command
       try {
         this.view.renderMessage("Attempting to do " + nextToken + ".\n");
         if (commandMap.containsKey(nextToken)) {
@@ -157,6 +160,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
         this.process();
 
       } catch (Exception e) {
+        // something went wrong with the command
         if (e instanceof IllegalArgumentException) {
           String error = e.toString();
           this.view.renderMessage(

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.CharBuffer;
 
 /**
  * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class.
@@ -19,6 +20,76 @@ public class TestModel {
   public void setup() throws IOException {
     this.model = new BasePPMImageProcessingModel();
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/Koala.ppm"), "koala");
+  }
+
+  /**
+   * This subclass represents an Appendable that always throws
+   * an IOException (for testing exception handling).
+   */
+  static class BadAppendable implements Appendable {
+
+    /**
+     * Throws an I/0 exception, for testing errors.
+     *
+     * @param csq The character sequence to append.  If {@code csq} is
+     *            {@code null}, then the four characters {@code "null"} are
+     *            appended to this Appendable.
+     * @return never returns
+     * @throws IOException always
+     */
+    @Override
+    public Appendable append(CharSequence csq) throws IOException {
+      throw new IOException("Unable to append");
+    }
+
+    /**
+     * Throws an I/0 exception, for testing errors.
+     *
+     * @param csq   The character sequence from which a subsequence will be
+     *              appended.  If {@code csq} is {@code null}, then characters
+     *              will be appended as if {@code csq} contained the four
+     *              characters {@code "null"}.
+     * @param start The index of the first character in the subsequence
+     * @param end   The index of the character following the last character in the
+     *              subsequence
+     * @return never returns
+     * @throws IOException always
+     */
+    @Override
+    public Appendable append(CharSequence csq, int start, int end) throws IOException {
+      throw new IOException("Unable to append");
+    }
+
+    /**
+     * Throws an I/O exception, for testing errors.
+     *
+     * @param c The character to append
+     * @return A reference to this {@code Appendable}
+     * @throws IOException always
+     */
+    @Override
+    public Appendable append(char c) throws IOException {
+      throw new IOException("Unable to append");
+    }
+  }
+
+  /**
+   * This subclass represents a Readable that always
+   * throws an IOException (for testing exception handling).
+   */
+  static class BadReadable implements Readable {
+
+    /**
+     * Throws an I/O exception, for testing errors.
+     *
+     * @param cb the buffer to read characters into
+     * @return never returns
+     * @throws IOException always
+     */
+    @Override
+    public int read(CharBuffer cb) throws IOException {
+      throw new IOException("Cannot read.");
+    }
   }
 
   /**
@@ -235,6 +306,14 @@ public class TestModel {
   }
 
   /**
+   * Tests loading null.
+   */
+  @Test(expected = NullPointerException.class)
+  public void testLoadImageFromPPMFail3() throws IOException {
+    this.model.loadImageFromPPM(null, "koala");
+  }
+
+  /**
    * Tests getting redComponent for an image that doesn't exist.
    */
   @Test(expected = IllegalArgumentException.class)
@@ -306,4 +385,11 @@ public class TestModel {
     this.model.darken("notKoala", "koala", 10);
   }
 
+  /**
+   * Test that the model throws an exception when reading from a BadReadable
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testBadReadable() throws IOException {
+    this.model.loadImageFromPPM(new BadReadable(), "bad");
+  }
 }

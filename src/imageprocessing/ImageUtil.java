@@ -22,9 +22,12 @@ public class ImageUtil {
    * @param filepath
    * @throws IllegalArgumentException if invalid filepath
    * @throws IOException              if unable to write to file
+   * @throws NullPointerException     if null args
    */
   public static void writeToFile(StringBuilder data, String filepath)
-          throws IllegalArgumentException, IOException {
+          throws IllegalArgumentException, IOException, NullPointerException {
+    Objects.requireNonNull(data);
+    Objects.requireNonNull(filepath);
 
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
       throw new IllegalArgumentException("Filepath must end in .ppm");
@@ -55,7 +58,9 @@ public class ImageUtil {
    * @throws IllegalArgumentException if filepath is invalid
    */
   public static FileReader getFileReaderFromFilePath(String filepath)
-          throws IllegalArgumentException {
+          throws IllegalArgumentException, NullPointerException {
+    Objects.requireNonNull(filepath);
+
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length()).equals(".ppm")) {
       throw new IllegalArgumentException("Invalid filepath, " + filepath + ", filepath must end in .ppm");
     }
