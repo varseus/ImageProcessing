@@ -2,9 +2,9 @@ package imageprocessing.model;
 
 /**
  * the {@code RGBPixel} represent operations that should be offered
- *  * by a pixel in an image which is processable.
+ * * by a pixel in an image which is processable.
  */
-class RGBPixel implements Pixel{
+class RGBPixel implements Pixel {
   protected final int R;
   protected final int G;
   protected final int B;
@@ -12,9 +12,10 @@ class RGBPixel implements Pixel{
 
   /**
    * Instantiate this pixel with the given rgb values.
-   * @param r the red component of this pixel, where 0 is black and maxValue is red
-   * @param g the green component of this pixel, where 0 is black and maxValue is green
-   * @param b the blue component of this pixel, where 0 is black and maxValue is blue
+   *
+   * @param r        the red component of this pixel, where 0 is black and maxValue is red
+   * @param g        the green component of this pixel, where 0 is black and maxValue is green
+   * @param b        the blue component of this pixel, where 0 is black and maxValue is blue
    * @param maxValue the maximum value of a pixel
    * @throws IllegalArgumentException if any value is negative or
    *                                  any component value is greater than the maxValue
@@ -28,7 +29,7 @@ class RGBPixel implements Pixel{
     if (r > maxValue || g > maxValue || b > maxValue) {
       throw new IllegalArgumentException("Pixel components cannot be larger than the max value.");
     }
-    if(r < 0 || g < 0 || b < 0 || maxValue < 0) {
+    if (r < 0 || g < 0 || b < 0 || maxValue < 0) {
       throw new IllegalArgumentException("Pixel components cannot be negative.");
     }
   }
@@ -42,6 +43,7 @@ class RGBPixel implements Pixel{
   public GreyscalePixel redComponent() {
     return new GreyscalePixel(this.R, this.maxValue);
   }
+
   /**
    * Create a greyscale pixel using only the green component of this pixel.
    *
@@ -51,6 +53,7 @@ class RGBPixel implements Pixel{
   public GreyscalePixel greenComponent() {
     return new GreyscalePixel(this.G, this.maxValue);
   }
+
   /**
    * Create a greyscale pixel using only the blue component of this pixel.
    *
@@ -60,6 +63,7 @@ class RGBPixel implements Pixel{
   public GreyscalePixel blueComponent() {
     return new GreyscalePixel(this.B, this.maxValue);
   }
+
   /**
    * Create a greyscale pixel using only the value component of this pixel.
    *
@@ -69,6 +73,7 @@ class RGBPixel implements Pixel{
   public GreyscalePixel valueComponent() {
     return new GreyscalePixel(Math.max(this.R, Math.max(this.G, this.B)), this.maxValue);
   }
+
   /**
    * Create a greyscale pixel using only the intensity component of this pixel.
    *
@@ -76,8 +81,9 @@ class RGBPixel implements Pixel{
    */
   @Override
   public GreyscalePixel intensityComponent() {
-    return new GreyscalePixel((this.R + this.G + this.B)/3, this.maxValue);
+    return new GreyscalePixel((this.R + this.G + this.B) / 3, this.maxValue);
   }
+
   /**
    * Create a greyscale pixel using only the luma component of this pixel.
    *
@@ -86,9 +92,10 @@ class RGBPixel implements Pixel{
   @Override
   public GreyscalePixel lumaComponent() {
     return new GreyscalePixel(
-            Math.min((int)(0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue),
+            Math.min((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue),
             this.maxValue);
   }
+
   /**
    * Create a pixel that is brighter than this pixel by the specified amount of units (unless
    * already fully brightened).
@@ -104,6 +111,7 @@ class RGBPixel implements Pixel{
             Math.max(Math.min(this.B + amount, this.maxValue), 0),
             this.maxValue);
   }
+
   /**
    * Create a pixel that is darker than this pixel by the specified amount of units (unless
    * already fully darkened).
@@ -118,6 +126,7 @@ class RGBPixel implements Pixel{
 
   /**
    * to convert each color of pixel to string format.
+   *
    * @return the String of this pixel.
    */
   @Override
@@ -126,7 +135,7 @@ class RGBPixel implements Pixel{
   }
 
   /**
-   * Determines the byte size of this pixel
+   * Determines the byte size of this pixel.
    *
    * @return the byte size of this pixel, represented by this.maxValue
    */

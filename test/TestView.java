@@ -3,7 +3,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.ImageProcessingView;
 import imageprocessing.view.TextScriptImageProcessingView;
 

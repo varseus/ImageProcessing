@@ -1,9 +1,7 @@
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.CharBuffer;
 
 import imageprocessing.controller.TextScriptedImageProcessingController;
 import imageprocessing.model.BasePPMImageProcessingModel;
@@ -13,6 +11,9 @@ import imageprocessing.view.TextScriptImageProcessingView;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The {@code TestController} to test the controller methods.
+ */
 public class TestController {
   private StringBuilder mockOutput;
   private StringReader mockInput;
@@ -20,6 +21,11 @@ public class TestController {
   private TextScriptImageProcessingView view;
   private TextScriptedImageProcessingController controller;
 
+  /**
+   * Setup the controller for testing.
+   *
+   * @param mockInput for the controller to read
+   */
   public void setUp(String mockInput) {
     this.mockOutput = new StringBuilder();
     this.mockInput = new StringReader(mockInput);
@@ -185,6 +191,7 @@ public class TestController {
                     "Bye!\n",
             this.mockOutput.toString());
   }
+
   /**
    * Test that the load command in the controller startProcessor method produces the correct
    * view output.

@@ -1,11 +1,5 @@
 package imageprocessing.model;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
  * all calls made to it to a log.
@@ -51,7 +45,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void redComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("red " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -70,7 +65,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void greenComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("green " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -89,7 +85,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void blueComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("blue " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -109,7 +106,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void horizontalFlip(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("horizontal " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -129,7 +127,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void verticalFlip(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("vertical " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -148,7 +147,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void valueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void valueComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("value " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -167,7 +167,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void intensityComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void intensityComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("intensity " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -186,7 +187,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void lumaComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void lumaComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       this.log.append("luma " + imageName + " to " + destImageName + "\n");
     } catch (Exception e) {
@@ -206,7 +208,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void brighten(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+  public Void brighten(String imageName, String destImageName, int amount)
+          throws IllegalArgumentException {
     try {
       this.log.append("brighten " + imageName + " to " + destImageName + " " + amount + "\n");
     } catch (Exception e) {
@@ -226,7 +229,8 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void darken(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+  public Void darken(String imageName, String destImageName, int amount)
+          throws IllegalArgumentException {
     try {
       this.log.append("darken " + imageName + " to " + destImageName + " " + amount + "\n");
     } catch (Exception e) {

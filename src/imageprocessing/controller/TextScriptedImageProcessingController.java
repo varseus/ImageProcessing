@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.io.InputStreamReader;
 
-import imageprocessing.ImageUtil;
+import imageprocessing.model.ImageUtil;
 import imageprocessing.model.BasePPMImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
@@ -183,7 +183,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
   private String getNextToken() throws IOException {
     try {
       return this.userInput.next().trim();
-    } catch (Exception E) {
+    } catch (Exception e) {
       throw new IOException("No more inputs found.");
     }
   }

@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * the {@code TextScriptImageProcessingView} represent the view method for the image processing model.
+ * the {@code TextScriptImageProcessingView} represent the view method for
+ * the image processing model.
  */
 public class TextScriptImageProcessingView implements ImageProcessingView {
   private final Appendable appendable;
@@ -14,7 +15,6 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
   /**
    * the Constructor for TextScriptImageProcessingView.
    *
-   * @param model      the model for the image processing model
    * @param appendable the appendable for the view
    * @throws NullPointerException if null args
    */

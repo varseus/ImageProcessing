@@ -1,6 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
-import imageprocessing.ImageUtil;
+import imageprocessing.model.ImageUtil;
 import imageprocessing.model.BasePPMImageProcessingModel;
 
 import org.junit.Before;
@@ -9,6 +9,15 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.CharBuffer;
+
+/*
+ * THESE TESTS WILL FAIL BECAUSE THE PHOTOS WHICH WERE
+ * USED AS ACTUAL VALUES WERE NOT SUBMITTED TO HANDIN BECAUSE THEY EXCEEDED
+ * THE 5MB FILE LIMIT.
+ *
+ * Download full resources used in this package here:
+ * https://github.com/varseus/ImageProcessing
+ */
 
 /**
  * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class.
@@ -19,7 +28,8 @@ public class TestModel {
   @Before
   public void setup() throws IOException {
     this.model = new BasePPMImageProcessingModel();
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/Koala.ppm"), "koala");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/Koala.ppm"), "koala");
   }
 
   /**
@@ -102,7 +112,7 @@ public class TestModel {
             .replace("\n", " ");
 
     assertEquals(
-            expected.toString(),
+            expected,
             this.model.saveImageToPPM("koala")
                     .toString().replace("\n", " "));
   }
@@ -116,11 +126,11 @@ public class TestModel {
     String expected = ImageUtil.readPPM("res/Koala.ppm").toString()
             .replace("\n", " ");
 
-    this.model.loadImageFromPPM(new StringReader(expected.toString()),
+    this.model.loadImageFromPPM(new StringReader(expected),
             "newKoala");
 
     assertEquals(
-            expected.toString().replace("\n", " "),
+            expected.replace("\n", " "),
             this.model.saveImageToPPM("newKoala")
                     .toString().replace("\n", " "));
   }
@@ -135,7 +145,8 @@ public class TestModel {
 
     this.model.redComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-red-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-red-greyscale.ppm"),
+            "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -151,7 +162,8 @@ public class TestModel {
 
     this.model.greenComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-green-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(
+            "res/koala-green-greyscale.ppm"), "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -167,7 +179,9 @@ public class TestModel {
 
     this.model.blueComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-blue-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/koala-blue-greyscale.ppm"),
+            "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -183,7 +197,9 @@ public class TestModel {
 
     this.model.valueComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-value-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/koala-value-greyscale.ppm"),
+            "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -199,7 +215,9 @@ public class TestModel {
 
     this.model.lumaComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-luma-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/koala-luma-greyscale.ppm"),
+            "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -215,7 +233,9 @@ public class TestModel {
 
     this.model.intensityComponent("koala", "koalaComponent");
     actual = this.model.saveImageToPPM("koalaComponent");
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-intensity-greyscale.ppm"), "actualKoalaComponent");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/koala-intensity-greyscale.ppm"),
+            "actualKoalaComponent");
     expected = this.model.saveImageToPPM("actualKoalaComponent");
 
     assertEquals(expected.toString(), actual.toString());
@@ -233,7 +253,7 @@ public class TestModel {
     actual = this.model.saveImageToPPM("koalaFlip");
     this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/koala-horizontal.ppm"),
             "actualKoalaFlip");
-    expected  =this.model.saveImageToPPM("actualKoalaFlip");
+    expected = this.model.saveImageToPPM("actualKoalaFlip");
 
     assertEquals(expected.toString(), actual.toString());
   }
@@ -294,7 +314,8 @@ public class TestModel {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testLoadImageFromPPMFail1() throws IOException {
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/abc.ppm"), "koala");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/abc.ppm"), "koala");
   }
 
   /**
@@ -302,7 +323,8 @@ public class TestModel {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testLoadImageFromPPMFail2() throws IOException {
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath("res/Koala"), "koala");
+    this.model.loadImageFromPPM(
+            ImageUtil.getFileReaderFromFilePath("res/Koala"), "koala");
   }
 
   /**
@@ -328,6 +350,7 @@ public class TestModel {
   public void testComponentFailFail4() throws IOException {
     this.model.greenComponent("notKoala", "koala");
   }
+
   /**
    * Tests getting blueComponent for an image that doesn't exist.
    */
@@ -335,6 +358,7 @@ public class TestModel {
   public void testComponentFailFail5() throws IOException {
     this.model.blueComponent("notKoala", "koala");
   }
+
   /**
    * Tests getting horizontalFlip for an image that doesn't exist.
    */
@@ -342,6 +366,7 @@ public class TestModel {
   public void testComponentFailFail6() throws IOException {
     this.model.horizontalFlip("notKoala", "koala");
   }
+
   /**
    * Tests getting verticalFlip for an image that doesn't exist.
    */
@@ -349,6 +374,7 @@ public class TestModel {
   public void testComponentFailFail7() throws IOException {
     this.model.verticalFlip("notKoala", "koala");
   }
+
   /**
    * Tests getting valueComponent for an image that doesn't exist.
    */
@@ -356,6 +382,7 @@ public class TestModel {
   public void testComponentFailFail8() throws IOException {
     this.model.valueComponent("notKoala", "koala");
   }
+
   /**
    * Tests getting intensityComponent for an image that doesn't exist.
    */
@@ -363,6 +390,7 @@ public class TestModel {
   public void testComponentFailFail9() throws IOException {
     this.model.intensityComponent("notKoala", "koala");
   }
+
   /**
    * Tests getting lumaComponent for an image that doesn't exist.
    */
@@ -370,6 +398,7 @@ public class TestModel {
   public void testComponentFailFail10() throws IOException {
     this.model.lumaComponent("notKoala", "koala");
   }
+
   /**
    * Tests getting brighten for an image that doesn't exist.
    */
@@ -377,6 +406,7 @@ public class TestModel {
   public void testComponentFailFail11() throws IOException {
     this.model.brighten("notKoala", "koala", 10);
   }
+
   /**
    * Tests getting darken for an image that doesn't exist.
    */
@@ -386,7 +416,7 @@ public class TestModel {
   }
 
   /**
-   * Test that the model throws an exception when reading from a BadReadable
+   * Test that the model throws an exception when reading from a BadReadable.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testBadReadable() throws IOException {

@@ -1,6 +1,5 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 
 /**
  * This interface represents operations that should be offered by a model for an image processor.
@@ -11,8 +10,8 @@ public interface ImageProcessingModel {
    * Load the PPM image from the specified filePath and assign it
    * the given name. Overwrites the destination name if already taken.
    *
-   * @param imageName the name to give the loaded image
-   * @param file  the file to load the image from
+   * @param filepath the location to load the image from
+   * @param file  the file to load the image to
    * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the filePath is invalid
    */
@@ -28,7 +27,7 @@ public interface ImageProcessingModel {
   StringBuilder saveImageToPPM(String imageName)
           throws IllegalArgumentException;
 
-  /**
+  /**x
    * Create a greyscale using only the red component of the given image,
    * and load it with the given name. Overwrites the destination name if already taken.
    *

@@ -1,15 +1,14 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * The {@code BasePPMImageProcessingModel} represents the operations and state of an image processor,
- * intended to process a set of PPM images. Operations include: get red/green/blue components,
- * get value/intensity/luma components, bright, darken, flip horizontally/vertically,
- * and load/save image to and from PPM.
+ * The {@code BasePPMImageProcessingModel} represents the operations and state of an image
+ * processor, intended to process a set of PPM images. Operations include:
+ * get red/green/blue components, get value/intensity/luma components, bright, darken,
+ * flip horizontally/vertically, and load/save image to and from PPM.
  */
 public class BasePPMImageProcessingModel implements ImageProcessingModel {
   private final Map<String, Image> images;
@@ -65,7 +64,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void redComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void redComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).redComponent());
     } catch (Exception e) {
@@ -84,7 +84,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void greenComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void greenComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).greenComponent());
     } catch (Exception e) {
@@ -103,7 +104,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void blueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void blueComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).blueComponent());
     } catch (Exception e) {
@@ -123,7 +125,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void horizontalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void horizontalFlip(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).horizontalFlip());
     } catch (Exception e) {
@@ -143,7 +146,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void verticalFlip(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).verticalFlip());
     } catch (Exception e) {
@@ -162,7 +166,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void valueComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void valueComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).valueComponent());
     } catch (Exception e) {
@@ -181,7 +186,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void intensityComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void intensityComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).intensityComponent());
     } catch (Exception e) {
@@ -200,7 +206,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void lumaComponent(String imageName, String destImageName) throws IllegalArgumentException {
+  public Void lumaComponent(String imageName, String destImageName)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).lumaComponent());
     } catch (Exception e) {
@@ -220,7 +227,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void brighten(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+  public Void brighten(String imageName, String destImageName, int amount)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).brighten(amount));
     } catch (Exception e) {
@@ -240,7 +248,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void darken(String imageName, String destImageName, int amount) throws IllegalArgumentException {
+  public Void darken(String imageName, String destImageName, int amount)
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).darken(amount));
     } catch (Exception e) {

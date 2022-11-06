@@ -1,6 +1,5 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -24,7 +23,7 @@ class BasePPMImage implements Image {
    * @param maxValue the maxValue of each pixel
    * @throws IllegalArgumentException if any pixel has the wrong maxValue,
    *                                  the matrix is not rectangular, or the image is empty;
-   * @throws NullPointerException if null args
+   * @throws NullPointerException     if null args
    */
   public BasePPMImage(ArrayList<ArrayList<Pixel>> pixels, int maxValue)
           throws IllegalArgumentException, NullPointerException {
@@ -64,7 +63,7 @@ class BasePPMImage implements Image {
    *
    * @param file the file of the PPM file to load from
    * @throws IllegalArgumentException if the file is not found or is invalid
-   * @throws NullPointerException if null args
+   * @throws NullPointerException     if null args
    */
   public BasePPMImage(Readable file) throws IllegalArgumentException, NullPointerException {
     this.pixels = new ArrayList<ArrayList<Pixel>>();
@@ -86,7 +85,7 @@ class BasePPMImage implements Image {
 
     String token;
 
-    if(sc.hasNext()) {
+    if (sc.hasNext()) {
       if (!sc.next().equals("P3")) {
         throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
       }
@@ -155,10 +154,11 @@ class BasePPMImage implements Image {
    */
   private Image mapImagePixels(Function<Pixel, Pixel> pixelFunction) {
     return new BasePPMImage(
-            new ArrayList<ArrayList<Pixel>>(
-                    this.pixels.stream().map(
-                            row -> new ArrayList<Pixel>((row.stream().map(
-                                    pixel -> pixelFunction.apply(pixel))).collect(Collectors.toList()))).collect(Collectors.toList())),
+            new ArrayList<ArrayList<Pixel>>(this.pixels.stream().map(row ->
+                    new ArrayList<Pixel>((row.stream().map(pixel ->
+                            pixelFunction.apply(pixel)))
+                            .collect(Collectors.toList())))
+                    .collect(Collectors.toList())),
             this.maxValue);
   }
 
@@ -171,10 +171,11 @@ class BasePPMImage implements Image {
    */
   private GreyscaleImage mapImagePixelsGreyscale(Function<Pixel, GreyscalePixel> pixelFunction) {
     return new GreyscaleImage(
-            new ArrayList<ArrayList<GreyscalePixel>>(
-                    this.pixels.stream().map(
-                            row -> new ArrayList<GreyscalePixel>((row.stream().map(
-                                    pixel -> pixelFunction.apply(pixel))).collect(Collectors.toList()))).collect(Collectors.toList())),
+            new ArrayList<ArrayList<GreyscalePixel>>(this.pixels.stream().map(row ->
+                            new ArrayList<GreyscalePixel>((row.stream().map(pixel ->
+                                    pixelFunction.apply(pixel)))
+                                    .collect(Collectors.toList())))
+                    .collect(Collectors.toList())),
             this.maxValue);
   }
 

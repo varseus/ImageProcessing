@@ -73,7 +73,7 @@ interface Pixel {
   String toString();
 
   /**
-   * Determines the byte size of this pixel
+   * Determines the byte size of this pixel.
    *
    * @return the byte size of this pixel
    */
