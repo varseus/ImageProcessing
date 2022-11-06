@@ -257,4 +257,59 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     }
     return null;
   }
+  /**
+   * create an image that is blur to the given image, and load it with the given name.
+   * @param imageName the name of the image to blur
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void blur(String imageName, String destImageName)
+      throws IllegalArgumentException{
+    try {
+      images.put(destImageName, images.get(imageName).blur());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
+    return null;
+  }
+
+  /**
+   * create an image that is sharpening to the given image, and load it with the given name.
+   * @param imageName the name of the image to sharpening
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+@Override
+ public Void sharpening(String imageName, String destImageName)
+      throws IllegalArgumentException{
+  try {
+    images.put(destImageName, images.get(imageName).sharpening());
+  } catch (Exception e) {
+    throw new IllegalArgumentException("Given image name does not exist in this processor.");
+  }
+  return null;
+}
+
+  @Override
+  public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
+      try {
+        images.put(destImageName, images.get(imageName).greyscale());
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Given image name does not exist in this processor.");
+      }
+      return null;
+    }
+
+  @Override
+  public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
+        try {
+          images.put(destImageName, images.get(imageName).sepiaTone());
+        } catch (Exception e) {
+          throw new IllegalArgumentException("Given image name does not exist in this processor.");
+        }
+        return null;
+      }
 }

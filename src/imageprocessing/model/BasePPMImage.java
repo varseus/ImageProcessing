@@ -298,7 +298,10 @@ class BasePPMImage implements Image {
   public Image darken(int amount) {
     return this.mapImagePixels(pixel -> pixel.darken(amount));
   }
-
+  /**
+   * create an image that is blur.
+   * @return the image to blur
+   */
   @Override
   public Image blur(){
     ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
@@ -314,6 +317,10 @@ class BasePPMImage implements Image {
     }
     return new BasePPMImage(newImagePixels, this.maxValue);
   }
+  /**
+   * create an image that is sharpening.
+   * @return the image to sharpening
+   */
   @Override
   public Image sharpening(){
     ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
@@ -328,5 +335,21 @@ class BasePPMImage implements Image {
       }
       }
     return null;
+  }
+  /**
+   * create an image that is greyscale.
+   * @return the image to greyscale
+   */
+  @Override
+  public Image greyscale() {
+    return this.mapImagePixels(pixel -> pixel.greyscale());
+  }
+  /**
+   * create an image that is sepia tone.
+   * @return the image to sepia tone
+   */
+  @Override
+  public Image sepiaTone() {
+    return this.mapImagePixels(pixel -> pixel.sepiaTone());
   }
 }

@@ -114,6 +114,10 @@ interface Pixel {
    * @return the sharpe pixel
    */
   Pixel sharpeningCenter();
+
+  Pixel greyscale();
+
+  Pixel sepiaTone();
 }
 
 // model should not need file info

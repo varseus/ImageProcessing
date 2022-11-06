@@ -170,6 +170,20 @@ class RGBPixel implements Pixel {
   public Pixel sharpeningCenter(){
     return new RGBPixel(this.R, this.G, this.B, this.maxValue);
         }
+
+  @Override
+  public Pixel greyscale() {
+    return new RGBPixel((int)(0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
+        (int)(0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
+        (int)(0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue);
+  }
+
+  @Override
+  public Pixel sepiaTone() {
+    return new RGBPixel((int)(0.393 * this.R + 0.769 * this.G + 0.189 * this.B),
+        (int)(0.349 * this.R + 0.686 * this.G + 0.168 * this.B),
+    (int)(0.272 * this.R + 0.534 * this.G + 0.131 * this.B), this.maxValue);
+  }
 }
 
 
