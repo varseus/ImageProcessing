@@ -143,6 +143,33 @@ class RGBPixel implements Pixel {
   public int byteSize() {
     return this.maxValue;
   }
+
+  @Override
+  public Pixel blurEdge() {
+    return new RGBPixel(this.R * 1 / 8, this.G * 1 / 8, this.B * 1 / 8, this.maxValue);
+  }
+
+  @Override
+  public Pixel blurCenter() {
+    return new RGBPixel(this.R * 1 / 4, this.G * 1 / 4, this.B * 1 / 4, this.maxValue);
+  }
+
+  @Override
+  public Pixel blurCorner() {
+    return new RGBPixel(this.R * 1 / 16, this.G * 1 / 16, this.B * 1 / 16, this.maxValue);
+  }
+  @Override
+  public Pixel sharpeningOutsideEdge(){
+    return new RGBPixel(this.R * 1 / -8, this.G * 1 / -8, this.B * 1 / -8, this.maxValue);
+}
+  @Override
+  public Pixel sharpeningInsideEdge(){
+    return new RGBPixel(this.R * 1 / 4, this.G * 1 / 4, this.B * 1 / 4, this.maxValue);
+}
+  @Override
+  public Pixel sharpeningCenter(){
+    return new RGBPixel(this.R, this.G, this.B, this.maxValue);
+        }
 }
 
 

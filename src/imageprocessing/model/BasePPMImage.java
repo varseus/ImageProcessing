@@ -298,4 +298,35 @@ class BasePPMImage implements Image {
   public Image darken(int amount) {
     return this.mapImagePixels(pixel -> pixel.darken(amount));
   }
+
+  @Override
+  public Image blur(){
+    ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
+    for (int i = 0; i < 3; i ++) {
+      for (int j = 0; j < 3; j++) {
+        if (Math.abs(i - j) == 1) {
+          newImagePixels.get(i).get(j) =     // edge
+        } else if ((i == 0 && j == 0) || (i == 0 && i == 2) || (i == 2 && i == 0) || (i == 2 && i == 2)) {
+           newImagePixels.get(i).get(j) = //corner
+        }
+         this.mapImagePixels(pixel -> pixel.blurCenter());   // center
+      }
+    }
+    return new BasePPMImage(newImagePixels, this.maxValue);
+  }
+  @Override
+  public Image sharpening(){
+    ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
+    for (int i = 0; i < 4; i ++) {
+      for (int j = 0; j < 4; j++) {
+        if (i == 0 || i == 4 || j == 0 || j ==4){
+          // outside
+        } else if (i == 2 && j == 2) {
+          // center
+        }
+        // inside
+      }
+      }
+    return null;
+  }
 }

@@ -78,7 +78,44 @@ interface Pixel {
    * @return the byte size of this pixel
    */
   int byteSize();
+  /**
+   * applied to the pixel in edge place to blur.
+   *
+   * @return the blur pixel
+   */
+  Pixel blurEdge();
+  /**
+   * applied to the pixel in center place to blur.
+   *
+   * @return the blur pixel
+   */
+  Pixel blurCenter();
+  /**
+   * applied to the pixel in conner place to blur.
+   *
+   * @return the blur pixel
+   */
+  Pixel blurCorner();
+  /**
+   * make the first row, last row, first col, last col's pixels to sharpening.
+   *
+   * @return the sharpe pixel
+   */
+  Pixel sharpeningOutsideEdge();
+  /**
+   * make the second row, second to last row, second col, second to last col's pixels to sharpening.
+   *
+   * @return the sharpe pixel
+   */
+  Pixel sharpeningInsideEdge();
+  /**
+   * make the center pixel to sharpening.
+   *
+   * @return the sharpe pixel
+   */
+  Pixel sharpeningCenter();
 }
 
 // model should not need file info
 // greyscale image
+

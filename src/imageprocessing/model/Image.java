@@ -87,4 +87,15 @@ interface Image {
    * @return the darkened image
    */
   Image darken(int amount);
+
+  /**
+   * create an image that is blur.
+   * @return the image to blur
+   */
+  Image blur();
+  /**
+   * create an image that is sharpening.
+   * @return the image to sharpening
+   */
+  Image sharpening();
 }
