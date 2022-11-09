@@ -1,5 +1,7 @@
 package imageprocessing.model;
 
+import java.io.IOException;
+
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
  * all calls made to it to a log.
@@ -11,9 +13,18 @@ public class MockImageProcessingModel implements ImageProcessingModel {
     this.log = log;
   }
 
+
+  /**
+   * Load the PPM image from the specified filePath and assign it
+   * the given name. Overwrites the destination name if already taken.
+   *
+   * @param filepath  the location to load the image from
+   * @param imageName the name to load the image to
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the filePath is invalid
+   */
   @Override
-  public Void loadImageFromPPM(Readable file, String imageName)
-          throws IllegalArgumentException {
+  public Void loadImageFromFile(String filepath, String imageName) throws IllegalArgumentException {
     try {
       this.log.append("loading file to " + imageName + ".\n");
     } catch (Exception e) {
@@ -23,9 +34,17 @@ public class MockImageProcessingModel implements ImageProcessingModel {
     return null;
   }
 
+  /**
+   * Export the given image as a ppm.
+   *
+   * @param imageName the name of the image to save
+   * @param filepath
+   * @return StringBuilder containing the PPM data
+   * @throws IllegalArgumentException if the image does not exist
+   */
   @Override
-  public StringBuilder saveImageToPPM(String imageName)
-          throws IllegalArgumentException {
+  public Void saveImageToFile(String imageName, String filepath) throws IllegalArgumentException, IOException {
+
     try {
       this.log.append("saving " + imageName + "\n");
     } catch (Exception e) {

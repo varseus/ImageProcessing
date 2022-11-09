@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
 import java.io.InputStreamReader;
 
 import imageprocessing.model.ImageUtil;
-import imageprocessing.model.BasePPMImageProcessingModel;
+import imageprocessing.model.BasicImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
 
@@ -42,9 +42,9 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
 
     this.commandMap = new HashMap<String, Callable>();
     this.commandMap.put("load", (() -> (
-            this.loadHelper(this.getFrom(), this.getTo()))));
+            this.model.loadImageFromFile(this.getFrom(), this.getTo()))));
     this.commandMap.put("save", (() -> (
-            this.saveHelper(this.getFrom(), this.getTo()))));
+            this.model.saveImageToFile(this.getFrom(), this.getTo()))));
     this.commandMap.put("red-component", (() -> (
             this.model.redComponent(this.getFrom(), this.getTo()))));
     this.commandMap.put("green-component", (() -> (
@@ -75,7 +75,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
    * @throws IOException if unable to transmit/read data
    */
   public static void main(String[] args) throws IOException {
-    BasePPMImageProcessingModel model = new BasePPMImageProcessingModel();
+    BasicImageProcessingModel model = new BasicImageProcessingModel();
     TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
     TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
             model,
@@ -167,8 +167,8 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
                   error.substring(error.indexOf("Exception:") + 10) + "\n");
           this.process();
 
-        } else { // an IO error occured
-          throw new IOException(e.toString());
+        } else { // a fatal exception
+          throw new IOException(e);
         }
       }
     }
@@ -229,34 +229,5 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
         throw new IllegalArgumentException("Last field for brighten/darken must be an integer.");
       }
     }
-  }
-
-  /**
-   * Uses the model and utils to load a ppm image from the given filepath
-   * to a given image name.
-   *
-   * @param from filepath of ppm image
-   * @param to   name to load the image to
-   * @return null for use in Callable<> lambda
-   * @throws IllegalArgumentException if filepath is invalid
-   */
-  private Void loadHelper(String from, String to) throws IllegalArgumentException {
-    this.model.loadImageFromPPM(ImageUtil.getFileReaderFromFilePath(from), to);
-    return null;
-  }
-
-  /**
-   * Uses the model and utils to save an image from the model
-   * to a given file as a ppm.
-   *
-   * @param from name to load the image from
-   * @param to   filepath of ppm image to save to
-   * @return null for use in Callable<> lambda
-   * @throws IllegalArgumentException if filepath is invalid
-   * @throws IOException              if unable to write file
-   */
-  private Void saveHelper(String from, String to) throws IllegalArgumentException, IOException {
-    ImageUtil.writeToFile(this.model.saveImageToPPM(from), to);
-    return null;
   }
 }

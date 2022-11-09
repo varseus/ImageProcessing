@@ -1,5 +1,7 @@
 package imageprocessing.model;
 
+import java.io.IOException;
+
 /**
  * This interface represents the operations that should
  * be offered by a processable image.
@@ -10,7 +12,7 @@ interface Image {
    *
    * @return a string containing the data for the PPM file.
    */
-  StringBuilder convertToPPM();
+  void saveToFile(String filepath) throws IOException, IllegalArgumentException;
 
   /**
    * Create a greyscale using only the red component of this image.
@@ -88,24 +90,24 @@ interface Image {
    */
   Image darken(int amount);
 
-  /**
-   * create an image that is blur.
-   * @return the image to blur
-   */
-  Image blur();
-  /**
-   * create an image that is sharpening.
-   * @return the image to sharpening
-   */
-  Image sharpening();
-  /**
-   * create an image that is greyscale.
-   * @return the image to greyscale
-   */
-  Image greyscale();
-  /**
-   * create an image that is sepia tone.
-   * @return the image to sepia tone
-   */
-  Image sepiaTone();
+//  /**
+//   * create an image that is blur.
+//   * @return the image to blur
+//   */
+//  Image blur();
+//  /**
+//   * create an image that is sharpening.
+//   * @return the image to sharpening
+//   */
+//  Image sharpening();
+//  /**
+//   * create an image that is greyscale.
+//   * @return the image to greyscale
+//   */
+//  Image greyscale();
+//  /**
+//   * create an image that is sepia tone.
+//   * @return the image to sepia tone
+//   */
+//  Image sepiaTone();
 }

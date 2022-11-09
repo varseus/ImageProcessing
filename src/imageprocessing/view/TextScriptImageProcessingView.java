@@ -1,6 +1,6 @@
 package imageprocessing.view;
 
-import imageprocessing.model.BasePPMImageProcessingModel;
+import imageprocessing.model.BasicImageProcessingModel;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    *
    * @param model the model for the image processing model
    */
-  public TextScriptImageProcessingView(BasePPMImageProcessingModel model) {
+  public TextScriptImageProcessingView(BasicImageProcessingModel model) {
     this(System.out);
   }
 

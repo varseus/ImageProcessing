@@ -68,6 +68,7 @@ interface Pixel {
   /**
    * Creates a string representing this pixel's RGB.
    * Format as "[r] [g] [b]".
+   *
    * @return
    */
   String toString();
@@ -78,36 +79,53 @@ interface Pixel {
    * @return the byte size of this pixel
    */
   int byteSize();
+
+  /**
+   * Determine the integer RGB value of this pixel.
+   *
+   * @return the int rgb value of this pixel
+   */
+  int intRGB();
+
+
+
+  //------------------------------//
+
   /**
    * applied to the pixel in edge place to blur.
    *
    * @return the blur pixel
    */
   Pixel blurEdge();
+
   /**
    * applied to the pixel in center place to blur.
    *
    * @return the blur pixel
    */
   Pixel blurCenter();
+
   /**
    * applied to the pixel in conner place to blur.
    *
    * @return the blur pixel
    */
   Pixel blurCorner();
+
   /**
    * make the first row, last row, first col, last col's pixels to sharpening.
    *
    * @return the sharpe pixel
    */
   Pixel sharpeningOutsideEdge();
+
   /**
    * make the second row, second to last row, second col, second to last col's pixels to sharpening.
    *
    * @return the sharpe pixel
    */
   Pixel sharpeningInsideEdge();
+
   /**
    * make the center pixel to sharpening.
    *

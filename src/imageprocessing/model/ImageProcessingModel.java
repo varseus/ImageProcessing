@@ -1,6 +1,8 @@
 package imageprocessing.model;
 
 
+import java.io.IOException;
+
 /**
  * This interface represents operations that should be offered by a model for an image processor.
  * One object of the model represents one image processor.
@@ -11,11 +13,11 @@ public interface ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param filepath the location to load the image from
-   * @param file  the file to load the image to
+   * @param imageName  the name to load the image to
    * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the filePath is invalid
    */
-  Void loadImageFromPPM(Readable file, String filepath) throws IllegalArgumentException;
+  Void loadImageFromFile(String filepath, String imageName) throws IllegalArgumentException;
 
   /**
    * Export the given image as a ppm.
@@ -24,8 +26,8 @@ public interface ImageProcessingModel {
    * @return StringBuilder containing the PPM data
    * @throws IllegalArgumentException if the image does not exist
    */
-  StringBuilder saveImageToPPM(String imageName)
-          throws IllegalArgumentException;
+  Void saveImageToFile(String imageName, String filepath)
+          throws IllegalArgumentException, IOException;
 
   /**x
    * Create a greyscale using only the red component of the given image,
@@ -150,42 +152,42 @@ public interface ImageProcessingModel {
    */
   Void darken(String imageName, String destImageName, int amount)
           throws IllegalArgumentException;
-
-  /**
-   * create an image that is blur to the given image, and load it with the given name.
-   * @param imageName the name of the image to blur
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  Void blur(String imageName, String destImageName)
-      throws IllegalArgumentException;
-
-  /**
-   * create an image that is sharpening to the given image, and load it with the given name.
-   * @param imageName the name of the image to sharpening
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  Void sharpening(String imageName, String destImageName)
-      throws IllegalArgumentException;
-  /**
-   * create an image that is greyscale with the given image, and load it with the given name.
-   * @param imageName the name of the image to greyscale
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  Void greyscale(String imageName, String destImageName)
-      throws IllegalArgumentException;
-  /**
-   * create an image that is sepia tone with the given image, and load it with the given name.
-   * @param imageName the name of the image to sepia tone
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  Void sepiaTone(String imageName, String destImageName)
-      throws IllegalArgumentException;
+//
+//  /**
+//   * create an image that is blur to the given image, and load it with the given name.
+//   * @param imageName the name of the image to blur
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//  Void blur(String imageName, String destImageName)
+//      throws IllegalArgumentException;
+//
+//  /**
+//   * create an image that is sharpening to the given image, and load it with the given name.
+//   * @param imageName the name of the image to sharpening
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//  Void sharpening(String imageName, String destImageName)
+//      throws IllegalArgumentException;
+//  /**
+//   * create an image that is greyscale with the given image, and load it with the given name.
+//   * @param imageName the name of the image to greyscale
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//  Void greyscale(String imageName, String destImageName)
+//      throws IllegalArgumentException;
+//  /**
+//   * create an image that is sepia tone with the given image, and load it with the given name.
+//   * @param imageName the name of the image to sepia tone
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//  Void sepiaTone(String imageName, String destImageName)
+//      throws IllegalArgumentException;
 }

@@ -1,5 +1,6 @@
 package imageprocessing.model;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
  * flip horizontally/vertically, and load/save image to and from PPM.
  */
-public class BasePPMImageProcessingModel implements ImageProcessingModel {
+public class BasicImageProcessingModel implements ImageProcessingModel {
   private final Map<String, Image> images;
 
   /**
@@ -21,8 +22,8 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if the image is not found
    */
   @Override
-  public StringBuilder saveImageToPPM(String imageName)
-          throws IllegalArgumentException {
+  public Void saveImageToFile(String imageName, String filepath)
+          throws IllegalArgumentException, IOException {
     Image image;
 
     try {
@@ -31,10 +32,11 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
       throw new IllegalArgumentException("Image " + imageName + " does not exist.");
     }
 
-    return image.convertToPPM();
+    image.saveToFile(filepath);
+    return null;
   }
 
-  public BasePPMImageProcessingModel() {
+  public BasicImageProcessingModel() {
     this.images = new HashMap<String, Image>();
   }
 
@@ -43,14 +45,14 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName the name to give the loaded image
-   * @param file      the file to load the image from
+   * @param filepath      the file to load the image from
    * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the file is invalid
    */
   @Override
-  public Void loadImageFromPPM(Readable file, String imageName)
+  public Void loadImageFromFile(String filepath, String imageName)
           throws IllegalArgumentException {
-    images.put(imageName, new BasePPMImage(file));
+    images.put(imageName, new BasicImage(filepath));
     return null;
   }
 
@@ -257,59 +259,60 @@ public class BasePPMImageProcessingModel implements ImageProcessingModel {
     }
     return null;
   }
-  /**
-   * create an image that is blur to the given image, and load it with the given name.
-   * @param imageName the name of the image to blur
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void blur(String imageName, String destImageName)
-      throws IllegalArgumentException{
-    try {
-      images.put(destImageName, images.get(imageName).blur());
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Given image name does not exist in this processor.");
-    }
-    return null;
-  }
 
-  /**
-   * create an image that is sharpening to the given image, and load it with the given name.
-   * @param imageName the name of the image to sharpening
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-@Override
- public Void sharpening(String imageName, String destImageName)
-      throws IllegalArgumentException{
-  try {
-    images.put(destImageName, images.get(imageName).sharpening());
-  } catch (Exception e) {
-    throw new IllegalArgumentException("Given image name does not exist in this processor.");
-  }
-  return null;
-}
-
-  @Override
-  public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
-      try {
-        images.put(destImageName, images.get(imageName).greyscale());
-      } catch (Exception e) {
-        throw new IllegalArgumentException("Given image name does not exist in this processor.");
-      }
-      return null;
-    }
-
-  @Override
-  public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
-        try {
-          images.put(destImageName, images.get(imageName).sepiaTone());
-        } catch (Exception e) {
-          throw new IllegalArgumentException("Given image name does not exist in this processor.");
-        }
-        return null;
-      }
+//  /**
+//   * create an image that is blur to the given image, and load it with the given name.
+//   * @param imageName the name of the image to blur
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//  @Override
+//  public Void blur(String imageName, String destImageName)
+//      throws IllegalArgumentException{
+//    try {
+//      images.put(destImageName, images.get(imageName).blur());
+//    } catch (Exception e) {
+//      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+//    }
+//    return null;
+//  }
+//
+//  /**
+//   * create an image that is sharpening to the given image, and load it with the given name.
+//   * @param imageName the name of the image to sharpening
+//   * @param destImageName the name to give the new image
+//   * @return null for use in Callable<> lambda expression
+//   * @throws IllegalArgumentException if the image does not exist
+//   */
+//@Override
+// public Void sharpening(String imageName, String destImageName)
+//      throws IllegalArgumentException{
+//  try {
+//    images.put(destImageName, images.get(imageName).sharpening());
+//  } catch (Exception e) {
+//    throw new IllegalArgumentException("Given image name does not exist in this processor.");
+//  }
+//  return null;
+//}
+//
+//  @Override
+//  public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
+//      try {
+//        images.put(destImageName, images.get(imageName).greyscale());
+//      } catch (Exception e) {
+//        throw new IllegalArgumentException("Given image name does not exist in this processor.");
+//      }
+//      return null;
+//    }
+//
+//  @Override
+//  public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
+//        try {
+//          images.put(destImageName, images.get(imageName).sepiaTone());
+//        } catch (Exception e) {
+//          throw new IllegalArgumentException("Given image name does not exist in this processor.");
+//        }
+//        return null;
+//      }
 }

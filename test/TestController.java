@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import imageprocessing.controller.TextScriptedImageProcessingController;
-import imageprocessing.model.BasePPMImageProcessingModel;
+import imageprocessing.model.BasicImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.model.MockImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
@@ -30,7 +30,7 @@ public class TestController {
     this.mockOutput = new StringBuilder();
     this.mockInput = new StringReader(mockInput);
 
-    this.model = new BasePPMImageProcessingModel();
+    this.model = new BasicImageProcessingModel();
     this.view = new TextScriptImageProcessingView(this.mockOutput);
     this.controller = new TextScriptedImageProcessingController(
             this.model,
