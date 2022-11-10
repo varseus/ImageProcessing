@@ -181,14 +181,22 @@ class RGBPixel implements Pixel {
     return this.maxValue;
   }
 
+  /**
+   * Determine the integer RGB value of this pixel.
+   *
+   * @return the int rgb value of this pixel
+   */
   @Override
   public int intRGB() {
     return (((this.R << 8) + this.G) << 8) + this.B;
   }
 
-  //------------------------------//
-
-
+  /**
+   * the filter for the pixel.
+   * @param kernel each point
+   * @param channel the color for each channel
+   * @return
+   */
   public int filter(Double kernel, String channel) {
     int channelValue;
 
@@ -208,7 +216,13 @@ class RGBPixel implements Pixel {
   }
 
   /**
-   * Assumes kernel is square.
+   * make a filter's channel to assume kernel is square.
+   * @param pixels pixels as a matrix
+   * @param kernel a square
+   * @param channel cahnnel for pixels
+   * @param row pixels' row
+   * @param col pixels' col
+   * @return the channel
    */
   private int filterChannel(ArrayList<ArrayList<Pixel>> pixels,
                             ArrayList<ArrayList<Double>> kernel,
@@ -230,7 +244,11 @@ class RGBPixel implements Pixel {
     }
     return Math.max(Math.min((int) pixelVal.build().sum(), this.maxValue), 0);
   }
-
+  /**
+   * Blur this pixel, given the surrounding pixels.
+   *
+   * @return the blurred pixel
+   */
   @Override
   public Pixel blur(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
     return new RGBPixel(
@@ -240,7 +258,11 @@ class RGBPixel implements Pixel {
             this.maxValue
     );
   }
-
+  /**
+   * Sharpen this pixel, given the surrounding pixels.
+   *
+   * @return the sharpened pixel
+   */
   @Override
   public Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
     return new RGBPixel(
@@ -251,6 +273,12 @@ class RGBPixel implements Pixel {
     );
   }
 
+  /**
+   *
+   * @param l1
+   * @param l2
+   * @return
+   */
   private Double dotProduct(ArrayList<Integer> l1, ArrayList<Double> l2) {
     DoubleStream.Builder output = DoubleStream.builder();
     for (int i = 0; i < l1.size(); i++) {
@@ -277,7 +305,10 @@ class RGBPixel implements Pixel {
 
     return new GreyscalePixel(value, this.maxValue);
   }
-
+  /**
+   * sepia tone this pixel, given the surrounding pixels.
+   * @return the sepia tone pixel
+   */
   @Override
   public Pixel sepiaTone() {
     return this.colorTransformation(
@@ -285,7 +316,10 @@ class RGBPixel implements Pixel {
     );
   }
 
-
+  /**
+   * greyscale this pixel, given the surrounding pixels.
+   * @return the greyscale pixel
+   */
   @Override
   public GreyscalePixel greyscale() {
     return this.colorTransformationGreyscale(

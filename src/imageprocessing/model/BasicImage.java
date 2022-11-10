@@ -288,7 +288,9 @@ class BasicImage implements Image {
   }
 
   /**
-   *
+   * create a list of pixels.
+   * @return a list of pixels
+   * @throws IllegalArgumentException if it's null
    */
   @Override
   public ArrayList<ArrayList<Pixel>> pixels() throws IllegalArgumentException {
@@ -299,6 +301,10 @@ class BasicImage implements Image {
     return pixels;
   }
 
+  /**
+   * the main method.
+   * @param args main
+   */
   public static void main(String[] args) {
     BasicImage image = new BasicImage("res/Koala.ppm");
     image.sharpen();

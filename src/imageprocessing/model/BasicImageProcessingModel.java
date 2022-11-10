@@ -275,6 +275,13 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   return null;
 }
 
+  /**
+   * create an image that is greyscale to the given image, and load it with the given name.
+   * @param imageName     the name of the image to greyscale
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
   @Override
   public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
       try {
@@ -285,6 +292,13 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
       return null;
     }
 
+  /**
+   * create an image that is sepiaTone to the given image, and load it with the given name.
+   * @param imageName     the name of the image to sepia tone
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
   @Override
   public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
         try {
@@ -296,7 +310,10 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
       }
 
   /**
-   * @param imageName
+   * the list of pixels.
+   * @param imageName the name of the image
+   * @return a list of pixels of this image
+   * @throws IllegalArgumentException if it's null
    */
   @Override
   public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {

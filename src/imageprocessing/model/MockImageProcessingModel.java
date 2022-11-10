@@ -312,7 +312,10 @@ public class MockImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * @param imageName
+   * the list of pixels.
+   * @param imageName the name of the image
+   * @return a list of pixels of this image with string
+   * @throws IllegalArgumentException if it's null
    */
   @Override
   public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {

@@ -9,10 +9,11 @@ commands the model should execute. The view outputs results, serving as a commun
 ### Model
 
 The Model is represented by the **ImageProcessingModel** interface, which can execute various operations on a set of Images. It is implemented by the 
-**BasePPMImageProcessingModel** class, which can load, edit, and save images, while maintaining a running state of images being processed.
+**BasicImageProcessingModel** class, which can load, edit, and save images, while maintaining a running state of images being processed. Also, 
+**MockImageProcessingModel** class logs all calls made to it to a log.
 
-Each Image in the BasePPMImageProcessingModel is represented by the **Image** interface. Images have various operations to edit and 
-import/export them, as implemented by a **BasePPMImage** or a **GreyscaleImage** (a black-and-white image). 
+Each Image in the BasicImageProcessingModel is represented by the **Image** interface. Images have various operations to edit and 
+import/export them, as implemented by a **BasicImage** or a **GreyscaleImage** (a black-and-white image). 
 
 Images are composed of pixels, represented by the **Pixel** interface. Pixel's also have various operations to edit them, and are either an
 **RGBPixel** or **GreyscalePixel** (a black-and-white pixel).
@@ -24,8 +25,8 @@ To further save/read the data to/from file, the static **ImageUtil** class has m
 
 The **ImageProcessingController** interface represents operations that should be offered by an image processor controller, 
 consisting only of the startProcessor() method to start the controller. The **TextScriptedImageProcessingController**
-imaplements this by reading text input from a specified source, and using a HashMap of commands 
-to parse the input and call the relevent command on the model, while 
+implements this by reading text input from a specified source, and using a HashMap of commands 
+to parse the input and call the relevant command on the model, while 
 outputting results to the specified view.
 
 ### View
@@ -48,27 +49,45 @@ Run the main() method of **TextScriptedImageProcessingController**, and enter co
 
 ### Sample Script:
 ```
-# load koala image into the processor
-load res/Koala.ppm koala
+# load square image into the processor
+load res/square.ppm square
 
-# create the red component greyscale of the koala image
-red-component koala koalaRed
+# create the red component greyscale of the square image
+red-component square squareRed
 
-# create the value component greyscale of the koala image
-value-component koala koalaValue
+# create the value component greyscale of the square image
+value-component square squareValue
 
-# create the horintally flipped version of the value component greyscale of the koala image
-horizontal-flip koalaValue koalaValueHorizontal
+# create the horintally flipped version of the value component greyscale of the square image
+horizontal-flip squareValue squareValueHorizontal
 
-# create the brightened by 50 version of the red component greyscale image of the koala
-brighten koalaRed koalRedBright 50
+# create the brightened by 50 version of the red component greyscale image of the square
+brighten squareRed squareRedBright 50
+
+# create the blur of the square image
+blur square squareBlur
+
+# create the sharpen of the square image
+sharpen square squareSharpen
+
+# create the greyscale of the square image
+greyscale square squareGreyscale
+
+# create the sepiaTone of the square image
+sepiaTone square squareSepiaTone
 
 # save all of the new images
-save koalaRed res/red-koala.ppm
-save koalaValue res/value-koala.ppm
-save koalaValueHorizontal res/value-horizontal-koala.ppm
-save koalaRedBright res/red-brighten-koala.ppm
-
+save squareRed res/square-red-grayscale.ppm
+save squareValue res/square-value.ppm
+save squareValueHorizontal res/square-horizontal.ppm
+save squareRedBright res/squarebrighten-by50ppm.ppm
+save squareBlur res/square-blur.ppm
+save squareSharpen res/square-sharpen.ppm
+save squareGreyscale res/square-greyscale.ppm
+save squareSepiaTone res/square-sepia-tone.ppm
+save squareBlur res/square.bmp
+save squareBlur res/square.png
+save squareBlur res/square.jpeg
 #quit
 q
 ```
@@ -114,6 +133,14 @@ brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT
 
 # create the darken by INCREMENT amount version of IMAGE-NAME in the processor to DEST-IMAGE-NAME in the processor
 darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT
+
+# create the blur of IMAGE-NAME in the processor to DEST-IMAGE-NAME in the processor blur IMAGE-NAME DEST-IMAGE-NAME
+
+# create the sharpen of IMAGE-NAME in the processor to DEST-IMAGE-NAME in the processor sharpen IMAGE-NAME DEST-IMAGE-NAME
+
+# create the greyscale of IMAGE-NAME in the processor to DEST-IMAGE-NAME in the processor greyscale IMAGE-NAME DEST-IMAGE-NAME
+
+# create the sepiaTone of IMAGE-NAME in the processor to DEST-IMAGE-NAME in the processor sepiaTone IMAGE-NAME DEST-IMAGE-NAME
 
 #quit
 q

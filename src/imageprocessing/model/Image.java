@@ -109,7 +109,9 @@ interface Image {
   Image sepiaTone();
 
   /**
-   *
+   * create a list of pixels.
+   * @return a list of pixels
+   * @throws IllegalArgumentException if it's null
    */
   ArrayList<ArrayList<Pixel>> pixels()
           throws IllegalArgumentException;

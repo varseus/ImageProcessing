@@ -155,7 +155,11 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
               "   horizontal-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
               "   vertical-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
               "   brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
-              "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n");
+              "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
+              "   blur IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   sharpen IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   greyscale IMAGE-NAME DEST-IMAGE-NAME\n" +
+              "   sepia IMAGE-NAME DEST-IMAGE-NAME\n");
       this.process();
 
     } else {

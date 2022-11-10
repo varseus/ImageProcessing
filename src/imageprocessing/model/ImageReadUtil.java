@@ -99,7 +99,14 @@ public class ImageReadUtil {
     return pixels;
   }
 
-  // reads GIF, PNG, JPEG, BMP, and WBMP
+  /**
+   * Read an image file in the GIF, PNG, JPEG, BMP, and WBMP format and produce
+   * a corresponding matrix of pixels.
+   * @param filepath the path of the file.
+   * @return pixels
+   * @throws IllegalArgumentException if file cannot find.
+   * @throws NullPointerException if it's null
+   */
   public static ArrayList<ArrayList<Pixel>> readFile(String filepath) throws IllegalArgumentException,
           NullPointerException {
     Objects.requireNonNull(filepath);

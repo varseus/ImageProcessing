@@ -8,6 +8,12 @@ import java.util.ArrayList;
  */
 public interface Pixel {
 
+  /**
+   *
+   * @param kernel
+   * @param channel
+   * @return
+   */
   int filter(Double kernel, String channel);
 
   /**
@@ -92,11 +98,6 @@ public interface Pixel {
    */
   int intRGB();
 
-
-
-  //------------------------------//
-
-
   /**
    * Blur this pixel, given the surrounding pixels.
    *
@@ -111,8 +112,16 @@ public interface Pixel {
    */
   Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y);
 
+  /**
+   * greyscale this pixel, given the surrounding pixels.
+   * @return the greyscale pixel
+   */
   GreyscalePixel greyscale();
 
+  /**
+   * sepia tone this pixel, given the surrounding pixels.
+   * @return the sepia tone pixel
+   */
   Pixel sepiaTone();
 }
 

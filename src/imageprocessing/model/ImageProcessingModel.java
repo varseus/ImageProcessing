@@ -190,7 +190,10 @@ public interface ImageProcessingModel {
           throws IllegalArgumentException;
 
   /**
-   *
+   * the list of pixels.
+   * @param imageName the name of the image
+   * @return a list of pixels of this image
+   * @throws IllegalArgumentException if it's null
    */
   ArrayList<ArrayList<Pixel>> pixels(String imageName)
           throws IllegalArgumentException;
