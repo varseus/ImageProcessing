@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.io.InputStreamReader;
 
-import imageprocessing.model.ImageUtil;
 import imageprocessing.model.BasicImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
@@ -44,7 +43,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     this.commandMap.put("load", (() -> (
             this.model.loadImageFromFile(this.getFrom(), this.getTo()))));
     this.commandMap.put("save", (() -> (
-            this.model.saveImageToFile(this.getFrom(), this.getTo()))));
+            this.view.saveImageToFile(this.getFrom(), this.getTo()))));
     this.commandMap.put("red-component", (() -> (
             this.model.redComponent(this.getFrom(), this.getTo()))));
     this.commandMap.put("green-component", (() -> (
@@ -65,6 +64,14 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
             this.model.brighten(this.getFrom(), this.getTo(), this.getNextIntToken()))));
     this.commandMap.put("darken", (() -> (
             this.model.darken(this.getFrom(), this.getTo(), this.getNextIntToken()))));
+    this.commandMap.put("blur", (() -> (
+            this.model.blur(this.getFrom(), this.getTo()))));
+    this.commandMap.put("sharpen", (() -> (
+            this.model.sharpen(this.getFrom(), this.getTo()))));
+    this.commandMap.put("greyscale", (() -> (
+            this.model.greyscale(this.getFrom(), this.getTo()))));
+    this.commandMap.put("sepia", (() -> (
+            this.model.sepiaTone(this.getFrom(), this.getTo()))));
   }
 
   /**
@@ -76,7 +83,7 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
    */
   public static void main(String[] args) throws IOException {
     BasicImageProcessingModel model = new BasicImageProcessingModel();
-    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out);
+    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out, model);
     TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
             model,
             view,
@@ -102,6 +109,10 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
    * > vertical-flip IMAGE-NAME DEST-IMAGE-NAME
    * > brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT
    * > darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT
+   * > blur IMAGE-NAME DEST-IMAGE-NAME
+   * > sharpen IMAGE-NAME DEST-IMAGE-NAME
+   * > greyscale IMAGE-NAME DEST-IMAGE-NAME
+   * > sepiatone IMAGE-NAME DEST-IMAGE-NAME
    * > q
    * > quit
    * > h

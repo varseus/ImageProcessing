@@ -1,6 +1,7 @@
 package imageprocessing.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
@@ -27,26 +28,6 @@ public class MockImageProcessingModel implements ImageProcessingModel {
   public Void loadImageFromFile(String filepath, String imageName) throws IllegalArgumentException {
     try {
       this.log.append("loading file to " + imageName + ".\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-
-    return null;
-  }
-
-  /**
-   * Export the given image as a ppm.
-   *
-   * @param imageName the name of the image to save
-   * @param filepath
-   * @return StringBuilder containing the PPM data
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void saveImageToFile(String imageName, String filepath) throws IllegalArgumentException, IOException {
-
-    try {
-      this.log.append("saving " + imageName + "\n");
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -252,6 +233,91 @@ public class MockImageProcessingModel implements ImageProcessingModel {
           throws IllegalArgumentException {
     try {
       this.log.append("darken " + imageName + " to " + destImageName + " " + amount + "\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  /**
+   * create an image that is blur to the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to blur
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void blur(String imageName, String destImageName) throws IllegalArgumentException {
+    try {
+      this.log.append("blur " + imageName + " to " + destImageName + "\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  /**
+   * create an image that is sharpening to the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to sharpening
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void sharpen(String imageName, String destImageName) throws IllegalArgumentException {
+    try {
+      this.log.append("sharpen " + imageName + " to " + destImageName + "\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  /**
+   * create an image that is greyscale with the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to greyscale
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
+    try {
+      this.log.append("greyscale " + imageName + " to " + destImageName + "\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  /**
+   * create an image that is sepia tone with the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to sepia tone
+   * @param destImageName the name to give the new image
+   * @return null for use in Callable<> lambda expression
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
+    try {
+      this.log.append("sepiaTone " + imageName + " to " + destImageName + "\n");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  /**
+   * @param imageName
+   */
+  @Override
+  public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {
+    try {
+      this.log.append("getting pixels from " + imageName + "\n");
     } catch (Exception e) {
       System.out.println(e);
     }

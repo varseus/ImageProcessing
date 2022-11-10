@@ -6,7 +6,10 @@ import java.util.ArrayList;
  * This class represents operations that should be offered
  * by a pixel in an image which is processable.
  */
-interface Pixel {
+public interface Pixel {
+
+  int filter(Double kernel, String channel);
+
   /**
    * Create a greyscale pixel using only the red component of this pixel.
    *
@@ -99,16 +102,16 @@ interface Pixel {
    *
    * @return the blurred pixel
    */
-  Pixel blur(ArrayList<ArrayList<Pixel>> pixels);
+  Pixel blur(ArrayList<ArrayList<Pixel>> pixels, int x, int y);
 
   /**
    * Sharpen this pixel, given the surrounding pixels.
    *
    * @return the sharpened pixel
    */
-  Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels);
+  Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y);
 
-  Pixel greyscale();
+  GreyscalePixel greyscale();
 
   Pixel sepiaTone();
 }

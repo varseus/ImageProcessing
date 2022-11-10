@@ -15,4 +15,14 @@ public interface ImageProcessingView {
    * @throws IOException if transmission of the board to the provided data destination fails
    */
   String renderMessage(String message) throws IOException;
+
+  /**
+   * Export the given image as a ppm.
+   *
+   * @param imageName the name of the image to save
+   * @return StringBuilder containing the PPM data
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  Void saveImageToFile(String imageName, String filepath)
+          throws IllegalArgumentException, IOException;
 }

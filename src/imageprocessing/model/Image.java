@@ -1,18 +1,13 @@
 package imageprocessing.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This interface represents the operations that should
  * be offered by a processable image.
  */
 interface Image {
-  /**
-   * Convert this image to ASCII PPM.
-   *
-   * @return a string containing the data for the PPM file.
-   */
-  void saveToFile(String filepath) throws IOException, IllegalArgumentException;
 
   /**
    * Create a greyscale using only the red component of this image.
@@ -95,11 +90,13 @@ interface Image {
    * @return the image to blur
    */
   Image blur();
+
   /**
    * create an image that is sharpening.
    * @return the image to sharpening
    */
   Image sharpen();
+
   /**
    * create an image that is greyscale.
    * @return the image to greyscale
@@ -110,4 +107,10 @@ interface Image {
    * @return the image to sepia tone
    */
   Image sepiaTone();
+
+  /**
+   *
+   */
+  ArrayList<ArrayList<Pixel>> pixels()
+          throws IllegalArgumentException;
 }

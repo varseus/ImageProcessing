@@ -1,6 +1,7 @@
 package imageprocessing.view;
 
 import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.ImageReadUtil;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
  */
 public class TextScriptImageProcessingView implements ImageProcessingView {
   private final Appendable appendable;
+  private final BasicImageProcessingModel model;
 
   /**
    * the Constructor for TextScriptImageProcessingView.
@@ -18,8 +20,9 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    * @param appendable the appendable for the view
    * @throws NullPointerException if null args
    */
-  public TextScriptImageProcessingView(Appendable appendable) throws NullPointerException {
+  public TextScriptImageProcessingView(Appendable appendable, BasicImageProcessingModel model) throws NullPointerException {
     this.appendable = Objects.requireNonNull(appendable);
+    this.model = Objects.requireNonNull(model);
   }
 
   /**
@@ -28,7 +31,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    * @param model the model for the image processing model
    */
   public TextScriptImageProcessingView(BasicImageProcessingModel model) {
-    this(System.out);
+    this(System.out, model);
   }
 
   /**
@@ -43,5 +46,19 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
   public String renderMessage(String message) throws IOException, NullPointerException {
     this.appendable.append(Objects.requireNonNull(message));
     return message;
+  }
+
+  /**
+   * Export the given image as a ppm.
+   *
+   * @param imageName the name of the image to save
+   * @param filepath
+   * @return null for use as a function object
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public Void saveImageToFile(String imageName, String filepath) throws IllegalArgumentException, IOException {
+    ImageWriteUtil.writePixelsToFile(this.model.pixels(imageName), filepath);
+    return null;
   }
 }

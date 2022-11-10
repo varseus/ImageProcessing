@@ -1,6 +1,5 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Function;
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
  * the {@code BasePPMImage} represents operations offered by an image which
  * is processable and can be converted to ASCII PPM. Operations include:
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
- * flip horizontally/vertically, and load/save image to and from PPM.
+ * flip horizontally/vertically, and load image to and from PPM.
  */
 class BasicImage implements Image {
   private final ArrayList<ArrayList<Pixel>> pixels;
@@ -18,7 +17,7 @@ class BasicImage implements Image {
   /**
    * Instantiates this BasePPMImage with the given pixels and max value.
    *
-   * @param pixels   the pixels in this image as a matrix
+   * @param pixels the pixels in this image as a matrix
    * @throws IllegalArgumentException if any pixel has the wrong maxValue,
    *                                  the matrix is not rectangular, or the image is empty;
    * @throws NullPointerException     if null args
@@ -65,18 +64,7 @@ class BasicImage implements Image {
   public BasicImage(String filepath) throws
           IllegalArgumentException,
           NullPointerException {
-    this(ImageUtil.readFile(filepath));
-  }
-
-  /**
-   * Save the image to the specified file
-   *
-   * @return StringBuilder containing the data for the PPM file.
-   */
-  @Override
-  public void saveToFile(String filepath)
-          throws IOException, IllegalArgumentException, NullPointerException {
-    ImageUtil.writePixelsToFile(this.pixels, filepath);
+    this(ImageReadUtil.readFile(filepath));
   }
 
   /**
@@ -231,6 +219,15 @@ class BasicImage implements Image {
     return this.mapImagePixels(pixel -> pixel.darken(amount));
   }
 
+  private <T> int indexOf(ArrayList<ArrayList<T>> matrix, T t) {
+    for (int i = 0; i < matrix.size(); i++) {
+      if (matrix.get(i).indexOf(t) >= 0) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   /**
    * create an image that is blur.
    *
@@ -238,59 +235,73 @@ class BasicImage implements Image {
    */
   @Override
   public Image blur() {
-    // create a padded copy of the pixels to use for blurring
-    ArrayList<ArrayList<Pixel>> pixelsCopy = new ArrayList<ArrayList<Pixel>>(this.pixels);
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        if (Math.abs(i - j) == 1) {
-          newImagePixels.get(i).get(j) =     // edge
-        } else if ((i == 0 && j == 0) || (i == 0 && i == 2) || (i == 2 && i == 0) || (i == 2 && i == 2)) {
-          newImagePixels.get(i).get(j) = //corner
-        }
-        this.mapImagePixels(pixel -> pixel.blurCenter());   // center
+    ArrayList<ArrayList<Pixel>> pixels = new ArrayList<>(this.pixels);
+    ArrayList<ArrayList<Pixel>> blurredPixels = new ArrayList<>();
+    for(int i = 0; i < this.pixels.size(); i++) {
+      ArrayList<Pixel> blurredRow = new ArrayList<>();
+      for (int j = 0; j < this.pixels.get(0).size(); j++) {
+        blurredRow.add(this.pixels.get(i).get(j).blur(pixels, i, j));
       }
+      blurredPixels.add(blurredRow);
     }
-    return new BasicImage(newImagePixels);
+    return new BasicImage(blurredPixels);
   }
 
-//  /**
-//   * Create an image that is sharpened.
-//   *
-//   * @return the sharpened image
-//   */
-//  @Override
-//  public Image sharpening() {
-//    ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
-//    for (int i = 0; i < 4; i++) {
-//      for (int j = 0; j < 4; j++) {
-//        if (i == 0 || i == 4 || j == 0 || j == 4) {
-//          // outside
-//        } else if (i == 2 && j == 2) {
-//          // center
-//        }
-//        // inside
-//      }
-//    }
-//    return null;
-//  }
-//
-//  /**
-//   * create an image that is greyscale.
-//   *
-//   * @return the image to greyscale
-//   */
-//  @Override
-//  public Image greyscale() {
-//    return this.mapImagePixels(pixel -> pixel.greyscale());
-//  }
-//
-//  /**
-//   * create an image that is sepia tone.
-//   *
-//   * @return the image to sepia tone
-//   */
-//  @Override
-//  public Image sepiaTone() {
-//    return this.mapImagePixels(pixel -> pixel.sepiaTone());
-//  }
+
+  /**
+   * Create an image that is sharpened.
+   *
+   * @return the sharpened image
+   */
+  @Override
+  public Image sharpen() {
+    ArrayList<ArrayList<Pixel>> pixels = new ArrayList<>(this.pixels);
+    ArrayList<ArrayList<Pixel>> sharpenedPixels = new ArrayList<>();
+    for(int i = 0; i < this.pixels.size(); i++) {
+      ArrayList<Pixel> sharpenedRow = new ArrayList<>();
+      for (int j = 0; j < this.pixels.get(0).size(); j++) {
+        sharpenedRow.add(this.pixels.get(i).get(j).sharpen(pixels, i, j));
+      }
+      sharpenedPixels.add(sharpenedRow);
+    }
+    return new BasicImage(sharpenedPixels);
+  }
+
+  /**
+   * create an image that is greyscale.
+   *
+   * @return the image to greyscale
+   */
+  @Override
+  public Image greyscale() {
+    return this.mapImagePixelsGreyscale(pixel -> pixel.greyscale());
+  }
+
+  /**
+   * create an image that is sepia tone.
+   *
+   * @return the image to sepia tone
+   */
+  @Override
+  public Image sepiaTone() {
+    return this.mapImagePixels(pixel -> pixel.sepiaTone());
+  }
+
+  /**
+   *
+   */
+  @Override
+  public ArrayList<ArrayList<Pixel>> pixels() throws IllegalArgumentException {
+    ArrayList<ArrayList<Pixel>> pixels = new ArrayList<>();
+    for (int i = 0; i < this.pixels.size(); i++) {
+      pixels.add(new ArrayList<>(this.pixels.get(i)));
+    }
+    return pixels;
+  }
+
+  public static void main(String[] args) {
+    BasicImage image = new BasicImage("res/Koala.ppm");
+    image.sharpen();
+  }
 }
+

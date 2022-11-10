@@ -3,12 +3,11 @@ import static org.junit.Assert.assertEquals;
 
 import imageprocessing.model.BasicImageProcessingModel;
 
-import imageprocessing.model.ImageUtil;
+import imageprocessing.model.ImageReadUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.StringReader;
 
 /**
  * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class.
@@ -28,7 +27,7 @@ public class TestModel {
   @Test
   public void testSaveImageFromPPM() throws IOException {
     Appendable actual = new StringBuilder();
-    String expected = ImageUtil.readPPM("res/Koala.ppm").toString()
+    String expected = ImageReadUtil.readPPM("res/Koala.ppm").toString()
             .replace("\n", " ");
 
     assertEquals(
@@ -43,7 +42,7 @@ public class TestModel {
   @Test
   public void testLoadImageToPPM() throws IOException {
     StringBuilder actual = new StringBuilder();
-    String expected = ImageUtil.readPPM("res/Koala.ppm").toString()
+    String expected = ImageReadUtil.readPPM("res/Koala.ppm").toString()
             .replace("\n", " ");
 
     this.model.loadImageFromFile("res/Koala.ppm",
