@@ -90,24 +90,24 @@ interface Image {
    */
   Image darken(int amount);
 
-//  /**
-//   * create an image that is blur.
-//   * @return the image to blur
-//   */
-//  Image blur();
-//  /**
-//   * create an image that is sharpening.
-//   * @return the image to sharpening
-//   */
-//  Image sharpening();
-//  /**
-//   * create an image that is greyscale.
-//   * @return the image to greyscale
-//   */
-//  Image greyscale();
-//  /**
-//   * create an image that is sepia tone.
-//   * @return the image to sepia tone
-//   */
-//  Image sepiaTone();
+  /**
+   * create an image that is blur.
+   * @return the image to blur
+   */
+  Image blur();
+  /**
+   * create an image that is sharpening.
+   * @return the image to sharpening
+   */
+  Image sharpen();
+  /**
+   * create an image that is greyscale.
+   * @return the image to greyscale
+   */
+  Image greyscale();
+  /**
+   * create an image that is sepia tone.
+   * @return the image to sepia tone
+   */
+  Image sepiaTone();
 }

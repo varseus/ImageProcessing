@@ -230,32 +230,33 @@ class BasicImage implements Image {
   public Image darken(int amount) {
     return this.mapImagePixels(pixel -> pixel.darken(amount));
   }
-//
+
+  /**
+   * create an image that is blur.
+   *
+   * @return the image to blur
+   */
+  @Override
+  public Image blur() {
+    // create a padded copy of the pixels to use for blurring
+    ArrayList<ArrayList<Pixel>> pixelsCopy = new ArrayList<ArrayList<Pixel>>(this.pixels);
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        if (Math.abs(i - j) == 1) {
+          newImagePixels.get(i).get(j) =     // edge
+        } else if ((i == 0 && j == 0) || (i == 0 && i == 2) || (i == 2 && i == 0) || (i == 2 && i == 2)) {
+          newImagePixels.get(i).get(j) = //corner
+        }
+        this.mapImagePixels(pixel -> pixel.blurCenter());   // center
+      }
+    }
+    return new BasicImage(newImagePixels);
+  }
+
 //  /**
-//   * create an image that is blur.
+//   * Create an image that is sharpened.
 //   *
-//   * @return the image to blur
-//   */
-//  @Override
-//  public Image blur() {
-//    ArrayList<ArrayList<Pixel>> newImagePixels = new ArrayList<ArrayList<Pixel>>();
-//    for (int i = 0; i < 3; i++) {
-//      for (int j = 0; j < 3; j++) {
-//        if (Math.abs(i - j) == 1) {
-//          newImagePixels.get(i).get(j) =     // edge
-//        } else if ((i == 0 && j == 0) || (i == 0 && i == 2) || (i == 2 && i == 0) || (i == 2 && i == 2)) {
-//          newImagePixels.get(i).get(j) = //corner
-//        }
-//        this.mapImagePixels(pixel -> pixel.blurCenter());   // center
-//      }
-//    }
-//    return new BasicImage(newImagePixels);
-//  }
-//
-//  /**
-//   * create an image that is sharpening.
-//   *
-//   * @return the image to sharpening
+//   * @return the sharpened image
 //   */
 //  @Override
 //  public Image sharpening() {

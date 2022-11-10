@@ -1,5 +1,7 @@
 package imageprocessing.model;
 
+import java.util.ArrayList;
+
 /**
  * This class represents operations that should be offered
  * by a pixel in an image which is processable.
@@ -91,53 +93,23 @@ interface Pixel {
 
   //------------------------------//
 
-  /**
-   * applied to the pixel in edge place to blur.
-   *
-   * @return the blur pixel
-   */
-  Pixel blurEdge();
 
   /**
-   * applied to the pixel in center place to blur.
+   * Blur this pixel, given the surrounding pixels.
    *
-   * @return the blur pixel
+   * @return the blurred pixel
    */
-  Pixel blurCenter();
+  Pixel blur(ArrayList<ArrayList<Pixel>> pixels);
 
   /**
-   * applied to the pixel in conner place to blur.
+   * Sharpen this pixel, given the surrounding pixels.
    *
-   * @return the blur pixel
+   * @return the sharpened pixel
    */
-  Pixel blurCorner();
-
-  /**
-   * make the first row, last row, first col, last col's pixels to sharpening.
-   *
-   * @return the sharpe pixel
-   */
-  Pixel sharpeningOutsideEdge();
-
-  /**
-   * make the second row, second to last row, second col, second to last col's pixels to sharpening.
-   *
-   * @return the sharpe pixel
-   */
-  Pixel sharpeningInsideEdge();
-
-  /**
-   * make the center pixel to sharpening.
-   *
-   * @return the sharpe pixel
-   */
-  Pixel sharpeningCenter();
+  Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels);
 
   Pixel greyscale();
 
   Pixel sepiaTone();
 }
-
-// model should not need file info
-// greyscale image
 

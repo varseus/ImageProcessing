@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
  * * by a pixel in an image which is processable.
  */
 class RGBPixel implements Pixel {
-  public final int R;
-  public final int G;
-  public final int B;
-  public final int maxValue;
+  protected final int R;
+  protected final int G;
+  protected final int B;
+  protected final int maxValue;
 
   /**
    * Instantiate this pixel with the given rgb values.
@@ -161,14 +161,14 @@ class RGBPixel implements Pixel {
    * Assumes pixels and kernel are the same shape.
    */
   private int filterChannel(ArrayList<ArrayList<Pixel>> pixels, ArrayList<ArrayList<Double>> kernel, String channel) {
-    HashMap<String, Function<Pixel, Double>> channelMap = new HashMap<>();
-    channelMap.put("R", pixel -> pixel.R);
-    channelMap.put("G", pixel -> pixel.G);
-    channelMap.put("B", pixel -> pixel.B);
+    HashMap<String, Function<Pixel, Integer>> channelMap = new HashMap<>();
+    channelMap.put("R", pixel -> Integer.parseInt(pixel.toString().substring(0, pixel.toString().indexOf(" "))));
+    channelMap.put("G", pixel -> Integer.parseInt(pixel.toString().substring(pixel.toString().indexOf(" "),pixel.toString().lastIndexOf(" "))));
+    channelMap.put("B", pixel -> Integer.parseInt(pixel.toString().substring(pixel.toString().lastIndexOf(" "))));
 
-    ArrayList<ArrayList<Double>> pixelVals = new ArrayList<ArrayList<Double>>(
+    ArrayList<ArrayList<Integer>> pixelVals = new ArrayList<>(
             pixels.stream().map(row ->
-                    new ArrayList<Double>(row.stream().map(channelMap.get(channel)
+                    new ArrayList<>(row.stream().map(channelMap.get(channel)
                     ).collect(Collectors.toList()))).collect(Collectors.toList()));
 
     double pixelVal = 0;
@@ -181,20 +181,19 @@ class RGBPixel implements Pixel {
   }
 
   @Override
-  public Pixel blurEdge(ArrayList<ArrayList<Pixel>> pixels) {
+  public Pixel blur(ArrayList<ArrayList<Pixel>> pixels) {
     ArrayList<ArrayList<Double>> kernel = new ArrayList<ArrayList<Double>>(
             Arrays.asList(
                     new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16)),
                     new ArrayList<Double>(Arrays.asList(1.0 / 8, 1.0 / 4, 1.0 / 8)),
                     new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16))
-            );
+            ));
     return new RGBPixel(
             this.filterChannel(pixels, kernel, "R"),
             this.filterChannel(pixels, kernel, "G"),
             this.filterChannel(pixels, kernel, "B"),
             this.maxValue
     );
-    return new RGBPixel(this.R * 1 / 8, this.G * 1 / 8, this.B * 1 / 8, this.maxValue);
   }
 
   @Override
@@ -206,7 +205,7 @@ class RGBPixel implements Pixel {
                     new ArrayList<Double>(Arrays.asList(-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8)),
                     new ArrayList<Double>(Arrays.asList(-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
                     new ArrayList<Double>(Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))
-            );
+            ));
     return new RGBPixel(
             this.filterChannel(pixels, kernel, "R"),
             this.filterChannel(pixels, kernel, "G"),
@@ -215,22 +214,42 @@ class RGBPixel implements Pixel {
     );
   }
 
-  private ArrayList<Int> colorTransformation(ArrayList<Int> rgb, ArrayList<ArrayList<Double>> kernel){
+  private Double dotProduct(ArrayList<Integer> l1, ArrayList<Double> l2) {
+    Double output = 0.0;
+    for (int i = 0; i < l1.size(); i++) {
+      output += l1.get(i) * l2.get(i);
+    }
 
+    return output;
   }
 
-  @Override
-  public Pixel greyscale() {
-    return new RGBPixel((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
-            (int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
-            (int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue);
+  private Pixel colorTransformation(ArrayList<Integer> rgb, ArrayList<ArrayList<Double>> kernel) {
+    int red = Math.min(this.dotProduct(rgb, kernel.get(0)).intValue(), this.maxValue);
+    int green = Math.min(this.dotProduct(rgb, kernel.get(1)).intValue(), this.maxValue);
+    int blue = Math.min(this.dotProduct(rgb, kernel.get(2)).intValue(), this.maxValue);
+
+    return new RGBPixel(red, green, blue, this.maxValue);
   }
 
   @Override
   public Pixel sepiaTone() {
-    return new RGBPixel((int) (0.393 * this.R + 0.769 * this.G + 0.189 * this.B),
-            (int) (0.349 * this.R + 0.686 * this.G + 0.168 * this.B),
-            (int) (0.272 * this.R + 0.534 * this.G + 0.131 * this.B), this.maxValue);
+    return this.colorTransformation(
+            new ArrayList<>(Arrays.asList(this.R, this.G, this.B)),
+            new ArrayList<ArrayList<Double>>(
+                    Arrays.asList(
+                            new ArrayList<Double>(Arrays.asList(0.393, 0.769, 0.189)),
+                            new ArrayList<Double>(Arrays.asList(0.349, 0.686, 0.168)),
+                            new ArrayList<Double>(Arrays.asList(0.272, 0.534, 0.131))
+                    ))
+    );
+  }
+
+
+  @Override
+  public GreyscalePixel greyscale() {
+    // no need to use a transformation here since the greyscale operation is so straightforward
+    return new GreyscalePixel((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
+            this.maxValue);
   }
 }
 
