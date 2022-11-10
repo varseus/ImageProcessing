@@ -47,6 +47,7 @@ public class ImageWriteUtil {
     File fileObj;
     try {
       fileObj = new File(filepath);
+      fileObj.mkdirs();
     } catch (Exception e) {
       if (e instanceof NullPointerException) {
         throw new IllegalArgumentException("Invalid filepath " + filepath + ".");
@@ -98,6 +99,7 @@ public class ImageWriteUtil {
 
     try {
       File fileObj = new File(filepath);
+      fileObj.mkdirs();
     } catch (Exception e) {
       if (e instanceof NullPointerException) {
         throw new IllegalArgumentException("Cannot load from file, " + filepath +

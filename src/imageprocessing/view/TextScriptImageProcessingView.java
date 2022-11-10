@@ -1,6 +1,7 @@
 package imageprocessing.view;
 
 import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.model.ImageReadUtil;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Objects;
  */
 public class TextScriptImageProcessingView implements ImageProcessingView {
   private final Appendable appendable;
-  private final BasicImageProcessingModel model;
+  private final ImageProcessingModel model;
 
   /**
    * the Constructor for TextScriptImageProcessingView.
@@ -20,7 +21,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    * @param appendable the appendable for the view
    * @throws NullPointerException if null args
    */
-  public TextScriptImageProcessingView(Appendable appendable, BasicImageProcessingModel model) throws NullPointerException {
+  public TextScriptImageProcessingView(Appendable appendable, ImageProcessingModel model) throws NullPointerException {
     this.appendable = Objects.requireNonNull(appendable);
     this.model = Objects.requireNonNull(model);
   }

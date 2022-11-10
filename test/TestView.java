@@ -3,6 +3,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.ImageProcessingModel;
+import imageprocessing.model.MockImageProcessingModel;
 import imageprocessing.view.ImageProcessingView;
 import imageprocessing.view.TextScriptImageProcessingView;
 
@@ -14,11 +17,13 @@ import static org.junit.Assert.assertEquals;
 public class TestView {
   private ImageProcessingView view;
   private Appendable output;
+  private ImageProcessingModel model;
 
   @Before
   public void setup() {
+    this.model = new BasicImageProcessingModel();
     this.output = new StringBuilder();
-    this.view = new TextScriptImageProcessingView(output);
+    this.view = new TextScriptImageProcessingView(output, this.model);
   }
 
   /**
@@ -77,7 +82,7 @@ public class TestView {
    */
   @Test(expected = NullPointerException.class)
   public void testNullConstructor() {
-    this.view = new TextScriptImageProcessingView((Appendable) null);
+    this.view = new TextScriptImageProcessingView((Appendable) null, this.model);
   }
 
   /**
@@ -93,7 +98,7 @@ public class TestView {
    */
   @Test(expected = IOException.class)
   public void testRenderMessageFail2() throws IOException {
-    this.view = new TextScriptImageProcessingView(new BadAppendable());
+    this.view = new TextScriptImageProcessingView(new BadAppendable(), this.model);
     this.view.renderMessage("This is a message.");
   }
 
