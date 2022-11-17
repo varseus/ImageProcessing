@@ -5,13 +5,18 @@ import imageprocessing.model.BasicImageProcessingModel;
 
 import imageprocessing.view.ImageProcessingView;
 import imageprocessing.view.TextScriptImageProcessingView;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 /**
- * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class.
+ * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class. Version 2
+ * changes: added tests for new functionality of controller. Switched tests
+ * to measure equality by comparing image pixels as strings.
+ *
+ * @version 2
  */
 public class TestModel {
   private BasicImageProcessingModel model;
@@ -34,6 +39,7 @@ public class TestModel {
     assertEquals(this.model.pixels("square").toString(),
             this.model.pixels("squareAfterLoadAndSave").toString());
   }
+
   /**
    * Test loading ppm and bmp.
    */
@@ -44,8 +50,9 @@ public class TestModel {
     this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-        this.model.pixels("squareAfterLoadAndSave").toString());
+            this.model.pixels("squareAfterLoadAndSave").toString());
   }
+
   /**
    * Test redComponent method.
    */
@@ -56,6 +63,7 @@ public class TestModel {
     assertEquals(this.model.pixels("squareExpected").toString(),
             this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test blueComponent method.
    */
@@ -64,8 +72,9 @@ public class TestModel {
     this.model.blueComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blue-grayscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test greenComponent method.
    */
@@ -74,8 +83,9 @@ public class TestModel {
     this.model.greenComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-green-grayscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test brighten method.
    */
@@ -84,8 +94,9 @@ public class TestModel {
     this.model.brighten("square", "squareComponent", 50);
     this.model.loadImageFromFile("res/square-brighten-by50ppm.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test darken method.
    */
@@ -94,8 +105,9 @@ public class TestModel {
     this.model.darken("square", "squareComponent", 50);
     this.model.loadImageFromFile("res/square-darken-50.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test horizontal method.
    */
@@ -104,8 +116,9 @@ public class TestModel {
     this.model.horizontalFlip("square", "squareComponent");
     this.model.loadImageFromFile("res/square-horizontal.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test vertical method.
    */
@@ -114,30 +127,33 @@ public class TestModel {
     this.model.verticalFlip("square", "squareComponent");
     this.model.loadImageFromFile("res/square-vertical.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test horizontal and vertical method.
    */
   @Test
   public void testHorizontalAndVertical() throws IOException {
     this.model.horizontalFlip("square", "squareComponent");
-    this.model.verticalFlip("square", "squareComponent");
+    this.model.verticalFlip("squareComponent", "squareComponent");
     this.model.loadImageFromFile("res/square-horizontal-vertical.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test vertical and horizontal method.
    */
   @Test
   public void testVerticalAndHorizontal() throws IOException {
     this.model.verticalFlip("square", "squareComponent");
-    this.model.horizontalFlip("square", "squareComponent");
+    this.model.horizontalFlip("squareComponent", "squareComponent");
     this.model.loadImageFromFile("res/square-vertical-horizontal.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test intensity method.
    */
@@ -146,8 +162,9 @@ public class TestModel {
     this.model.intensityComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-intensity-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test luma method.
    */
@@ -156,8 +173,9 @@ public class TestModel {
     this.model.lumaComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-luma-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test blur method.
    */
@@ -166,8 +184,9 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blur.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test sharpen method.
    */
@@ -176,8 +195,9 @@ public class TestModel {
     this.model.sharpen("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sharpen.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test greyscale method.
    */
@@ -186,8 +206,9 @@ public class TestModel {
     this.model.greyscale("square", "squareComponent");
     this.model.loadImageFromFile("res/square-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
+
   /**
    * Test sepia tone method.
    */
@@ -196,7 +217,7 @@ public class TestModel {
     this.model.sepiaTone("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sepia-tone.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+            this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -243,6 +264,7 @@ public class TestModel {
   public void testComponentFailFail4() throws IOException {
     this.model.greenComponent("notsquare", "square");
   }
+
   /**
    * Tests getting blueComponent for an image that doesn't exist.
    */
@@ -250,6 +272,7 @@ public class TestModel {
   public void testComponentFailFail5() throws IOException {
     this.model.blueComponent("notsquare", "square");
   }
+
   /**
    * Tests getting horizontalFlip for an image that doesn't exist.
    */
@@ -257,6 +280,7 @@ public class TestModel {
   public void testComponentFailFail6() throws IOException {
     this.model.horizontalFlip("notsquare", "square");
   }
+
   /**
    * Tests getting verticalFlip for an image that doesn't exist.
    */
@@ -264,6 +288,7 @@ public class TestModel {
   public void testComponentFailFail7() throws IOException {
     this.model.verticalFlip("notsquare", "square");
   }
+
   /**
    * Tests getting valueComponent for an image that doesn't exist.
    */
@@ -271,6 +296,7 @@ public class TestModel {
   public void testComponentFailFail8() throws IOException {
     this.model.valueComponent("notsquare", "square");
   }
+
   /**
    * Tests getting intensityComponent for an image that doesn't exist.
    */
@@ -278,6 +304,7 @@ public class TestModel {
   public void testComponentFailFail9() throws IOException {
     this.model.intensityComponent("notsquare", "square");
   }
+
   /**
    * Tests getting lumaComponent for an image that doesn't exist.
    */
@@ -285,6 +312,7 @@ public class TestModel {
   public void testComponentFailFail10() throws IOException {
     this.model.lumaComponent("notsquare", "square");
   }
+
   /**
    * Tests getting brighten for an image that doesn't exist.
    */
@@ -292,6 +320,7 @@ public class TestModel {
   public void testComponentFailFail11() throws IOException {
     this.model.brighten("notsquare", "square", 10);
   }
+
   /**
    * Tests getting darken for an image that doesn't exist.
    */
@@ -299,6 +328,7 @@ public class TestModel {
   public void testComponentFailFail12() throws IOException {
     this.model.darken("notsquare", "square", 10);
   }
+
   /**
    * Tests getting blur for an image that doesn't exist.
    */
@@ -306,6 +336,7 @@ public class TestModel {
   public void testComponentFailFail13() throws IOException {
     this.model.blur("notsquare", "square");
   }
+
   /**
    * Tests getting sharpen for an image that doesn't exist.
    */
@@ -313,6 +344,7 @@ public class TestModel {
   public void testComponentFailFail14() throws IOException {
     this.model.sharpen("notsquare", "square");
   }
+
   /**
    * Tests getting greyscale for an image that doesn't exist.
    */
@@ -320,6 +352,7 @@ public class TestModel {
   public void testComponentFailFail15() throws IOException {
     this.model.greyscale("notsquare", "square");
   }
+
   /**
    * Tests getting sepia tone for an image that doesn't exist.
    */

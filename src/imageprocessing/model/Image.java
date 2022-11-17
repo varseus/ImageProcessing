@@ -1,11 +1,14 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This interface represents the operations that should
- * be offered by a processable image.
+ * The {@code Image} interface represents the operations that should
+ * be offered by a processable image. Version 2 changes: added support
+ * for blur/sharpen/greyscale/sepiatone; save method moved to view;
+ * added pixels() method to retrieve pixels from this image.
+ *
+ * @version 2
  */
 interface Image {
 
@@ -87,29 +90,35 @@ interface Image {
 
   /**
    * create an image that is blur.
+   *
    * @return the image to blur
    */
   Image blur();
 
   /**
    * create an image that is sharpening.
+   *
    * @return the image to sharpening
    */
   Image sharpen();
 
   /**
    * create an image that is greyscale.
+   *
    * @return the image to greyscale
    */
   Image greyscale();
+
   /**
    * create an image that is sepia tone.
+   *
    * @return the image to sepia tone
    */
   Image sepiaTone();
 
   /**
    * create a list of pixels.
+   *
    * @return a list of pixels
    * @throws IllegalArgumentException if it's null
    */

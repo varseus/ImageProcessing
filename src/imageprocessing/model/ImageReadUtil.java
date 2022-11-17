@@ -17,12 +17,15 @@ import javax.imageio.ImageIO;
  * This class contains utility methods to read and write PPM
  * images to and from files.
  */
-public class ImageReadUtil {
+class ImageReadUtil {
   /**
    * Read an image file in the PPM format and produce
    * a corresponding matrix of pixels.
    *
    * @param filepath the path of the file.
+   * @return the Image's pixels from a file
+   * @throw IllegalArgumentException if invalid filepath
+   * @throw NullPointerException if null args
    */
   public static ArrayList<ArrayList<Pixel>> readPPM(String filepath)
           throws IllegalArgumentException, NullPointerException {
@@ -63,7 +66,8 @@ public class ImageReadUtil {
 
     if (sc.hasNext()) {
       if (!sc.next().equals("P3")) {
-        throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
+        throw new IllegalArgumentException(
+                "Invalid PPM file: plain RAW file should begin with P3");
       }
     } else {
       throw new IllegalArgumentException("Cannot read empty file.");
@@ -100,14 +104,16 @@ public class ImageReadUtil {
   }
 
   /**
-   * Read an image file in the GIF, PNG, JPEG, BMP, and WBMP format and produce
+   * Read an image file in the PPM, GIF, PNG, JPEG, BMP, WBMP... format and produce
    * a corresponding matrix of pixels.
+   *
    * @param filepath the path of the file.
    * @return pixels
-   * @throws IllegalArgumentException if file cannot find.
-   * @throws NullPointerException if it's null
+   * @throws IllegalArgumentException if file is invalid
+   * @throws NullPointerException     if null args
    */
-  public static ArrayList<ArrayList<Pixel>> readFile(String filepath) throws IllegalArgumentException,
+  public static ArrayList<ArrayList<Pixel>> readFile(String filepath)
+          throws IllegalArgumentException,
           NullPointerException {
     Objects.requireNonNull(filepath);
 
@@ -118,8 +124,8 @@ public class ImageReadUtil {
     acceptedTypes.put(".ppm", true);
     BufferedImage bufferedImage;
 
-    if (filepath.indexOf(".") < 0 ||
-            acceptedTypes.get(filepath.substring(filepath.indexOf("."))) == null) {
+    if (filepath.lastIndexOf(".") < 0 ||
+            acceptedTypes.get(filepath.substring(filepath.lastIndexOf("."))) == null) {
       throw new IllegalArgumentException(
               "Invalid filepath, " + filepath + ", filepath must end in one of:" +
                       acceptedTypes.keySet().stream().map(type -> " " + type).collect(
@@ -146,7 +152,8 @@ public class ImageReadUtil {
             BufferedImage.TYPE_INT_RGB);
     convertedBufferedImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
-    int[] pixelList = ((DataBufferInt) convertedBufferedImage.getRaster().getDataBuffer()).getData();
+    int[] pixelList =
+            ((DataBufferInt) convertedBufferedImage.getRaster().getDataBuffer()).getData();
 
     ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
     for (int i = 0; i < convertedBufferedImage.getHeight(); i++) {

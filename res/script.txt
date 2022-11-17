@@ -1,0 +1,31 @@
+load res/square.ppm square
+
+red-component square squareRed
+
+value-component square squareValue
+
+horizontal-flip squareValue squareValueHorizontal
+
+brighten squareRed squareRedBright 50
+
+blur square squareBlur
+
+sharpen square squareSharpen
+
+greyscale square squareGreyscale
+
+sepiaTone square squareSepiaTone
+
+save squareRed res/square-red-grayscale.ppm
+save squareValue res/square-value.png
+save squareValueHorizontal res/square-horizontal.jpg
+save squareRedBright res/square-brighten-by50ppm.bmp
+save squareBlur res/square-blur.gif
+save squareSharpen res/square-sharpen.ppm
+save squareGreyscale res/square-greyscale.ppm
+save squareSepiaTone res/square-sepia-tone.ppm
+save squareBlur res/square.bmp
+save squareBlur res/square.png
+save squareBlur res/square.jpeg
+#quit
+q

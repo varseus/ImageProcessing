@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- *  The {@code GreyscaleImage} represents an image composed of only grey pixels.
+ * The {@code GreyscaleImage} represents an image composed of only grey pixels.
+ * Version 2 changes: refactored constructor to not take explicit maxValue for pixels.
+ *
+ * @version 2
  */
 class GreyscaleImage extends BasicImage {
   /**
@@ -14,7 +17,7 @@ class GreyscaleImage extends BasicImage {
    * @param maxValue the maxValue of each pixel
    * @throws IllegalArgumentException if any pixel has the wrong maxValue, maxValue is negative,
    *                                  the matrix is not rectangular, or the image is empty;
-   * @throws NullPointerException if null args
+   * @throws NullPointerException     if null args
    */
   public GreyscaleImage(ArrayList<ArrayList<GreyscalePixel>> pixels)
           throws IllegalArgumentException {

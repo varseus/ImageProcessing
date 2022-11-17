@@ -1,11 +1,13 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
- * all calls made to it to a log.
+ * all calls made to it to a log. Version 2 changes: added support
+ * for blur/sharpen/greyscale/sepiatone; save method moved to view.
+ *
+ * @version 2
  */
 public class MockImageProcessingModel implements ImageProcessingModel {
   private final Appendable log;
@@ -313,6 +315,7 @@ public class MockImageProcessingModel implements ImageProcessingModel {
 
   /**
    * the list of pixels.
+   *
    * @param imageName the name of the image
    * @return a list of pixels of this image with string
    * @throws IllegalArgumentException if it's null

@@ -3,16 +3,20 @@ package imageprocessing.model;
 import java.util.ArrayList;
 
 /**
- * This class represents operations that should be offered
- * by a pixel in an image which is processable.
+ * The {@code Pixel} represents operations that should be offered
+ * by a pixel in an image which is processable. Version 2 changes:
+ * added support for blur/sharpen/greyscale/sepiatone.
+ *
+ * @version 2
  */
 public interface Pixel {
 
   /**
+   * Filter this pixel's specified channel by the given kernel.
    *
-   * @param kernel
-   * @param channel
-   * @return
+   * @param kernel to filter by
+   * @param channel one of "R", "G", or "B"
+   * @return the new channel component after filtering
    */
   int filter(Double kernel, String channel);
 
@@ -99,27 +103,29 @@ public interface Pixel {
   int intRGB();
 
   /**
-   * Blur this pixel, given the surrounding pixels.
+   * Create a picture that is a blur of this pixel, given the surrounding pixels.
    *
    * @return the blurred pixel
    */
   Pixel blur(ArrayList<ArrayList<Pixel>> pixels, int x, int y);
 
   /**
-   * Sharpen this pixel, given the surrounding pixels.
+   * Create a picture that is sharper than this pixel, given the surrounding pixels.
    *
    * @return the sharpened pixel
    */
   Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y);
 
   /**
-   * greyscale this pixel, given the surrounding pixels.
+   * Create a picture that is a greyscale of this pixel.
+   *
    * @return the greyscale pixel
    */
   GreyscalePixel greyscale();
 
   /**
-   * sepia tone this pixel, given the surrounding pixels.
+   * Create a pixel that is the sepia tone this pixel.
+   *
    * @return the sepia tone pixel
    */
   Pixel sepiaTone();

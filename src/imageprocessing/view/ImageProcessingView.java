@@ -4,7 +4,10 @@ import java.io.IOException;
 
 /**
  * This class represents operations that should be
- * offered by a text-based view of the image processor.
+ * offered by a text-based view of the image processor. Version 2 changes =>
+ * added saveImageToFile method.
+ *
+ * @version 2
  */
 public interface ImageProcessingView {
   /**

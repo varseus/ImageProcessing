@@ -9,7 +9,11 @@ import java.util.stream.Collectors;
  * the {@code BasePPMImage} represents operations offered by an image which
  * is processable and can be converted to ASCII PPM. Operations include:
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
- * flip horizontally/vertically, and load image to and from PPM.
+ * flip horizontally/vertically, blur/sharpen, greyscale/sepiatone, and load image to and from PPM.
+ * Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save method moved to
+ * view. Added pixels() method to retrieve pixels from this image.
+ *
+ * @version 2
  */
 class BasicImage implements Image {
   private final ArrayList<ArrayList<Pixel>> pixels;
@@ -237,7 +241,7 @@ class BasicImage implements Image {
   public Image blur() {
     ArrayList<ArrayList<Pixel>> pixels = new ArrayList<>(this.pixels);
     ArrayList<ArrayList<Pixel>> blurredPixels = new ArrayList<>();
-    for(int i = 0; i < this.pixels.size(); i++) {
+    for (int i = 0; i < this.pixels.size(); i++) {
       ArrayList<Pixel> blurredRow = new ArrayList<>();
       for (int j = 0; j < this.pixels.get(0).size(); j++) {
         blurredRow.add(this.pixels.get(i).get(j).blur(pixels, i, j));
@@ -257,7 +261,7 @@ class BasicImage implements Image {
   public Image sharpen() {
     ArrayList<ArrayList<Pixel>> pixels = new ArrayList<>(this.pixels);
     ArrayList<ArrayList<Pixel>> sharpenedPixels = new ArrayList<>();
-    for(int i = 0; i < this.pixels.size(); i++) {
+    for (int i = 0; i < this.pixels.size(); i++) {
       ArrayList<Pixel> sharpenedRow = new ArrayList<>();
       for (int j = 0; j < this.pixels.get(0).size(); j++) {
         sharpenedRow.add(this.pixels.get(i).get(j).sharpen(pixels, i, j));
@@ -289,6 +293,7 @@ class BasicImage implements Image {
 
   /**
    * create a list of pixels.
+   *
    * @return a list of pixels
    * @throws IllegalArgumentException if it's null
    */
@@ -303,6 +308,7 @@ class BasicImage implements Image {
 
   /**
    * the main method.
+   *
    * @param args main
    */
   public static void main(String[] args) {

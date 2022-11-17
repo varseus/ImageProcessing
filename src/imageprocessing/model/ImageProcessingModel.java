@@ -1,12 +1,14 @@
 package imageprocessing.model;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This interface represents operations that should be offered by a model for an image processor.
- * One object of the model represents one image processor.
+ * The {@code ImageProcessingModel} interface represents operations that should be offered
+ * by a model for an image processor. One object of the model represents one image processor.
+ * Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save
+ * method moved to view; added pixels method to retrieve an image's pixels.
+ *
+ * @version 2
  */
 public interface ImageProcessingModel {
   /**
@@ -191,6 +193,7 @@ public interface ImageProcessingModel {
 
   /**
    * the list of pixels.
+   *
    * @param imageName the name of the image
    * @return a list of pixels of this image
    * @throws IllegalArgumentException if it's null

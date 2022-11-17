@@ -6,16 +6,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
-import java.io.InputStreamReader;
 
-import imageprocessing.model.BasicImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
 
 /**
  * The {@code TextScriptedImageProcessingController} represents
  * the operations offered b a controller for an image processor
- * operating through text commands.
+ * operating through text commands. Version 2 changes =>
+ * added/darken/blur/greyscale commands; refactored save command to use
+ * the view instead of the model.
+ *
+ * @version 2
  */
 public class TextScriptedImageProcessingController implements ImageProcessingController {
   private final ImageProcessingModel model;
@@ -72,24 +74,6 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
             this.model.greyscale(this.getFrom(), this.getTo()))));
     this.commandMap.put("sepia", (() -> (
             this.model.sepiaTone(this.getFrom(), this.getTo()))));
-  }
-
-  /**
-   * Entry point for running this ImageProcessing controller
-   * inputting and outputting to console.
-   *
-   * @param args command line args
-   * @throws IOException if unable to transmit/read data
-   */
-  public static void main(String[] args) throws IOException {
-    BasicImageProcessingModel model = new BasicImageProcessingModel();
-    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out, model);
-    TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
-            model,
-            view,
-            new InputStreamReader(System.in));
-
-    controller.startProcessor();
   }
 
   /**

@@ -1,5 +1,6 @@
 import imageprocessing.view.ImageProcessingView;
 import imageprocessing.view.TextScriptImageProcessingView;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +12,11 @@ import imageprocessing.model.ImageProcessingModel;
 import static org.junit.Assert.assertEquals;
 
 /**
- * The {@code TestView} to test the methods in TestView class.
+ * The {@code TestView} to test the methods in TestView class. Version 2 changes: added
+ * tests for new functionality of controller. Switched tests
+ * to measure equality by comparing image pixels as strings.
+ *
+ * @version 2
  */
 public class TestView {
   private ImageProcessingView view;
@@ -108,5 +113,44 @@ public class TestView {
   public void testRenderMessage() throws IOException {
     this.view.renderMessage("This is a message.");
     assertEquals("This is a message.", this.output.toString());
+  }
+
+  /**
+   * To test save.
+   */
+  @Test
+  public void testSaveAndLoadImageFromPPMAndPNG() throws IOException {
+    this.model.loadImageFromFile("res/square.png", "square");
+    this.view.saveImageToFile("square", "testRes/square.png");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * To test save to bad path.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSaveAndLoadImageFromPPMAndPNGBad() throws IOException {
+    this.model.loadImageFromFile("res/square.png", "square");
+    this.view.saveImageToFile("square", "testRes/square.greger");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * To test save to bad path.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSaveAndLoadImageFromPPMAndPNGBad2() throws IOException {
+    this.model.loadImageFromFile("res/square.png", "square");
+    this.view.saveImageToFile("square", "square");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
   }
 }

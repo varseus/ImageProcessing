@@ -2,15 +2,14 @@ package imageprocessing.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.atomic.DoubleAdder;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 /**
- * the {@code RGBPixel} represent operations that should be offered
- * * by a pixel in an image which is processable.
+ * The {@code RGBPixel} represent operations that should be offered
+ * by a pixel in an image which is processable. Version 2 changes: added
+ * support for various filters / color transformations.
+ *
+ * @version 2
  */
 class RGBPixel implements Pixel {
   protected final int R;
@@ -33,19 +32,17 @@ class RGBPixel implements Pixel {
                   new ArrayList<Double>(Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))
           ));
 
-  private final ArrayList<ArrayList<Double>> GREYSCALE_KERNEL = new ArrayList<>(
-          Arrays.asList(
+  private final ArrayList<ArrayList<Double>> GREYSCALE_KERNEL =
+          new ArrayList<>(Arrays.asList(new ArrayList<Double>(
+                          Arrays.asList(0.2126, 0.7152, 0.0722)),
                   new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722)),
-                  new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722)),
-                  new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722))
-          ));
+                  new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722))));
 
-  private final ArrayList<ArrayList<Double>> SEPIA_KERNEL = new ArrayList<>(
-          Arrays.asList(
-                  new ArrayList<Double>(Arrays.asList(0.393, 0.769, 0.189)),
+  private final ArrayList<ArrayList<Double>> SEPIA_KERNEL =
+          new ArrayList<>(Arrays.asList(new ArrayList<Double>(
+                          Arrays.asList(0.393, 0.769, 0.189)),
                   new ArrayList<Double>(Arrays.asList(0.349, 0.686, 0.168)),
-                  new ArrayList<Double>(Arrays.asList(0.272, 0.534, 0.131))
-          ));
+                  new ArrayList<Double>(Arrays.asList(0.272, 0.534, 0.131))));
 
   /**
    * Instantiate this pixel with the given rgb values.
@@ -128,9 +125,8 @@ class RGBPixel implements Pixel {
    */
   @Override
   public GreyscalePixel lumaComponent() {
-    return new GreyscalePixel(
-            Math.min((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B), this.maxValue),
-            this.maxValue);
+    return new GreyscalePixel(Math.min((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
+            this.maxValue), this.maxValue);
   }
 
   /**
@@ -142,8 +138,7 @@ class RGBPixel implements Pixel {
    */
   @Override
   public Pixel brighten(int amount) {
-    return new RGBPixel(
-            Math.max(Math.min(this.R + amount, this.maxValue), 0),
+    return new RGBPixel(Math.max(Math.min(this.R + amount, this.maxValue), 0),
             Math.max(Math.min(this.G + amount, this.maxValue), 0),
             Math.max(Math.min(this.B + amount, this.maxValue), 0),
             this.maxValue);
@@ -193,7 +188,8 @@ class RGBPixel implements Pixel {
 
   /**
    * the filter for the pixel.
-   * @param kernel each point
+   *
+   * @param kernel  each point
    * @param channel the color for each channel
    * @return
    */
@@ -217,33 +213,33 @@ class RGBPixel implements Pixel {
 
   /**
    * make a filter's channel to assume kernel is square.
-   * @param pixels pixels as a matrix
-   * @param kernel a square
+   *
+   * @param pixels  pixels as a matrix
+   * @param kernel  a square
    * @param channel cahnnel for pixels
-   * @param row pixels' row
-   * @param col pixels' col
+   * @param row     pixels' row
+   * @param col     pixels' col
    * @return the channel
    */
   private int filterChannel(ArrayList<ArrayList<Pixel>> pixels,
                             ArrayList<ArrayList<Double>> kernel,
                             String channel,
-                            int row,
-                            int col) {
+                            int row, int col) {
 
     DoubleStream.Builder pixelVal = DoubleStream.builder();
     int kernelSize = kernel.size();
     for (int i = row - kernelSize / 2; i <= row + kernelSize / 2; i++) {
       for (int j = col - kernelSize / 2; j <= col + kernelSize / 2; j++) {
         if (i >= 0 && i < pixels.size() && j >= 0 && j < pixels.get(0).size()) {
-          pixelVal.add(pixels.get(i).get(j)
-                  .filter(kernel
-                          .get(i - (row - kernelSize / 2))
+          pixelVal.add(pixels.get(i).get(j).filter(
+                  kernel.get(i - (row - kernelSize / 2))
                           .get(j - (col - kernelSize / 2)), channel));
         }
       }
     }
     return Math.max(Math.min((int) pixelVal.build().sum(), this.maxValue), 0);
   }
+
   /**
    * Blur this pixel, given the surrounding pixels.
    *
@@ -251,13 +247,12 @@ class RGBPixel implements Pixel {
    */
   @Override
   public Pixel blur(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
-    return new RGBPixel(
-            this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "R", x, y),
+    return new RGBPixel(this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "R", x, y),
             this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "G", x, y),
             this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "B", x, y),
-            this.maxValue
-    );
+            this.maxValue);
   }
+
   /**
    * Sharpen this pixel, given the surrounding pixels.
    *
@@ -265,12 +260,10 @@ class RGBPixel implements Pixel {
    */
   @Override
   public Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
-    return new RGBPixel(
-            this.filterChannel(pixels, SHARPEN_KERNEL, "R", x, y),
+    return new RGBPixel(this.filterChannel(pixels, SHARPEN_KERNEL, "R", x, y),
             this.filterChannel(pixels, SHARPEN_KERNEL, "G", x, y),
             this.filterChannel(pixels, SHARPEN_KERNEL, "B", x, y),
-            this.maxValue
-    );
+            this.maxValue);
   }
 
   /**
@@ -305,25 +298,24 @@ class RGBPixel implements Pixel {
 
     return new GreyscalePixel(value, this.maxValue);
   }
+
   /**
    * sepia tone this pixel, given the surrounding pixels.
+   *
    * @return the sepia tone pixel
    */
   @Override
   public Pixel sepiaTone() {
-    return this.colorTransformation(
-            this.SEPIA_KERNEL
-    );
+    return this.colorTransformation(this.SEPIA_KERNEL);
   }
 
   /**
    * greyscale this pixel, given the surrounding pixels.
+   *
    * @return the greyscale pixel
    */
   @Override
   public GreyscalePixel greyscale() {
-    return this.colorTransformationGreyscale(
-            this.GREYSCALE_KERNEL
-    );
+    return this.colorTransformationGreyscale(this.GREYSCALE_KERNEL);
   }
 }

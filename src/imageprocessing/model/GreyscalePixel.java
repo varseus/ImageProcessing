@@ -1,7 +1,7 @@
 package imageprocessing.model;
 
 /**
- * the {@code GreyscalePixel} represent a pixel that is grey.
+ * The {@code GreyscalePixel} represent a pixel that is grey.
  */
 class GreyscalePixel extends RGBPixel {
   /**
@@ -14,18 +14,5 @@ class GreyscalePixel extends RGBPixel {
    */
   public GreyscalePixel(int value, int maxValue) throws IllegalArgumentException {
     super(value, value, value, maxValue);
-  }
-
-  /**
-   * to convert the pixel to grey.
-   *
-   * @param amount the name of the pixel to brighten
-   * @return pixel in grey.
-   */
-  @Override
-  public GreyscalePixel brighten(int amount) {
-    return new GreyscalePixel(
-            Math.max(Math.min(this.R + amount, this.maxValue), 0),
-            this.maxValue);
   }
 }

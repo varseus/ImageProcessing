@@ -1,5 +1,6 @@
 import imageprocessing.controller.TextScriptedImageProcessingController;
 import imageprocessing.view.TextScriptImageProcessingView;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,7 +13,11 @@ import imageprocessing.model.MockImageProcessingModel;
 import static org.junit.Assert.assertEquals;
 
 /**
- * The {@code TestController} to test the controller methods.
+ * The {@code TestController} to test the controller methods. Version 2 changes:
+ * added tests for new functionality of controller. Switched tests
+ * to measure equality by comparing image pixels as strings.
+ *
+ * @version 2
  */
 public class TestController {
   private StringBuilder mockOutput;
@@ -179,10 +184,10 @@ public class TestController {
                     "   vertical-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
                     "   brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
                     "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
-            "   blur IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   sharpen IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   greyscale IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   sepia IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   blur IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   sharpen IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   greyscale IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   sepia IMAGE-NAME DEST-IMAGE-NAME\n" +
                     "Commands to try:\n" +
                     "   load IMAGE-PATH IMAGE-NAME\n" +
                     "   save IMAGE-NAME IMAGE-PATH\n" +
@@ -196,10 +201,10 @@ public class TestController {
                     "   vertical-flip IMAGE-NAME DEST-IMAGE-NAME\n" +
                     "   brighten IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
                     "   darken IMAGE-NAME DEST-IMAGE-NAME INCREMENT\n" +
-            "   blur IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   sharpen IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   greyscale IMAGE-NAME DEST-IMAGE-NAME\n" +
-            "   sepia IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   blur IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   sharpen IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   greyscale IMAGE-NAME DEST-IMAGE-NAME\n" +
+                    "   sepia IMAGE-NAME DEST-IMAGE-NAME\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -222,7 +227,7 @@ public class TestController {
                     "Attempting to do save.\n" +
                     "... From: square ...\n" +
                     "... To: res/square.ppm ...\n" +
-                    " Unrecognized file suffix in filepath: res/square.ppm. File path must end in one of: tif, jpg, tiff, bmp, gif, png, wbmp, jpeg.\n" +
+                    "Success!\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -241,7 +246,8 @@ public class TestController {
                     "Attempting to do load.\n" +
                     "... From: BAD ...\n" +
                     "... To: square ...\n" +
-                    " Invalid filepath, BAD, filepath must end in one of: .gif, .bmp, .wbmp, .jpg, .tif, .ppm, .jpeg, .tiff, .png.\n" +
+                    " Invalid filepath, BAD, filepath must end in one of: " +
+                    ".gif, .bmp, .wbmp, .jpg, .tif, .ppm, .jpeg, .tiff, .png.\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -287,8 +293,8 @@ public class TestController {
                     "Attempting to do save.\n" +
                     "... From: square ...\n" +
                     "... To: res/square.bad ...\n" +
-                    " Unrecognized file suffix in filepath: res/square.bad. File path must end " +
-                    "in one of: tif, jpg, tiff, bmp, gif, png, wbmp, jpeg.\n" +
+                    " Unrecognized file suffix in filepath: res/square.bad. File path must " +
+                    "end in one of: ppm, tif, jpg, tiff, bmp, gif, png, jpeg, wbmp.\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -311,8 +317,8 @@ public class TestController {
                     "Attempting to do save.\n" +
                     "... From: square ...\n" +
                     "... To: bad ...\n" +
-                    " Unrecognized file suffix in filepath: bad. File path must end " +
-                    "in one of: tif, jpg, tiff, bmp, gif, png, wbmp, jpeg.\n" +
+                    " Unrecognized file suffix in filepath: bad. File path must end in" +
+                    " one of: ppm, tif, jpg, tiff, bmp, gif, png, jpeg, wbmp.\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -335,7 +341,7 @@ public class TestController {
             "horizontal-flip square squareH " +
             "vertical-flip square squareV " +
             "blur square squareVBlur " +
-           "sharpen square squareSharpen " +
+            "sharpen square squareSharpen " +
             "greyscale square squareGreyscale " +
             "sepia square squareSepia q\n");
     this.controller.startProcessor();
@@ -386,22 +392,22 @@ public class TestController {
                     "... From: square ...\n" +
                     "... To: squareV ...\n" +
                     "Success!\n" +
-            "Attempting to do blur.\n" +
-            "... From: square ...\n" +
-            "... To: squareVBlur ...\n" +
-            "Success!\n" +
-            "Attempting to do sharpen.\n" +
-            "... From: square ...\n" +
-            "... To: squareSharpen ...\n" +
-            "Success!\n" +
-            "Attempting to do greyscale.\n" +
-            "... From: square ...\n" +
-            "... To: squareGreyscale ...\n" +
-            "Success!\n" +
-            "Attempting to do sepia.\n" +
-            "... From: square ...\n" +
-            "... To: squareSepia ...\n" +
-            "Success!\n" +
+                    "Attempting to do blur.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareVBlur ...\n" +
+                    "Success!\n" +
+                    "Attempting to do sharpen.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSharpen ...\n" +
+                    "Success!\n" +
+                    "Attempting to do greyscale.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareGreyscale ...\n" +
+                    "Success!\n" +
+                    "Attempting to do sepia.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSepia ...\n" +
+                    "Success!\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -424,9 +430,9 @@ public class TestController {
             "horizontal-FLIP square squareH " +
             "vertical-Flip square squareV " +
             "bLur square squareBlur " +
-        "ShaRpeN square squareSharpen " +
-        "greyScale square squareGreyscale " +
-        "sEPIa square squareSepia q\n");
+            "ShaRpeN square squareSharpen " +
+            "greyScale square squareGreyscale " +
+            "sEPIa square squareSepia q\n");
     this.controller.startProcessor();
 
     assertEquals("WELCOME TO IMAGE PROCESSOR\n" +
@@ -475,22 +481,22 @@ public class TestController {
                     "... From: square ...\n" +
                     "... To: squareV ...\n" +
                     "Success!\n" +
-            "Attempting to do blur.\n" +
-            "... From: square ...\n" +
-            "... To: squareBlur ...\n" +
-            "Success!\n" +
-            "Attempting to do sharpen.\n" +
-            "... From: square ...\n" +
-            "... To: squareSharpen ...\n" +
-            "Success!\n" +
-            "Attempting to do greyscale.\n" +
-            "... From: square ...\n" +
-            "... To: squareGreyscale ...\n" +
-            "Success!\n" +
-            "Attempting to do sepia.\n" +
-            "... From: square ...\n" +
-            "... To: squareSepia ...\n" +
-            "Success!\n" +
+                    "Attempting to do blur.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareBlur ...\n" +
+                    "Success!\n" +
+                    "Attempting to do sharpen.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSharpen ...\n" +
+                    "Success!\n" +
+                    "Attempting to do greyscale.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareGreyscale ...\n" +
+                    "Success!\n" +
+                    "Attempting to do sepia.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSepia ...\n" +
+                    "Success!\n" +
                     "Bye!\n",
             this.mockOutput.toString());
   }
@@ -511,9 +517,9 @@ public class TestController {
             "darken square squareDarker 50 " +
             "horizontal-flip square squareH " +
             "vertical-flip square squareV " +
-        "blur square squareVBlur " +
-        "sharpen square squareSharpen " +
-        "greyscale square squareGreyscale " +
+            "blur square squareVBlur " +
+            "sharpen square squareSharpen " +
+            "greyscale square squareGreyscale " +
             "sepia square squareSepia q\n");
     this.controller.startProcessor();
 
@@ -559,23 +565,23 @@ public class TestController {
                     "... From: square ...\n" +
                     "... To: squareV ...\n" +
                     " Given image name does not exist in this processor.\n" +
-            "Attempting to do blur.\n" +
-            "... From: square ...\n" +
-            "... To: squareVBlur ...\n" +
-            " Given image name does not exist in this processor.\n" +
-            "Attempting to do sharpen.\n" +
-            "... From: square ...\n" +
-            "... To: squareSharpen ...\n" +
-            " Given image name does not exist in this processor.\n" +
-            "Attempting to do greyscale.\n" +
-            "... From: square ...\n" +
-            "... To: squareGreyscale ...\n" +
-            " Given image name does not exist in this processor.\n" +
-            "Attempting to do sepia.\n" +
-            "... From: square ...\n" +
-            "... To: squareSepia ...\n" +
-            " Given image name does not exist in this processor.\n" +
-            "Bye!\n",
+                    "Attempting to do blur.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareVBlur ...\n" +
+                    " Given image name does not exist in this processor.\n" +
+                    "Attempting to do sharpen.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSharpen ...\n" +
+                    " Given image name does not exist in this processor.\n" +
+                    "Attempting to do greyscale.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareGreyscale ...\n" +
+                    " Given image name does not exist in this processor.\n" +
+                    "Attempting to do sepia.\n" +
+                    "... From: square ...\n" +
+                    "... To: squareSepia ...\n" +
+                    " Given image name does not exist in this processor.\n" +
+                    "Bye!\n",
             this.mockOutput.toString());
   }
 
@@ -595,11 +601,11 @@ public class TestController {
             "brighten square squareBrighter 50 " +
             "darken square squareDarker 50 " +
             "horizontal-flip square squareH " +
-           "vertical-flip square squareV " +
-           "blur square squareVBlur " +
-           "sharpen square squareSharpen "  +
-           "greyscale square squareGreyscale " +
-           "sepia square squareSepia q\n");
+            "vertical-flip square squareV " +
+            "blur square squareVBlur " +
+            "sharpen square squareSharpen " +
+            "greyscale square squareGreyscale " +
+            "sepia square squareSepia q\n");
 
     Appendable modelLog = new StringBuilder();
     this.model = new MockImageProcessingModel(modelLog);
@@ -619,10 +625,10 @@ public class TestController {
                     "darken square to squareDarker 50\n" +
                     "horizontal square to squareH\n" +
                     "vertical square to squareV\n" +
-            "blur square to squareVBlur\n" +
-            "sharpen square to squareSharpen\n" +
-            "greyscale square to squareGreyscale\n" +
-            "sepiaTone square to squareSepia\n",
+                    "blur square to squareVBlur\n" +
+                    "sharpen square to squareSharpen\n" +
+                    "greyscale square to squareGreyscale\n" +
+                    "sepiaTone square to squareSepia\n",
             modelLog.toString());
   }
 

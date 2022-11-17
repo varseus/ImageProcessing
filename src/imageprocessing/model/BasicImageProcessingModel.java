@@ -1,16 +1,18 @@
 package imageprocessing.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * The {@code BasePPMImageProcessingModel} represents the operations and state of an image
  * processor, intended to process a set of PPM images. Operations include:
  * get red/green/blue components, get value/intensity/luma components, bright, darken,
- * flip horizontally/vertically, and load image to and from PPM.
+ * flip horizontally/vertically, and load image to and from PPM. Version 2 changes:
+ * added support for blur/sharpen/greyscale/sepiatone; save
+ * method moved to view; added pixels method to retrieve an image's pixels.
+ *
+ * @version 2
  */
 public class BasicImageProcessingModel implements ImageProcessingModel {
   private final Map<String, Image> images;
@@ -24,7 +26,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName the name to give the loaded image
-   * @param filepath      the file to load the image from
+   * @param filepath  the file to load the image from
    * @return null object for use in Callable<> lambda
    * @throws IllegalArgumentException if the file is invalid
    */
@@ -240,15 +242,16 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * create an image that is blur to the given image, and load it with the given name.
-   * @param imageName the name of the image to blur
+   * Create an image that is a blur of the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to blur
    * @param destImageName the name to give the new image
    * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
   public Void blur(String imageName, String destImageName)
-      throws IllegalArgumentException{
+          throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).blur());
     } catch (Exception e) {
@@ -258,25 +261,28 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * create an image that is sharpening to the given image, and load it with the given name.
-   * @param imageName the name of the image to sharpening
+   * Create an image that is sharpened version of
+   * the given image, and load it with the given name.
+   *
+   * @param imageName     the name of the image to sharpen
    * @param destImageName the name to give the new image
    * @return null for use in Callable<> lambda expression
    * @throws IllegalArgumentException if the image does not exist
    */
-@Override
- public Void sharpen(String imageName, String destImageName)
-      throws IllegalArgumentException{
-  try {
-    images.put(destImageName, images.get(imageName).sharpen());
-  } catch (Exception e) {
-    throw new IllegalArgumentException("Given image name does not exist in this processor.");
+  @Override
+  public Void sharpen(String imageName, String destImageName)
+          throws IllegalArgumentException {
+    try {
+      images.put(destImageName, images.get(imageName).sharpen());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
+    return null;
   }
-  return null;
-}
 
   /**
-   * create an image that is greyscale to the given image, and load it with the given name.
+   * Create an image that is greyscale of the given image, and load it with the given name.
+   *
    * @param imageName     the name of the image to greyscale
    * @param destImageName the name to give the new image
    * @return null for use in Callable<> lambda expression
@@ -284,16 +290,17 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
-      try {
-        images.put(destImageName, images.get(imageName).greyscale());
-      } catch (Exception e) {
-        throw new IllegalArgumentException("Given image name does not exist in this processor.");
-      }
-      return null;
+    try {
+      images.put(destImageName, images.get(imageName).greyscale());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
     }
+    return null;
+  }
 
   /**
-   * create an image that is sepiaTone to the given image, and load it with the given name.
+   * Create an image that is sepiaTone of the given image, and load it with the given name.
+   *
    * @param imageName     the name of the image to sepia tone
    * @param destImageName the name to give the new image
    * @return null for use in Callable<> lambda expression
@@ -301,19 +308,20 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
-        try {
-          images.put(destImageName, images.get(imageName).sepiaTone());
-        } catch (Exception e) {
-          throw new IllegalArgumentException("Given image name does not exist in this processor.");
-        }
-        return null;
-      }
+    try {
+      images.put(destImageName, images.get(imageName).sepiaTone());
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
+    return null;
+  }
 
   /**
-   * the list of pixels.
-   * @param imageName the name of the image
-   * @return a list of pixels of this image
-   * @throws IllegalArgumentException if it's null
+   * Get the list of pixels from an image.
+   *
+   * @param imageName the name of the image to get the pixels from
+   * @return a list of pixels of the image
+   * @throws IllegalArgumentException if the image does not exist
    */
   @Override
   public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {
