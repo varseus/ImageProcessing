@@ -16,21 +16,22 @@ class RGBPixel implements Pixel {
   protected final int G;
   protected final int B;
   protected final int maxValue;
-
   private final ArrayList<ArrayList<Double>> GAUSSIAN_BLUR_KERNEL =
-          new ArrayList<ArrayList<Double>>(
-                  Arrays.asList(
-                          new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16)),
-                          new ArrayList<Double>(Arrays.asList(1.0 / 8, 1.0 / 4, 1.0 / 8)),
-                          new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16))));
-  private final ArrayList<ArrayList<Double>> SHARPEN_KERNEL = new ArrayList<ArrayList<Double>>(
-          Arrays.asList(
-                  new ArrayList<Double>(Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))
-          ));
+          new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
+                          Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16)),
+                  new ArrayList<Double>(Arrays.asList(1.0 / 8, 1.0 / 4, 1.0 / 8)),
+                  new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16))));
+  private final ArrayList<ArrayList<Double>> SHARPEN_KERNEL =
+          new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
+                          Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8)),
+                  new ArrayList<Double>(Arrays.asList(
+                          -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
+                  new ArrayList<Double>(Arrays.asList(
+                          -1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8)),
+                  new ArrayList<Double>(Arrays.asList(
+                          -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
+                  new ArrayList<Double>(Arrays.asList(
+                          -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))));
 
   private final ArrayList<ArrayList<Double>> GREYSCALE_KERNEL =
           new ArrayList<>(Arrays.asList(new ArrayList<Double>(
@@ -267,10 +268,11 @@ class RGBPixel implements Pixel {
   }
 
   /**
+   * Does the dot product of two vectors.
    *
-   * @param l1
-   * @param l2
-   * @return
+   * @param l1 the first vector
+   * @param l2 the second vector
+   * @return a number for result
    */
   private Double dotProduct(ArrayList<Integer> l1, ArrayList<Double> l2) {
     DoubleStream.Builder output = DoubleStream.builder();
@@ -281,6 +283,12 @@ class RGBPixel implements Pixel {
     return output.build().sum();
   }
 
+  /**
+   * the color Transformation method to make transmate color.
+   *
+   * @param kernel the matrix of kernel
+   * @return a pixel
+   */
   private Pixel colorTransformation(ArrayList<ArrayList<Double>> kernel) {
     ArrayList<Integer> rgb = new ArrayList<>(Arrays.asList(this.R, this.G, this.B));
 
@@ -291,6 +299,12 @@ class RGBPixel implements Pixel {
     return new RGBPixel(red, green, blue, this.maxValue);
   }
 
+  /**
+   * the color Transformation for Greyscale.
+   *
+   * @param kernel a matrix of kernel
+   * @return a Greyscale Pixel
+   */
   private GreyscalePixel colorTransformationGreyscale(ArrayList<ArrayList<Double>> kernel) {
     ArrayList<Integer> rgb = new ArrayList<>(Arrays.asList(this.R, this.G, this.B));
 

@@ -226,11 +226,222 @@ public class TestModel {
   @Test
   public void testBlurPng() throws IOException {
     this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-blur.png", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-blur.png");
+    this.model.loadImageFromFile("testRes/square-blur.png", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test blur method with ppm, then convert it to bmp.
+   */
+  @Test
+  public void testBlurBmp() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-blur.bmp", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-blur.bmp");
+    this.model.loadImageFromFile("testRes/square-blur.bmp", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test sharpen method with ppm, then convert it to png.
+   */
+  @Test
+  public void testSharpenPNG() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-Sharpen.png", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-sharpen.png");
+    this.model.loadImageFromFile("testRes/square-sharpen.png", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test sharpen method with ppm, then convert it to bmp.
+   */
+  @Test
+  public void testSharpenBmp() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sharpen.bmp", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-sharpen.bmp");
+    this.model.loadImageFromFile("testRes/square-sharpen.bmp", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test greyscale method with ppm, then convert it to png.
+   */
+  @Test
+  public void testGreyscalePNG() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-greyscale.png", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-greyscale.png");
+    this.model.loadImageFromFile("testRes/square-greyscale.png", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test greyscale method with ppm, then convert it to bmp.
+   */
+  @Test
+  public void testGreyscaleBmp() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-greyscale.bmp", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-greyscale.bmp");
+    this.model.loadImageFromFile("testRes/square-greyscale.bmp", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test sepia tone method with ppm, then convert it to png.
+   */
+  @Test
+  public void testSepiaPNG() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sepia-tone.png", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-sepia-tone.png");
+    this.model.loadImageFromFile("testRes/square-sepia-tone.png", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test sepia tone method with ppm, then convert it to bmp.
+   */
+  @Test
+  public void testSepiaBmp() throws IOException {
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sepia-tone.bmp", "squareExpected");
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("squareExpected", "testRes/square-sepia-tone.bmp");
+    this.model.loadImageFromFile("testRes/square-sepia-tone.bmp", "squareAfterLoadAndSave");
+    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+            this.model.pixels("squareExpected").toString());
+  }
+
+  /**
+   * Test loading ppm and png then to the blur.
+   */
+  @Test
+  public void testPNGBlur() throws IOException {
     ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
     view.saveImageToFile("square", "testRes/square.png");
     this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
-    assertEquals(this.model.pixels("squareExpected").toString(),
-        this.model.pixels("squareComponent").toString());
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-blur.png", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and bmp then to the blur.
+   */
+  @Test
+  public void testBmpBlur() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.bmp");
+    this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-blur.bmp", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and png then to sharpen.
+   */
+  @Test
+  public void testPNGSharpen() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.png");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sharpen.png", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and bmp then to sharpen.
+   */
+  @Test
+  public void testBmpSharpen() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.bmp");
+    this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sharpen.bmp", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and png then to greyscale.
+   */
+  @Test
+  public void testPNGGreyscale() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.png");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-greyscale.png", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and bmp then to greyscale.
+   */
+  @Test
+  public void testbmpGreyscale() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.bmp");
+    this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-greyscale.bmp", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and png then to sepia-tone.
+   */
+  @Test
+  public void testPNGSepiaTone() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.png");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sepia-tone.png", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
+  }
+
+  /**
+   * Test loading ppm and bmp then to sepia-tone.
+   */
+  @Test
+  public void testbmpSepiaTone() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile("square", "testRes/square.bmp");
+    this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
+    this.model.blur("square", "squareComponent");
+    this.model.loadImageFromFile("res/square-sepia-tone.bmp", "squareExpected");
+    assertEquals(this.model.pixels("square").toString(),
+            this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**

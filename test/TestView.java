@@ -23,6 +23,9 @@ public class TestView {
   private Appendable output;
   private ImageProcessingModel model;
 
+  /**
+   * the initial conditions.
+   */
   @Before
   public void setup() {
     this.model = new BasicImageProcessingModel();

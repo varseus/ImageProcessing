@@ -14,8 +14,7 @@ import javax.imageio.ImageIO;
 
 
 /**
- * This class contains utility methods to read and write PPM
- * images to and from files.
+ * The {@code ImageReadUtil} contains utility methods to read from files.
  */
 class ImageReadUtil {
   /**
