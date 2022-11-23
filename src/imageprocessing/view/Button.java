@@ -1,6 +1,7 @@
 package imageprocessing.view;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.border.CompoundBorder;
@@ -10,7 +11,8 @@ import javax.swing.border.LineBorder;
 public class Button extends JButton {
   public Button(String text,
                 Dimension size,
-                int textSize) {
+                int textSize,
+                ActionListener actionListener) {
     super(text);
     this.setContentAreaFilled(false);
     this.setBorder(new CompoundBorder(
@@ -23,5 +25,8 @@ public class Button extends JButton {
     this.setForeground(SwingView.MIDDLEGROUND_COLOR);
     this.setFont(new Font("Sans Serif", Font.PLAIN, textSize));
     this.setMaximumSize(size);
+
+    this.addActionListener(actionListener);
+    this.setActionCommand(text);
   }
 }

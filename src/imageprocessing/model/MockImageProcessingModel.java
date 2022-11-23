@@ -332,7 +332,7 @@ public class MockImageProcessingModel implements ImageProcessingModel {
   }
 
   @Override
-  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type) throws IllegalArgumentException {
+  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException {
     try{
       this.log.append("Making histogram for " + imageName + "\n");
     }  catch (Exception e) {

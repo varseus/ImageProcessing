@@ -13,7 +13,8 @@ import javax.swing.border.MatteBorder;
 import imageprocessing.model.Pixel;
 
 public class Histogram extends JPanel {
-  public static Dimension HISTOGRAM_DIMENSION = new Dimension(2*SwingView.WIDTH/3, 2*SwingView.HEIGHT/3);
+  public static Dimension HISTOGRAM_DIMENSION = new Dimension(2*SwingView.IMAGE_DIMENSION.width/3,
+          2*SwingView.IMAGE_DIMENSION.height/3);
   public Histogram(Map<Integer, Integer> redPixels,
                    Map<Integer, Integer> greenPixels,
                    Map<Integer, Integer> bluePixels,
@@ -23,6 +24,7 @@ public class Histogram extends JPanel {
     this.setLayout(null);
     this.setAlignmentY(0.5F);
     this.setMaximumSize(Histogram.HISTOGRAM_DIMENSION);
+    this.setPreferredSize(Histogram.HISTOGRAM_DIMENSION);
 
     // x axis
     this.setBorder(new MatteBorder(0,0,1,0, SwingView.FOREGROUND_COLOR));

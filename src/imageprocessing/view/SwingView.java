@@ -1,6 +1,9 @@
 package imageprocessing.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,8 +16,16 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class SwingView extends JFrame implements ImageProcessingSwingView, ListSelectionListener {
+import imageprocessing.controller.SwingAppFeatures;
+import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.ImageProcessingModel;
+
+public class SwingView extends JFrame implements ImageProcessingSwingView, ListSelectionListener, ActionListener {
+  private final ImageProcessingModel model;
+  private SwingAppFeatures features;
+
   public static final int WIDTH = 9 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
   public static final int HEIGHT = 8 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
   public static final Color BACKGROUND_COLOR = Color.decode("#000000");
@@ -23,23 +34,24 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
   public static final Dimension IMAGE_DIMENSION = new Dimension(
           3 * SwingView.WIDTH / 6, 3 * SwingView.HEIGHT / 5);
   public static final Dimension BUTTON_DIMENSION = new Dimension(
-          SwingView.WIDTH/7, SwingView.HEIGHT/10);
+          SwingView.WIDTH / 7, SwingView.HEIGHT / 10);
   public static final Dimension LOAD_BUTTON_DIMENSION = new Dimension(
-          SwingView.WIDTH/5, SwingView.HEIGHT/10);
+          SwingView.WIDTH / 5, SwingView.HEIGHT / 10);
   private JLabel imageLabel;
 
-  public SwingView() {
-    // setup
+  public SwingView(ImageProcessingModel model) {
     super();
+    this.model = model;
+
+    // setup
     this.setTitle("Swing features");
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setSize(SwingView.WIDTH, SwingView.HEIGHT);
     this.setBackground(SwingView.BACKGROUND_COLOR);
-
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (Exception e) {
-      //no default look and feel
+      // no default look and feel
     }
 
     // main panel
@@ -72,15 +84,15 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     imageLabel = new Text("No Image Loaded",
             SwingView.WIDTH / 50,
             SwingView.BACKGROUND_COLOR);
-    imageLabel.setMaximumSize(new Dimension(SwingView.IMAGE_DIMENSION.width*9/10,
-            SwingView.IMAGE_DIMENSION.height*9/10));
-    imageLabel.setPreferredSize(new Dimension(SwingView.IMAGE_DIMENSION.width*9/10,
-            SwingView.IMAGE_DIMENSION.height*9/10));
+    imageLabel.setMaximumSize(new Dimension(SwingView.IMAGE_DIMENSION.width * 9 / 10,
+            SwingView.IMAGE_DIMENSION.height * 9 / 10));
+    imageLabel.setPreferredSize(new Dimension(SwingView.IMAGE_DIMENSION.width * 9 / 10,
+            SwingView.IMAGE_DIMENSION.height * 9 / 10));
 
     // scroll panel for image
     JScrollPane imageScrollPane = new JScrollPane(imageLabel);
     imageScrollPane.setBackground(SwingView.BACKGROUND_COLOR);
-    imageScrollPane.setBorder(new EmptyBorder(10,10,10,10));
+    imageScrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
     imageScrollPane.setMaximumSize(SwingView.IMAGE_DIMENSION);
     imageScrollPane.setPreferredSize(SwingView.IMAGE_DIMENSION);
     panel1.add(imageScrollPane);
@@ -94,30 +106,32 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     // load button
     loadSavePanel.add(new Button("Load Image",
             SwingView.LOAD_BUTTON_DIMENSION,
-            SwingView.WIDTH/70));
+            SwingView.WIDTH / 70,
+            this));
 
     // padding between load and save buttons
     JPanel loadSavePadding = new JPanel();
-    loadSavePadding.setMaximumSize(new Dimension(SwingView.LOAD_BUTTON_DIMENSION.width, SwingView.LOAD_BUTTON_DIMENSION.height/4));
+    loadSavePadding.setMaximumSize(new Dimension(SwingView.LOAD_BUTTON_DIMENSION.width, SwingView.LOAD_BUTTON_DIMENSION.height / 4));
     loadSavePadding.setBackground(SwingView.BACKGROUND_COLOR);
     loadSavePanel.add(loadSavePadding);
 
     // save button
     loadSavePanel.add(new Button("Save Image",
             SwingView.LOAD_BUTTON_DIMENSION,
-            SwingView.WIDTH/70));
+            SwingView.WIDTH / 70,
+            this));
 
     // padding between load and save buttons
     JPanel loadSavePadding2 = new JPanel();
-    loadSavePadding2.setMaximumSize(new Dimension(SwingView.LOAD_BUTTON_DIMENSION.width, SwingView.LOAD_BUTTON_DIMENSION.height/2));
+    loadSavePadding2.setMaximumSize(new Dimension(SwingView.LOAD_BUTTON_DIMENSION.width, SwingView.LOAD_BUTTON_DIMENSION.height / 2));
     loadSavePadding2.setBackground(SwingView.BACKGROUND_COLOR);
     loadSavePanel.add(loadSavePadding2);
 
     // dropdown
     JComboBox imageOptions = new JComboBox();
-    TitledBorder imageOptionsTitle = new TitledBorder(new EmptyBorder(0,0,0,0),
+    TitledBorder imageOptionsTitle = new TitledBorder(new EmptyBorder(0, 0, 0, 0),
             "Select image:");
-    imageOptionsTitle.setTitleFont(new Font("Sans Serif", Font.PLAIN, SwingView.WIDTH/100));
+    imageOptionsTitle.setTitleFont(new Font("Sans Serif", Font.PLAIN, SwingView.WIDTH / 100));
     imageOptionsTitle.setTitleColor(SwingView.MIDDLEGROUND_COLOR);
     imageOptions.setBorder(imageOptionsTitle);
     imageOptions.setMaximumSize(new Dimension(SwingView.WIDTH / 5, SwingView.HEIGHT / 10));
@@ -135,27 +149,29 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     mainPanel.add(panel3);
 
     // buttons
-    panel2.add(new Button("Red Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Green Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Blue Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Flip Horizontally", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Flip Vertically", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Blur", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel2.add(new Button("Sharpen", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Value Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Intensity Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Luma Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Brighten", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Darken", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Greyscale", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
-    panel3.add(new Button("Sepia", SwingView.BUTTON_DIMENSION, SwingView.WIDTH/110));
+    panel2.add(new Button("Red Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Green Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Blue Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Flip Horizontally", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Flip Vertically", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Blur", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel2.add(new Button("Sharpen", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Value Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Intensity Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Luma Component", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Brighten", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Darken", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Greyscale", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
+    panel3.add(new Button("Sepia", SwingView.BUTTON_DIMENSION, SwingView.WIDTH / 110, this));
 
     this.setVisible(true);
   }
 
   public static void main(String[] args) {
-    new SwingView();
+    new SwingView(new BasicImageProcessingModel());
   }
+
+  // ------------------ Listeners -------------------- //
 
   /**
    * Called whenever the value of the selection changes.
@@ -164,5 +180,36 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
    */
   @Override
   public void valueChanged(ListSelectionEvent e) {
+  }
+
+  /**
+   * Invoked when an action occurs.
+   *
+   * @param e the event to be processed
+   */
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case "Load Image":
+        final JFileChooser fchooser = new JFileChooser(".");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Images", "jpg", "gif", "jpeg", "png", "ppm", "bmp", "tiff");
+        fchooser.setFileFilter(filter);
+        int retvalue = fchooser.showOpenDialog(this);
+        if (retvalue == JFileChooser.APPROVE_OPTION) {
+          File f = fchooser.getSelectedFile();
+          System.out.println(f.getAbsolutePath());
+        }
+        break;
+      default:
+        System.out.println("Unknown action");
+        // shouldn't get here!
+    }
+  }
+
+
+  @Override
+  public void setFeatures(SwingAppFeatures features) {
+    this.features = features;
   }
 }
