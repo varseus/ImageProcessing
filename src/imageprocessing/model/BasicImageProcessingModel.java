@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import imageprocessing.view.Histogram;
+import imageprocessing.view.SwingView;
+
 /**
  * The {@code BasePPMImageProcessingModel} represents the operations and state of an image
  * processor, intended to process a set of PPM images. Operations include:
@@ -327,6 +330,15 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {
     try {
       return images.get(imageName).pixels();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Given image name does not exist in this processor.");
+    }
+  }
+
+  @Override
+  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException {
+    try {
+      return images.get(imageName).makeHistogramHashmap(type, normalizationFactor);
     } catch (Exception e) {
       throw new IllegalArgumentException("Given image name does not exist in this processor.");
     }

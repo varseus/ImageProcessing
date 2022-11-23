@@ -1,6 +1,8 @@
 package imageprocessing.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -304,6 +306,26 @@ class BasicImage implements Image {
       pixels.add(new ArrayList<>(this.pixels.get(i)));
     }
     return pixels;
+  }
+
+  @Override
+  public Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor)
+          throws IllegalArgumentException {
+    int largest = 0;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    for(ArrayList<Pixel> row : pixels) {
+      for (Pixel pixel : row) {
+        int value = pixel.addToHashmap(map, type);
+        if (value > largest) {
+          largest = value;
+        }
+      }
+    }
+
+    for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+      map.put(entry.getKey(), entry.getValue() * normalizationFactor / largest);
+    }
+    return map;
   }
 
   /**

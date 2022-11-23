@@ -2,6 +2,7 @@ package imageprocessing.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.DoubleStream;
 
 /**
@@ -331,5 +332,29 @@ class RGBPixel implements Pixel {
   @Override
   public GreyscalePixel greyscale() {
     return this.colorTransformationGreyscale(this.GREYSCALE_KERNEL);
+  }
+
+  public int addToHashmap(Map<Integer, Integer> map, String type) {
+    int value = 0;
+    switch(type){
+      case "R":
+        value = this.redComponent().R;
+        break;
+      case "G":
+        value = this.greenComponent().G;
+        break;
+      case "B":
+        value = this.blueComponent().B;
+        break;
+      case "intensity":
+        value = this.intensityComponent().R;
+        break;
+    }
+    if(map.containsKey(value)) {
+      return map.put(value, map.get(value) + 1) + 1;
+    } else {
+      map.put(value, 1);
+      return 1;
+    }
   }
 }

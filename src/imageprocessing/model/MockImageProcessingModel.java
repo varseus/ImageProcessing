@@ -1,6 +1,7 @@
 package imageprocessing.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs
@@ -325,6 +326,16 @@ public class MockImageProcessingModel implements ImageProcessingModel {
     try {
       this.log.append("getting pixels from " + imageName + "\n");
     } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  @Override
+  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type) throws IllegalArgumentException {
+    try{
+      this.log.append("Making histogram for " + imageName + "\n");
+    }  catch (Exception e) {
       System.out.println(e);
     }
     return null;

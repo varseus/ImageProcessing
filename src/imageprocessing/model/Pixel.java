@@ -1,6 +1,7 @@
 package imageprocessing.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The {@code Pixel} represents operations that should be offered
@@ -129,5 +130,7 @@ public interface Pixel {
    * @return the sepia tone pixel
    */
   Pixel sepiaTone();
+
+  int addToHashmap(Map<Integer, Integer> map, String type);
 }
 

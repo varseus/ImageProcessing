@@ -1,6 +1,7 @@
 package imageprocessing.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The {@code ImageProcessingModel} interface represents operations that should be offered
@@ -200,4 +201,6 @@ public interface ImageProcessingModel {
    */
   ArrayList<ArrayList<Pixel>> pixels(String imageName)
           throws IllegalArgumentException;
+
+  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException;
 }

@@ -1,6 +1,7 @@
 package imageprocessing.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The {@code Image} interface represents the operations that should
@@ -124,4 +125,6 @@ interface Image {
    */
   ArrayList<ArrayList<Pixel>> pixels()
           throws IllegalArgumentException;
+
+  Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor) throws IllegalArgumentException;
 }
