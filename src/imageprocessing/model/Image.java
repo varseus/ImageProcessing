@@ -126,5 +126,12 @@ interface Image {
   ArrayList<ArrayList<Pixel>> pixels()
           throws IllegalArgumentException;
 
+  /**
+   * to make a histogram map.
+   * @param type the type that we want to use
+   * @param normalizationFactor the normalizer factor
+   * @return a new histogram map
+   * @throws IllegalArgumentException if it's null
+   */
   Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor) throws IllegalArgumentException;
 }

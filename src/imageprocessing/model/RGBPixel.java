@@ -334,6 +334,12 @@ class RGBPixel implements Pixel {
     return this.colorTransformationGreyscale(this.GREYSCALE_KERNEL);
   }
 
+  /**
+   * to add the num to the hash map.
+   * @param map a hash map
+   * @param type the type of R G B intensity
+   * @return add 1 if there are R G B intensity
+   */
   public int addToHashmap(Map<Integer, Integer> map, String type) {
     int value = 0;
     switch(type){

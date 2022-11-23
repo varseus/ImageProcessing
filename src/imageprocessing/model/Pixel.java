@@ -131,6 +131,12 @@ public interface Pixel {
    */
   Pixel sepiaTone();
 
+  /**
+   * to add the num to the hash map.
+   * @param map a hash map
+   * @param type the type of R G B intensity
+   * @return add 1 if there are R G B intensity
+   */
   int addToHashmap(Map<Integer, Integer> map, String type);
 }
 

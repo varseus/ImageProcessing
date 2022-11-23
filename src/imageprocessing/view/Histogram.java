@@ -12,8 +12,19 @@ import javax.swing.border.MatteBorder;
 
 import imageprocessing.model.Pixel;
 
+/**
+ * The {@code Histogram} for the pane which extend teh JPanel class.
+ */
 public class Histogram extends JPanel {
   public static Dimension HISTOGRAM_DIMENSION = new Dimension(2*SwingView.WIDTH/3, 2*SwingView.HEIGHT/3);
+
+  /**
+   * the histogram with the given pixels.
+   * @param redPixels the map of redPixels
+   * @param greenPixels the map of greenPixels
+   * @param bluePixels the map of bluePixels
+   * @param intensityPixels the map of intensityPixels
+   */
   public Histogram(Map<Integer, Integer> redPixels,
                    Map<Integer, Integer> greenPixels,
                    Map<Integer, Integer> bluePixels,

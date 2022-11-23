@@ -201,6 +201,12 @@ public interface ImageProcessingModel {
    */
   ArrayList<ArrayList<Pixel>> pixels(String imageName)
           throws IllegalArgumentException;
-
+  /**
+   * to make a histogram map.
+   * @param type the type if R G B intensity
+   * @param normalizationFactor the normalizer factor
+   * @return a new histogram map
+   * @throws IllegalArgumentException if given image does not exist
+   */
   public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException;
 }

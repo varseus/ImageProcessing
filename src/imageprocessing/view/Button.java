@@ -7,7 +7,17 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+/**
+ * The {@code Button} represent the button for the action which extend the JButton class.
+ */
 public class Button extends JButton {
+
+  /**
+   * the action of button when the user uses it.
+   * @param text the text that entered
+   * @param size the size of the image
+   * @param textSize the size if the text
+   */
   public Button(String text,
                 Dimension size,
                 int textSize) {

@@ -308,6 +308,13 @@ class BasicImage implements Image {
     return pixels;
   }
 
+  /**
+   * to make a histogram map.
+   * @param type the type if R G B intensity
+   * @param normalizationFactor the normalizer factor
+   * @return a new histogram map
+   * @throws IllegalArgumentException if it's null
+   */
   @Override
   public Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor)
           throws IllegalArgumentException {
