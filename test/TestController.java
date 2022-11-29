@@ -1,8 +1,13 @@
+import imageprocessing.controller.SwingAppFeatures;
+import imageprocessing.controller.SwingController;
 import imageprocessing.controller.TextScriptedImageProcessingController;
+import imageprocessing.view.ImageProcessingSwingView;
+import imageprocessing.view.SwingView;
 import imageprocessing.view.TextScriptImageProcessingView;
 
 import org.junit.Test;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -499,6 +504,36 @@ public class TestController {
                     "Success!\n" +
                     "Bye!\n",
             this.mockOutput.toString());
+  }
+
+  /**
+   * Test that various features in the swing controller produces the correct
+   * view output.
+   */
+  @Test
+  public void testLoadComponentsBadInputsSwing() throws IOException {
+    Appendable log = new StringBuilder();
+    this.model = new MockImageProcessingModel(log);
+    ImageProcessingSwingView view = new SwingView(model);
+    SwingAppFeatures controller = new SwingController(model, view);
+    view.setFeatures(controller);
+
+    controller.loadImage("", "");
+    controller.saveImage("", "");
+    controller.redComponent("", "");
+    controller.valueComponent("", "");
+    controller.brighten("", "", 1);
+
+    assertEquals("loading file to .\n" +
+                    "getting pixels from \n" +
+                    "getting pixels from \n" +
+                    "red  to \n" +
+                    "getting pixels from \n" +
+                    "value  to \n" +
+                    "getting pixels from \n" +
+                    "brighten  to  1\n" +
+                    "getting pixels from \n",
+            log.toString());
   }
 
   /**

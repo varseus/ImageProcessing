@@ -3,18 +3,47 @@
 
 ## To Run
 
-In the terminal, navigate to the root directory. Then to run the script, run:
-```
-java -jar ImageProcessing.jar res/script.txt
-```
+In the terminal, navigate to the _res/_ directory. 
+
 ---
-To run the full program to the console, run:
+
+To run the image processor GUI, run:
 ```
 java -jar ImageProcessing.jar
 ```
-and enter commands into the console.
+Then use the "load" button load an image
+(try loading _res/koala-vertical.png_).
+The loaded image must be given a name,
+and can be saved with the save button, and
+edited with the buttons at the bottom of 
+the screen. Change the current image
+being worked on by using the "select image"
+dropdown.
+
+Be aware that all "square"
+images in the _res/_ directory are too small
+to be seen in the GUI's view.
+
 
 ---
+
+To run the image processor with 
+text input/output to console, run:
+```
+java -jar ImageProcessing.jar -text
+```
+The input commands (outlined below)
+into the console.
+
+---
+
+To run the text script, run:
+```
+java -jar ImageProcessing.jar -file script.txt
+```
+
+---
+
 Alternatively, run the main() method of **ImageProcessor**, and enter commands into the console.
 
 ### Sample Script:
@@ -26,6 +55,7 @@ load res/square.ppm square
 red-component square squareRed
 
 # create the value component greyscale of the square image
+
 value-component square squareValue
 
 # create the horintally flipped version of the value component greyscale of the square image

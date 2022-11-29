@@ -3,28 +3,38 @@ package imageprocessing.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import imageprocessing.controller.SwingAppFeatures;
+import imageprocessing.controller.SwingController;
 import imageprocessing.model.BasicImageProcessingModel;
 import imageprocessing.model.ImageProcessingModel;
+import imageprocessing.model.Pixel;
 
-public class SwingView extends JFrame implements ImageProcessingSwingView, ListSelectionListener, ActionListener {
+/**
+ * Represents a Swing View for an Image Processor, that shows the current image being processed
+ * and can do effects on it, and showing a histogram for the image.
+ */
+public class SwingView extends JFrame implements ImageProcessingSwingView, ActionListener {
   private final ImageProcessingModel model;
+  private Histogram histogram;
   private SwingAppFeatures features;
+  private JLabel imageLabel;
+  private final JComboBox imageOptions;
 
   public static final int WIDTH = 9 * Toolkit.getDefaultToolkit().getScreenSize().width / 10;
   public static final int HEIGHT = 8 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
@@ -32,16 +42,20 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
   public static final Color FOREGROUND_COLOR = Color.decode("#FFFFFF");
   public static final Color MIDDLEGROUND_COLOR = new Color(129, 129, 129);
   public static final Dimension IMAGE_DIMENSION = new Dimension(
-          3 * SwingView.WIDTH / 6, 3 * SwingView.HEIGHT / 5);
+          3 * SwingView.WIDTH / 7, 3 * SwingView.HEIGHT / 5);
   public static final Dimension BUTTON_DIMENSION = new Dimension(
           SwingView.WIDTH / 7, SwingView.HEIGHT / 10);
   public static final Dimension LOAD_BUTTON_DIMENSION = new Dimension(
           SwingView.WIDTH / 5, SwingView.HEIGHT / 10);
-  private JLabel imageLabel;
 
+  /**
+   * Instantiates this view with the given model.
+   *
+   * @param model the model to run the processor
+   */
   public SwingView(ImageProcessingModel model) {
     super();
-    this.model = model;
+    this.model = Objects.requireNonNull(model);
 
     // setup
     this.setTitle("Swing features");
@@ -72,8 +86,14 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
     mainPanel.add(panel1);
 
+    // left padding between histogram and off screen
+    JPanel paddingLeft = new JPanel();
+    paddingLeft.setMaximumSize(new Dimension(10, 10));
+    paddingLeft.setBackground(SwingView.BACKGROUND_COLOR);
+    panel1.add(paddingLeft);
+
     // histogram
-    Histogram histogram = new Histogram(
+    histogram = new Histogram(
             null,
             null,
             null,
@@ -84,10 +104,6 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     imageLabel = new Text("No Image Loaded",
             SwingView.WIDTH / 50,
             SwingView.BACKGROUND_COLOR);
-    imageLabel.setMaximumSize(new Dimension(SwingView.IMAGE_DIMENSION.width * 9 / 10,
-            SwingView.IMAGE_DIMENSION.height * 9 / 10));
-    imageLabel.setPreferredSize(new Dimension(SwingView.IMAGE_DIMENSION.width * 9 / 10,
-            SwingView.IMAGE_DIMENSION.height * 9 / 10));
 
     // scroll panel for image
     JScrollPane imageScrollPane = new JScrollPane(imageLabel);
@@ -128,7 +144,7 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     loadSavePanel.add(loadSavePadding2);
 
     // dropdown
-    JComboBox imageOptions = new JComboBox();
+    imageOptions = new JComboBox();
     TitledBorder imageOptionsTitle = new TitledBorder(new EmptyBorder(0, 0, 0, 0),
             "Select image:");
     imageOptionsTitle.setTitleFont(new Font("Sans Serif", Font.PLAIN, SwingView.WIDTH / 100));
@@ -136,6 +152,8 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     imageOptions.setBorder(imageOptionsTitle);
     imageOptions.setMaximumSize(new Dimension(SwingView.WIDTH / 5, SwingView.HEIGHT / 10));
     imageOptions.setAlignmentX(SwingConstants.CENTER);
+    imageOptions.setActionCommand("Change Imge");
+    imageOptions.addActionListener(this);
     loadSavePanel.add(imageOptions);
 
     // panels for processing buttons
@@ -167,20 +185,47 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
     this.setVisible(true);
   }
 
-  public static void main(String[] args) {
-    new SwingView(new BasicImageProcessingModel());
+  // ------------------ Handlers ----------------- //
+
+  @Override
+  public void addImage(String imageName) {
+    this.imageOptions.removeItem(imageName);
+    this.imageOptions.addItem(imageName);
+    this.imageOptions.setSelectedItem(imageName);
+  }
+
+  @Override
+  public void displayImage(String filepath) {
+    try {
+      this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(filepath))));
+      this.imageLabel.setText("");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    String currentImage = (String) this.imageOptions.getSelectedItem();
+    HashMap<Integer, Integer> map = new HashMap<>();
+    this.histogram.setNewData(
+            this.model.makeHistogramHashmap(
+                    currentImage, "R", Histogram.HISTOGRAM_DIMENSION.height),
+            this.model.makeHistogramHashmap(
+                    currentImage, "G", Histogram.HISTOGRAM_DIMENSION.height),
+            this.model.makeHistogramHashmap(
+                    currentImage, "B", Histogram.HISTOGRAM_DIMENSION.height),
+            this.model.makeHistogramHashmap(
+                    currentImage, "intensity", Histogram.HISTOGRAM_DIMENSION.height));
+    System.out.println(this.model.makeHistogramHashmap(
+            currentImage, "R", SwingView.IMAGE_DIMENSION.height).get(25));
+  }
+
+  @Override
+  public void refresh() {
+    this.revalidate();
+    this.repaint();
   }
 
   // ------------------ Listeners -------------------- //
 
-  /**
-   * Called whenever the value of the selection changes.
-   *
-   * @param e the event that characterizes the change.
-   */
-  @Override
-  public void valueChanged(ListSelectionEvent e) {
-  }
 
   /**
    * Invoked when an action occurs.
@@ -191,19 +236,98 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case "Load Image":
-        final JFileChooser fchooser = new JFileChooser(".");
+        JFileChooser fchooser = new JFileChooser(".");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Images", "jpg", "gif", "jpeg", "png", "ppm", "bmp", "tiff");
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(this);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
           File f = fchooser.getSelectedFile();
-          System.out.println(f.getAbsolutePath());
+          this.features.loadImage(f.getAbsolutePath(),
+                  JOptionPane.showInputDialog("Please enter a name for this image."));
         }
+        break;
+      case "Save Image":
+        JFileChooser fchooser2 = new JFileChooser(".");
+        int retvalue2 = fchooser2.showSaveDialog(this);
+        if (retvalue2 == JFileChooser.APPROVE_OPTION) {
+          File f = fchooser2.getSelectedFile();
+          this.features.saveImage((String) this.imageOptions.getSelectedItem(), f.getAbsolutePath());
+        }
+        break;
+      case "Red Component":
+        this.features.redComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Green Component":
+        this.features.greenComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Blue Component":
+        this.features.blueComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Value Component":
+        this.features.valueComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Intensity Component":
+        this.features.intensityComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Luma Component":
+        this.features.lumaComponent((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Blur":
+        this.features.blur((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Sharpen":
+        this.features.sharpen((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Greyscale":
+        this.features.greyscale((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Sepia":
+        this.features.sepia((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Flip Vertically":
+        this.features.flipVertically((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Flip Horizontally":
+        this.features.flipHorizontally((String) this.imageOptions.getSelectedItem(),
+                JOptionPane.showInputDialog("Please enter a name for this image."));
+        break;
+      case "Brighten":
+        try {
+          this.features.brighten((String) this.imageOptions.getSelectedItem(),
+                  JOptionPane.showInputDialog("Please enter a name for this image."),
+                  Integer.parseInt(JOptionPane.showInputDialog("Please specify how much to brighten by.")));
+        } catch (Exception error) {
+          this.renderMessage("Can only brighten by integer values.");
+        }
+        break;
+      case "Darken":
+        try {
+          this.features.darken((String) this.imageOptions.getSelectedItem(),
+                  JOptionPane.showInputDialog("Please enter a name for this image."),
+                  Integer.parseInt(JOptionPane.showInputDialog("Please specify how much to darken by.")));
+        } catch (Exception error) {
+          this.renderMessage("Can only darken by integer values.");
+        }
+        break;
+      case "Change Image":
+        this.features.displayImage("res/displayedImages/" + this.imageOptions.getSelectedItem().hashCode() + ".png");
         break;
       default:
         System.out.println("Unknown action");
         // shouldn't get here!
+        break;
     }
   }
 
@@ -211,5 +335,33 @@ public class SwingView extends JFrame implements ImageProcessingSwingView, ListS
   @Override
   public void setFeatures(SwingAppFeatures features) {
     this.features = features;
+  }
+
+  // ------------ regular view stuff -------------- //
+
+  /**
+   * Render a specific message to the provided data destination.
+   *
+   * @param message the message to be transmitted
+   * @return the string being rendered if successful
+   * @throws IOException if transmission of the board to the provided data destination fails
+   */
+  @Override
+  public String renderMessage(String message) {
+    JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.WARNING_MESSAGE);
+    return message;
+  }
+
+  /**
+   * Export the given image as a ppm.
+   *
+   * @param pixels   the data of the image to save
+   * @param filepath
+   * @return StringBuilder containing the PPM data
+   * @throws IllegalArgumentException if the image does not exist
+   */
+  @Override
+  public void saveImageToFile(String filepath, ArrayList<ArrayList<Pixel>> pixels) throws IllegalArgumentException, IOException {
+    ImageWriteUtil.writePixelsToFile(pixels, filepath);
   }
 }
