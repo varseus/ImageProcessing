@@ -8,28 +8,29 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * the {@code BasePPMImage} represents operations offered by an image which
- * is processable and can be converted to ASCII PPM. Operations include:
- * get red/green/blue components, get value/intensity/luma components, bright, darken,
- * flip horizontally/vertically, blur/sharpen, greyscale/sepiatone, and load image to and from PPM.
- * Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save method moved to
- * view. Added pixels() method to retrieve pixels from this image.
+ * the {@code BasePPMImage} represents operations offered by an image which is processable and can
+ * be converted to ASCII PPM. Operations include: get red/green/blue components, get
+ * value/intensity/luma components, bright, darken, flip horizontally/vertically, blur/sharpen,
+ * greyscale/sepiatone, and load image to and from PPM. Version 2 changes: added support for
+ * blur/sharpen/greyscale/sepiatone; save method moved to view. Added pixels() method to retrieve
+ * pixels from this image.
  *
  * @version 2
  */
 class BasicImage implements Image {
+
   private final ArrayList<ArrayList<Pixel>> pixels;
 
   /**
    * Instantiates this BasePPMImage with the given pixels and max value.
    *
    * @param pixels the pixels in this image as a matrix
-   * @throws IllegalArgumentException if any pixel has the wrong maxValue,
-   *                                  the matrix is not rectangular, or the image is empty;
+   * @throws IllegalArgumentException if any pixel has the wrong maxValue, the matrix is not
+   *                                  rectangular, or the image is empty;
    * @throws NullPointerException     if null args
    */
   public BasicImage(ArrayList<ArrayList<Pixel>> pixels)
-          throws IllegalArgumentException, NullPointerException {
+      throws IllegalArgumentException, NullPointerException {
     this.pixels = Objects.requireNonNull(pixels);
 
     // check for empty image:
@@ -53,56 +54,53 @@ class BasicImage implements Image {
       for (Pixel pixel : row) {
         if (pixel.byteSize() != maxValue) {
           throw new IllegalArgumentException(
-                  "All pixels in image must have the correct byte size.");
+              "All pixels in image must have the correct byte size.");
         }
       }
     }
   }
 
   /**
-   * Instantiates this BasePPMImage by loading from a PPM file at
-   * the given destination.
+   * Instantiates this BasePPMImage by loading from a PPM file at the given destination.
    *
    * @param filepath the file location   of the PPM file to load from
    * @throws IllegalArgumentException if the file is not found or is invalid
    * @throws NullPointerException     if null args
    */
   public BasicImage(String filepath) throws
-          IllegalArgumentException,
-          NullPointerException {
+      IllegalArgumentException,
+      NullPointerException {
     this(ImageReadUtil.readFile(filepath));
   }
 
   /**
-   * Maps an image to a new image by applying the given
-   * function to each pixel.
+   * Maps an image to a new image by applying the given function to each pixel.
    *
    * @param pixelFunction to apply to each pixel
    * @return the new image
    */
   private Image mapImagePixels(Function<Pixel, Pixel> pixelFunction) {
     return new BasicImage(
-            new ArrayList<>(this.pixels.stream().map(row ->
-                            new ArrayList<Pixel>((row.stream().map(pixel ->
-                                    pixelFunction.apply(pixel)))
-                                    .collect(Collectors.toList())))
-                    .collect(Collectors.toList())));
+        new ArrayList<>(this.pixels.stream().map(row ->
+                new ArrayList<Pixel>((row.stream().map(pixel ->
+                    pixelFunction.apply(pixel)))
+                    .collect(Collectors.toList())))
+            .collect(Collectors.toList())));
   }
 
   /**
-   * Maps an Image to a new GreyScaleImage by applying the given
-   * function to each pixel.
+   * Maps an Image to a new GreyScaleImage by applying the given function to each pixel.
    *
    * @param pixelFunction to apply to each pixel
    * @return the new greyscale image
    */
   private GreyscaleImage mapImagePixelsGreyscale(Function<Pixel, GreyscalePixel> pixelFunction) {
     return new GreyscaleImage(
-            new ArrayList<ArrayList<GreyscalePixel>>(this.pixels.stream().map(row ->
-                            new ArrayList<GreyscalePixel>((row.stream().map(pixel ->
-                                    pixelFunction.apply(pixel)))
-                                    .collect(Collectors.toList())))
-                    .collect(Collectors.toList())));
+        new ArrayList<ArrayList<GreyscalePixel>>(this.pixels.stream().map(row ->
+                new ArrayList<GreyscalePixel>((row.stream().map(pixel ->
+                    pixelFunction.apply(pixel)))
+                    .collect(Collectors.toList())))
+            .collect(Collectors.toList())));
   }
 
   /**
@@ -156,8 +154,7 @@ class BasicImage implements Image {
   }
 
   /**
-   * Create an image that is the vertically flipped version
-   * of this image.
+   * Create an image that is the vertically flipped version of this image.
    *
    * @return the vertically flipped image
    */
@@ -214,8 +211,8 @@ class BasicImage implements Image {
   }
 
   /**
-   * Create an image that is darker than this image by the specified amount if units (unless
-   * * already fully darkened).
+   * Create an image that is darker than this image by the specified amount if units (unless *
+   * already fully darkened).
    *
    * @param amount the name of the image to darken
    * @return the dark component image
@@ -310,17 +307,18 @@ class BasicImage implements Image {
 
   /**
    * to make a histogram map.
-   * @param type the type if R G B intensity
+   *
+   * @param type                the type if R G B intensity
    * @param normalizationFactor the normalizer factor
    * @return a new histogram map
    * @throws IllegalArgumentException if it's null
    */
   @Override
   public Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     int largest = 0;
     HashMap<Integer, Integer> map = new HashMap<>();
-    for(ArrayList<Pixel> row : pixels) {
+    for (ArrayList<Pixel> row : pixels) {
       for (Pixel pixel : row) {
         int value = pixel.addToHashmap(map, type);
         if (value > largest) {
@@ -329,7 +327,7 @@ class BasicImage implements Image {
       }
     }
 
-    for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
       map.put(entry.getKey(), entry.getValue() * normalizationFactor / largest);
     }
     return map;

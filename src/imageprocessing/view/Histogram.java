@@ -1,11 +1,15 @@
 package imageprocessing.view;
 
-import java.awt.*;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -15,10 +19,11 @@ import javax.swing.border.MatteBorder;
  * The {@code Histogram} for the pane which extend teh JPanel class.
  */
 public class Histogram extends JPanel {
+
   public static Dimension HISTOGRAM_DIMENSION =
-          new Dimension(
-                  2 * SwingView.IMAGE_DIMENSION.width / 3,
-                  2 * SwingView.IMAGE_DIMENSION.height / 3);
+      new Dimension(
+          2 * SwingView.IMAGE_DIMENSION.width / 3,
+          2 * SwingView.IMAGE_DIMENSION.height / 3);
   private Map<Integer, Integer> redPixels;
   private Map<Integer, Integer> greenPixels;
   private Map<Integer, Integer> bluePixels;
@@ -26,7 +31,8 @@ public class Histogram extends JPanel {
 
 
   /**
-   * the histogram with the given pixels.
+   * Instantiates this histogram for the image represented
+   * by the given hashmaps of pixel values.
    *
    * @param redPixels       the map of redPixels
    * @param greenPixels     the map of greenPixels
@@ -34,16 +40,16 @@ public class Histogram extends JPanel {
    * @param intensityPixels the map of intensityPixels
    */
   public Histogram(Map<Integer, Integer> redPixels,
-                   Map<Integer, Integer> greenPixels,
-                   Map<Integer, Integer> bluePixels,
-                   Map<Integer, Integer> intensityPixels) {
+      Map<Integer, Integer> greenPixels,
+      Map<Integer, Integer> bluePixels,
+      Map<Integer, Integer> intensityPixels) {
     super();
     this.setBackground(SwingView.BACKGROUND_COLOR);
     this.setMaximumSize(Histogram.HISTOGRAM_DIMENSION);
 
     // x axis
-    this.setBorder(new CompoundBorder(new EmptyBorder(0,0,0,0),
-            new MatteBorder(0, 0, 1, 0, SwingView.FOREGROUND_COLOR)));
+    this.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0),
+        new MatteBorder(0, 0, 1, 0, SwingView.FOREGROUND_COLOR)));
 
     this.redPixels = redPixels;
     this.greenPixels = greenPixels;
@@ -51,16 +57,27 @@ public class Histogram extends JPanel {
     this.intensityPixels = intensityPixels;
   }
 
+  /**
+   * To update the histogram data.
+   * @param redPixels red pixels
+   * @param greenPixels green pixels
+   * @param bluePixels blue pixels
+   * @param intensityPixels intensity pixels
+   */
   public void setNewData(Map<Integer, Integer> redPixels,
-                         Map<Integer, Integer> greenPixels,
-                         Map<Integer, Integer> bluePixels,
-                         Map<Integer, Integer> intensityPixels) {
+      Map<Integer, Integer> greenPixels,
+      Map<Integer, Integer> bluePixels,
+      Map<Integer, Integer> intensityPixels) {
     this.redPixels = redPixels;
     this.bluePixels = bluePixels;
     this.greenPixels = greenPixels;
     this.intensityPixels = intensityPixels;
   }
 
+  /**
+   * Paints this component.
+   * @param g the <code>Graphics</code> object to protect
+   */
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -102,15 +119,16 @@ public class Histogram extends JPanel {
         }
 
         if (entry.getKey() < 256) {
-          g2d.drawLine((int)(entry.getKey() * (Histogram.HISTOGRAM_DIMENSION.width / 256.0)),
-                  Histogram.HISTOGRAM_DIMENSION.height - entry.getValue(),
-                  (int)((entry.getKey() + 1) * (Histogram.HISTOGRAM_DIMENSION.width / 256.0)),
-                  Histogram.HISTOGRAM_DIMENSION.height - pixels.get(entry.getKey() + 1));
+          g2d.drawLine((int) (entry.getKey() * (Histogram.HISTOGRAM_DIMENSION.width / 256.0)),
+              Histogram.HISTOGRAM_DIMENSION.height - entry.getValue(),
+              (int) ((entry.getKey() + 1) * (Histogram.HISTOGRAM_DIMENSION.width / 256.0)),
+              Histogram.HISTOGRAM_DIMENSION.height - pixels.get(entry.getKey() + 1));
         }
       }
     }
 
     g2d.drawString("<-Blacker", 0, Histogram.HISTOGRAM_DIMENSION.height);
-    g2d.drawString("Whiter->", Histogram.HISTOGRAM_DIMENSION.width-75, Histogram.HISTOGRAM_DIMENSION.height);
+    g2d.drawString("Whiter->", Histogram.HISTOGRAM_DIMENSION.width - 75,
+        Histogram.HISTOGRAM_DIMENSION.height);
   }
 }

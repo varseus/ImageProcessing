@@ -10,13 +10,15 @@ import imageprocessing.view.ImageProcessingSwingView;
  * Represents a controller for a swing app.
  */
 public class SwingController implements SwingAppFeatures {
+
   private final ImageProcessingModel model;
   private final ImageProcessingSwingView view;
 
   /**
    * Instantiate this SwingController with the given model and view.
+   *
    * @param model model to run the processor
-   * @param view view to field user input from and output to
+   * @param view  view to field user input from and output to
    */
   public SwingController(ImageProcessingModel model, ImageProcessingSwingView view) {
     this.model = Objects.requireNonNull(model);
@@ -27,7 +29,9 @@ public class SwingController implements SwingAppFeatures {
   public void loadImage(String absolutePath, String imageName) {
     try {
       this.model.loadImageFromFile(absolutePath, imageName);
-      this.view.saveImageToFile("res/displayedImages/" + imageName.hashCode() + ".png", this.model.pixels(imageName));
+      this.view.saveImageToFile("res/displayedImages/" +
+              imageName.hashCode() + ".png",
+          this.model.pixels(imageName));
       this.view.addImage(imageName);
       this.displayImage("res/displayedImages/" + imageName.hashCode() + ".png");
     } catch (Exception e) {
@@ -116,7 +120,9 @@ public class SwingController implements SwingAppFeatures {
   private void doComponent(String destName, Callable toDo) {
     try {
       toDo.call();
-      this.view.saveImageToFile("res/displayedImages/" + destName.hashCode() + ".png", this.model.pixels(destName));
+      this.view.saveImageToFile("res/displayedImages/" +
+              destName.hashCode() + ".png",
+          this.model.pixels(destName));
       this.view.addImage(destName);
       this.displayImage("res/displayedImages/" + destName.hashCode() + ".png");
     } catch (Exception e) {
@@ -132,9 +138,8 @@ public class SwingController implements SwingAppFeatures {
   }
 
   /**
-   * Save the image from the model at the specified imageName to the. Render an
-   * error message to the view if something goes wrong.
-   * specified absolutePath;
+   * Save the image from the model at the specified imageName to the. Render an error message to the
+   * view if something goes wrong. specified absolutePath;
    *
    * @param imageName    image to save
    * @param absolutePath filepath to save image to

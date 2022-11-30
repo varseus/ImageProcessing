@@ -3,13 +3,13 @@ package imageprocessing.view;
 import java.io.IOException;
 
 /**
- * This class represents operations that should be
- * offered by a text-based view of the image processor. Version 2 changes =>
- * added saveImageToFile method.
+ * This class represents operations that should be offered by a text-based view of the image
+ * processor. Version 2 changes => added saveImageToFile method.
  *
  * @version 2
  */
 public interface ImageProcessingView {
+
   /**
    * Render a specific message to the provided data destination.
    *
@@ -27,5 +27,5 @@ public interface ImageProcessingView {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void saveImageToFile(String imageName, String filepath)
-          throws IllegalArgumentException, IOException;
+      throws IllegalArgumentException, IOException;
 }

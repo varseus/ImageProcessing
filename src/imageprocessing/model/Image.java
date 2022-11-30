@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * The {@code Image} interface represents the operations that should
- * be offered by a processable image. Version 2 changes: added support
- * for blur/sharpen/greyscale/sepiatone; save method moved to view;
- * added pixels() method to retrieve pixels from this image.
+ * The {@code Image} interface represents the operations that should be offered by a processable
+ * image. Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save method moved
+ * to view; added pixels() method to retrieve pixels from this image.
  *
  * @version 2
  */
@@ -35,16 +34,14 @@ interface Image {
   Image blueComponent();
 
   /**
-   * Create an image that is the horizontally flipped version
-   * of this image.
+   * Create an image that is the horizontally flipped version of this image.
    *
    * @return the horizontally flipped image
    */
   Image horizontalFlip();
 
   /**
-   * Create an image that is the vertically flipped version
-   * of this image.
+   * Create an image that is the vertically flipped version of this image.
    *
    * @return the vertically flipped image
    */
@@ -81,8 +78,8 @@ interface Image {
   Image brighten(int amount);
 
   /**
-   * Create an image that is darker than this image by the specified amount of units (unless
-   * already fully darkened).
+   * Create an image that is darker than this image by the specified amount of units (unless already
+   * fully darkened).
    *
    * @param amount the name of the image to darken
    * @return the darkened image
@@ -124,14 +121,17 @@ interface Image {
    * @throws IllegalArgumentException if it's null
    */
   ArrayList<ArrayList<Pixel>> pixels()
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * to make a histogram map.
-   * @param type the type that we want to use
+   *
+   * @param type                the type that we want to use
    * @param normalizationFactor the normalizer factor
    * @return a new histogram map
    * @throws IllegalArgumentException if it's null
    */
-  Map<Integer, Integer> makeHistogramHashmap(String type, int normalizationFactor) throws IllegalArgumentException;
+  Map<Integer, Integer> makeHistogramHashmap(String type,
+      int normalizationFactor)
+      throws IllegalArgumentException;
 }

@@ -6,45 +6,45 @@ import java.util.Map;
 import java.util.stream.DoubleStream;
 
 /**
- * The {@code RGBPixel} represent operations that should be offered
- * by a pixel in an image which is processable. Version 2 changes: added
- * support for various filters / color transformations.
+ * The {@code RGBPixel} represent operations that should be offered by a pixel in an image which is
+ * processable. Version 2 changes: added support for various filters / color transformations.
  *
  * @version 2
  */
 class RGBPixel implements Pixel {
+
   protected final int R;
   protected final int G;
   protected final int B;
   protected final int maxValue;
   private final ArrayList<ArrayList<Double>> GAUSSIAN_BLUR_KERNEL =
-          new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
-                          Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16)),
-                  new ArrayList<Double>(Arrays.asList(1.0 / 8, 1.0 / 4, 1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16))));
+      new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
+              Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16)),
+          new ArrayList<Double>(Arrays.asList(1.0 / 8, 1.0 / 4, 1.0 / 8)),
+          new ArrayList<Double>(Arrays.asList(1.0 / 16, 1.0 / 8, 1.0 / 16))));
   private final ArrayList<ArrayList<Double>> SHARPEN_KERNEL =
-          new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
-                          Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(
-                          -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(
-                          -1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(
-                          -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
-                  new ArrayList<Double>(Arrays.asList(
-                          -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))));
+      new ArrayList<ArrayList<Double>>(Arrays.asList(new ArrayList<Double>(
+              Arrays.asList(-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8)),
+          new ArrayList<Double>(Arrays.asList(
+              -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
+          new ArrayList<Double>(Arrays.asList(
+              -1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8)),
+          new ArrayList<Double>(Arrays.asList(
+              -1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8)),
+          new ArrayList<Double>(Arrays.asList(
+              -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8))));
 
   private final ArrayList<ArrayList<Double>> GREYSCALE_KERNEL =
-          new ArrayList<>(Arrays.asList(new ArrayList<Double>(
-                          Arrays.asList(0.2126, 0.7152, 0.0722)),
-                  new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722)),
-                  new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722))));
+      new ArrayList<>(Arrays.asList(new ArrayList<Double>(
+              Arrays.asList(0.2126, 0.7152, 0.0722)),
+          new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722)),
+          new ArrayList<Double>(Arrays.asList(0.2126, 0.7152, 0.0722))));
 
   private final ArrayList<ArrayList<Double>> SEPIA_KERNEL =
-          new ArrayList<>(Arrays.asList(new ArrayList<Double>(
-                          Arrays.asList(0.393, 0.769, 0.189)),
-                  new ArrayList<Double>(Arrays.asList(0.349, 0.686, 0.168)),
-                  new ArrayList<Double>(Arrays.asList(0.272, 0.534, 0.131))));
+      new ArrayList<>(Arrays.asList(new ArrayList<Double>(
+              Arrays.asList(0.393, 0.769, 0.189)),
+          new ArrayList<Double>(Arrays.asList(0.349, 0.686, 0.168)),
+          new ArrayList<Double>(Arrays.asList(0.272, 0.534, 0.131))));
 
   /**
    * Instantiate this pixel with the given rgb values.
@@ -53,8 +53,8 @@ class RGBPixel implements Pixel {
    * @param g        the green component of this pixel, where 0 is black and maxValue is green
    * @param b        the blue component of this pixel, where 0 is black and maxValue is blue
    * @param maxValue the maximum value of a pixel
-   * @throws IllegalArgumentException if any value is negative or
-   *                                  any component value is greater than the maxValue
+   * @throws IllegalArgumentException if any value is negative or any component value is greater
+   *                                  than the maxValue
    */
   public RGBPixel(int r, int g, int b, int maxValue) throws IllegalArgumentException {
     this.R = r;
@@ -128,7 +128,7 @@ class RGBPixel implements Pixel {
   @Override
   public GreyscalePixel lumaComponent() {
     return new GreyscalePixel(Math.min((int) (0.2126 * this.R + 0.7152 * this.G + 0.0722 * this.B),
-            this.maxValue), this.maxValue);
+        this.maxValue), this.maxValue);
   }
 
   /**
@@ -141,14 +141,14 @@ class RGBPixel implements Pixel {
   @Override
   public Pixel brighten(int amount) {
     return new RGBPixel(Math.max(Math.min(this.R + amount, this.maxValue), 0),
-            Math.max(Math.min(this.G + amount, this.maxValue), 0),
-            Math.max(Math.min(this.B + amount, this.maxValue), 0),
-            this.maxValue);
+        Math.max(Math.min(this.G + amount, this.maxValue), 0),
+        Math.max(Math.min(this.B + amount, this.maxValue), 0),
+        this.maxValue);
   }
 
   /**
-   * Create a pixel that is darker than this pixel by the specified amount of units (unless
-   * already fully darkened).
+   * Create a pixel that is darker than this pixel by the specified amount of units (unless already
+   * fully darkened).
    *
    * @param amount the name of the pixel to darken
    * @return the darkened pixel
@@ -224,9 +224,9 @@ class RGBPixel implements Pixel {
    * @return the channel
    */
   private int filterChannel(ArrayList<ArrayList<Pixel>> pixels,
-                            ArrayList<ArrayList<Double>> kernel,
-                            String channel,
-                            int row, int col) {
+      ArrayList<ArrayList<Double>> kernel,
+      String channel,
+      int row, int col) {
 
     DoubleStream.Builder pixelVal = DoubleStream.builder();
     int kernelSize = kernel.size();
@@ -234,8 +234,8 @@ class RGBPixel implements Pixel {
       for (int j = col - kernelSize / 2; j <= col + kernelSize / 2; j++) {
         if (i >= 0 && i < pixels.size() && j >= 0 && j < pixels.get(0).size()) {
           pixelVal.add(pixels.get(i).get(j).filter(
-                  kernel.get(i - (row - kernelSize / 2))
-                          .get(j - (col - kernelSize / 2)), channel));
+              kernel.get(i - (row - kernelSize / 2))
+                  .get(j - (col - kernelSize / 2)), channel));
         }
       }
     }
@@ -250,9 +250,9 @@ class RGBPixel implements Pixel {
   @Override
   public Pixel blur(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
     return new RGBPixel(this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "R", x, y),
-            this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "G", x, y),
-            this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "B", x, y),
-            this.maxValue);
+        this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "G", x, y),
+        this.filterChannel(pixels, GAUSSIAN_BLUR_KERNEL, "B", x, y),
+        this.maxValue);
   }
 
   /**
@@ -263,9 +263,9 @@ class RGBPixel implements Pixel {
   @Override
   public Pixel sharpen(ArrayList<ArrayList<Pixel>> pixels, int x, int y) {
     return new RGBPixel(this.filterChannel(pixels, SHARPEN_KERNEL, "R", x, y),
-            this.filterChannel(pixels, SHARPEN_KERNEL, "G", x, y),
-            this.filterChannel(pixels, SHARPEN_KERNEL, "B", x, y),
-            this.maxValue);
+        this.filterChannel(pixels, SHARPEN_KERNEL, "G", x, y),
+        this.filterChannel(pixels, SHARPEN_KERNEL, "B", x, y),
+        this.maxValue);
   }
 
   /**
@@ -336,13 +336,14 @@ class RGBPixel implements Pixel {
 
   /**
    * to add the num to the hash map.
-   * @param map a hash map
+   *
+   * @param map  a hash map
    * @param type the type of R G B intensity
    * @return add 1 if there are R G B intensity
    */
   public int addToHashmap(Map<Integer, Integer> map, String type) {
     int value = 0;
-    switch(type){
+    switch (type) {
       case "R":
         value = this.redComponent().R;
         break;
@@ -355,8 +356,10 @@ class RGBPixel implements Pixel {
       case "intensity":
         value = this.intensityComponent().R;
         break;
+      default:
+        break;
     }
-    if(map.containsKey(value)) {
+    if (map.containsKey(value)) {
       return map.put(value, map.get(value) + 1) + 1;
     } else {
       map.put(value, 1);

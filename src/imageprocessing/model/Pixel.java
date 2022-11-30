@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * The {@code Pixel} represents operations that should be offered
- * by a pixel in an image which is processable. Version 2 changes:
- * added support for blur/sharpen/greyscale/sepiatone.
+ * The {@code Pixel} represents operations that should be offered by a pixel in an image which is
+ * processable. Version 2 changes: added support for blur/sharpen/greyscale/sepiatone.
  *
  * @version 2
  */
@@ -15,7 +14,7 @@ public interface Pixel {
   /**
    * Filter this pixel's specified channel by the given kernel.
    *
-   * @param kernel to filter by
+   * @param kernel  to filter by
    * @param channel one of "R", "G", or "B"
    * @return the new channel component after filtering
    */
@@ -73,8 +72,8 @@ public interface Pixel {
   Pixel brighten(int amount);
 
   /**
-   * Create a pixel that is darker than this pixel by the specified amount of units (unless
-   * already fully darkened).
+   * Create a pixel that is darker than this pixel by the specified amount of units (unless already
+   * fully darkened).
    *
    * @param amount the name of the pixel to darken
    * @return the darkened pixel
@@ -82,8 +81,7 @@ public interface Pixel {
   Pixel darken(int amount);
 
   /**
-   * Creates a string representing this pixel's RGB.
-   * Format as "[r] [g] [b]".
+   * Creates a string representing this pixel's RGB. Format as "[r] [g] [b]".
    *
    * @return
    */
@@ -133,7 +131,8 @@ public interface Pixel {
 
   /**
    * to add the num to the hash map.
-   * @param map a hash map
+   *
+   * @param map  a hash map
    * @param type the type of R G B intensity
    * @return add 1 if there are R G B intensity
    */

@@ -17,9 +17,9 @@ import javax.imageio.ImageIO;
  * The {@code ImageReadUtil} contains utility methods to read from files.
  */
 class ImageReadUtil {
+
   /**
-   * Read an image file in the PPM format and produce
-   * a corresponding matrix of pixels.
+   * Read an image file in the PPM format and produce a corresponding matrix of pixels.
    *
    * @param filepath the path of the file.
    * @return the Image's pixels from a file
@@ -27,21 +27,21 @@ class ImageReadUtil {
    * @throw NullPointerException if null args
    */
   public static ArrayList<ArrayList<Pixel>> readPPM(String filepath)
-          throws IllegalArgumentException, NullPointerException {
+      throws IllegalArgumentException, NullPointerException {
     Objects.requireNonNull(filepath);
     FileReader file;
 
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length())
-            .equals(".ppm")) {
+        .equals(".ppm")) {
       throw new IllegalArgumentException(
-              "Invalid filepath, " + filepath + ", filepath must end in .ppm");
+          "Invalid filepath, " + filepath + ", filepath must end in .ppm");
     }
 
     try {
       file = new FileReader(new File(Objects.requireNonNull(filepath)));
     } catch (Exception e) {
       throw new IllegalArgumentException("Cannot load from file, " + filepath +
-              ". Please make sure it is a valid file.");
+          ". Please make sure it is a valid file.");
     }
 
     ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
@@ -66,7 +66,7 @@ class ImageReadUtil {
     if (sc.hasNext()) {
       if (!sc.next().equals("P3")) {
         throw new IllegalArgumentException(
-                "Invalid PPM file: plain RAW file should begin with P3");
+            "Invalid PPM file: plain RAW file should begin with P3");
       }
     } else {
       throw new IllegalArgumentException("Cannot read empty file.");
@@ -103,8 +103,8 @@ class ImageReadUtil {
   }
 
   /**
-   * Read an image file in the PPM, GIF, PNG, JPEG, BMP, WBMP... format and produce
-   * a corresponding matrix of pixels.
+   * Read an image file in the PPM, GIF, PNG, JPEG, BMP, WBMP... format and produce a corresponding
+   * matrix of pixels.
    *
    * @param filepath the path of the file.
    * @return pixels
@@ -112,8 +112,8 @@ class ImageReadUtil {
    * @throws NullPointerException     if null args
    */
   public static ArrayList<ArrayList<Pixel>> readFile(String filepath)
-          throws IllegalArgumentException,
-          NullPointerException {
+      throws IllegalArgumentException,
+      NullPointerException {
     Objects.requireNonNull(filepath);
 
     HashMap<String, Boolean> acceptedTypes = new HashMap<String, Boolean>();
@@ -124,11 +124,11 @@ class ImageReadUtil {
     BufferedImage bufferedImage;
 
     if (filepath.lastIndexOf(".") < 0 ||
-            acceptedTypes.get(filepath.substring(filepath.lastIndexOf("."))) == null) {
+        acceptedTypes.get(filepath.substring(filepath.lastIndexOf("."))) == null) {
       throw new IllegalArgumentException(
-              "Invalid filepath, " + filepath + ", filepath must end in one of:" +
-                      acceptedTypes.keySet().stream().map(type -> " " + type).collect(
-                              Collectors.joining(",", "", ".")));
+          "Invalid filepath, " + filepath + ", filepath must end in one of:" +
+              acceptedTypes.keySet().stream().map(type -> " " + type).collect(
+                  Collectors.joining(",", "", ".")));
     }
 
     try {
@@ -139,30 +139,29 @@ class ImageReadUtil {
         return ImageReadUtil.readPPM(filepath);
       } catch (Exception readPPMError) {
         throw new IllegalArgumentException("Cannot find file from file, " + filepath +
-                ". Please make sure it is a valid file and is one of " +
-                acceptedTypes.keySet().stream().map(type -> " " + type).collect(
-                        Collectors.joining(",", "", ".")));
+            ". Please make sure it is a valid file and is one of " +
+            acceptedTypes.keySet().stream().map(type -> " " + type).collect(
+                Collectors.joining(",", "", ".")));
       }
     }
 
-
     BufferedImage convertedBufferedImage = new BufferedImage(bufferedImage.getWidth(),
-            bufferedImage.getHeight(),
-            BufferedImage.TYPE_INT_RGB);
+        bufferedImage.getHeight(),
+        BufferedImage.TYPE_INT_RGB);
     convertedBufferedImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
     int[] pixelList =
-            ((DataBufferInt) convertedBufferedImage.getRaster().getDataBuffer()).getData();
+        ((DataBufferInt) convertedBufferedImage.getRaster().getDataBuffer()).getData();
 
     ArrayList<ArrayList<Pixel>> pixels = new ArrayList<ArrayList<Pixel>>();
     for (int i = 0; i < convertedBufferedImage.getHeight(); i++) {
       ArrayList<Pixel> row = new ArrayList<Pixel>();
       for (int j = 0; j < convertedBufferedImage.getWidth(); j += 1) {
         row.add(new RGBPixel(
-                (pixelList[i * convertedBufferedImage.getWidth() + j] >> 16) & 255,
-                (pixelList[i * convertedBufferedImage.getWidth() + j] >> 8) & 255,
-                (pixelList[i * convertedBufferedImage.getWidth() + j]) & 255,
-                255));
+            (pixelList[i * convertedBufferedImage.getWidth() + j] >> 16) & 255,
+            (pixelList[i * convertedBufferedImage.getWidth() + j] >> 8) & 255,
+            (pixelList[i * convertedBufferedImage.getWidth() + j]) & 255,
+            255));
       }
       pixels.add(row);
     }

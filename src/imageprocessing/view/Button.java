@@ -1,6 +1,8 @@
 package imageprocessing.view;
 
-import java.awt.*;
+
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -14,20 +16,23 @@ import javax.swing.border.LineBorder;
 public class Button extends JButton {
 
   /**
-   * the action of button when the user uses it.
-   * @param text the text that entered
-   * @param size the size of the image
+   * Instantiates this button with the given text/size.
+   * Defaults the action command to the text value.
+   *
+   * @param text     the text that entered
+   * @param size     the size of the image
    * @param textSize the size if the text
    */
   public Button(String text,
-                Dimension size,
-                int textSize,
-                ActionListener actionListener) {
+      Dimension size,
+      int textSize,
+      ActionListener actionListener) {
     super(text);
     this.setContentAreaFilled(false);
     this.setBorder(new CompoundBorder(
-            new EmptyBorder(SwingView.HEIGHT/75,SwingView.WIDTH/150,SwingView.HEIGHT/75,SwingView.WIDTH/150),
-            new LineBorder(SwingView.MIDDLEGROUND_COLOR, 1, true)));
+        new EmptyBorder(SwingView.HEIGHT / 75, SwingView.WIDTH / 150,
+            SwingView.HEIGHT / 75, SwingView.WIDTH / 150),
+        new LineBorder(SwingView.MIDDLEGROUND_COLOR, 1, true)));
     this.setOpaque(true);
     this.setFocusPainted(false);
     this.setBackground(SwingView.BACKGROUND_COLOR);

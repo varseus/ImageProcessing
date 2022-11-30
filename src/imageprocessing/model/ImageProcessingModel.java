@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * The {@code ImageProcessingModel} interface represents operations that should be offered
- * by a model for an image processor. One object of the model represents one image processor.
- * Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save
- * method moved to view; added pixels method to retrieve an image's pixels.
+ * The {@code ImageProcessingModel} interface represents operations that should be offered by a
+ * model for an image processor. One object of the model represents one image processor. Version 2
+ * changes: added support for blur/sharpen/greyscale/sepiatone; save method moved to view; added
+ * pixels method to retrieve an image's pixels.
  *
  * @version 2
  */
 public interface ImageProcessingModel {
+
   /**
-   * Load the PPM image from the specified filePath and assign it
-   * the given name. Overwrites the destination name if already taken.
+   * Load the PPM image from the specified filePath and assign it the given name. Overwrites the
+   * destination name if already taken.
    *
    * @param filepath  the location to load the image from
    * @param imageName the name to load the image to
@@ -24,9 +25,8 @@ public interface ImageProcessingModel {
   Void loadImageFromFile(String filepath, String imageName) throws IllegalArgumentException;
 
   /**
-   * x
-   * Create a greyscale using only the red component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * x Create a greyscale using only the red component of the given image, and load it with the
+   * given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the red component of
    * @param destImageName the name to give the new image
@@ -36,8 +36,8 @@ public interface ImageProcessingModel {
   Void redComponent(String imageName, String destImageName) throws IllegalArgumentException;
 
   /**
-   * Create greyscale using only the green component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create greyscale using only the green component of the given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the green component of
    * @param destImageName the name to give the new image
@@ -45,11 +45,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void greenComponent(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create a greyscale using only the blue component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the blue component of the given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the blue component of
    * @param destImageName the name to give the new image
@@ -57,12 +57,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void blueComponent(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create an image that is the horizontally flipped version
-   * of the specified image, and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is the horizontally flipped version of the specified image, and load it
+   * with the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to horizontally flip
    * @param destImageName the name to give the new image
@@ -70,12 +69,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void horizontalFlip(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create an image that is the vertically flipped version
-   * of the specified image, and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is the vertically flipped version of the specified image, and load it with
+   * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to vertically flip
    * @param destImageName the name to give the new image
@@ -85,8 +83,8 @@ public interface ImageProcessingModel {
   Void verticalFlip(String imageName, String destImageName) throws IllegalArgumentException;
 
   /**
-   * Create a greyscale using only the value component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the value component of a given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the value component of
    * @param destImageName the name to give the new image
@@ -94,11 +92,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void valueComponent(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create a greyscale using only the intensity component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the intensity component of a given image, and load it with the
+   * given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the intensity component of
    * @param destImageName the name to give the new image
@@ -106,11 +104,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void intensityComponent(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create a greyscale using only the luma component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the luma component of a given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the luma component of
    * @param destImageName the name to give the new image
@@ -118,12 +116,12 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void lumaComponent(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create an image that is brighter than the given image by 10 units (unless
-   * already fully brightened), and load it with the given name. Overwrites
-   * the destination name if already taken.
+   * Create an image that is brighter than the given image by 10 units (unless already fully
+   * brightened), and load it with the given name. Overwrites the destination name if already
+   * taken.
    *
    * @param imageName     the name of the image to brighten
    * @param destImageName the name to give the new image
@@ -132,12 +130,11 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void brighten(String imageName, String destImageName, int amount)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
-   * Create an image that is darker than the given image by 10 units (unless
-   * already fully darkened), and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is darker than the given image by 10 units (unless already fully
+   * darkened), and load it with the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to darken
    * @param destImageName the name to give the new image
@@ -146,7 +143,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void darken(String imageName, String destImageName, int amount)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * create an image that is blur to the given image, and load it with the given name.
@@ -157,7 +154,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void blur(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * create an image that is sharpening to the given image, and load it with the given name.
@@ -168,7 +165,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void sharpen(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * create an image that is greyscale with the given image, and load it with the given name.
@@ -179,7 +176,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void greyscale(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * create an image that is sepia tone with the given image, and load it with the given name.
@@ -190,7 +187,7 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if the image does not exist
    */
   Void sepiaTone(String imageName, String destImageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
 
   /**
    * the list of pixels.
@@ -200,13 +197,18 @@ public interface ImageProcessingModel {
    * @throws IllegalArgumentException if it's null
    */
   ArrayList<ArrayList<Pixel>> pixels(String imageName)
-          throws IllegalArgumentException;
+      throws IllegalArgumentException;
+
   /**
    * to make a histogram map.
-   * @param type the type if R G B intensity
+   *
+   * @param type                the type if R G B intensity
    * @param normalizationFactor the normalizer factor
    * @return a new histogram map
    * @throws IllegalArgumentException if given image does not exist
    */
-  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException;
+  public Map<Integer, Integer> makeHistogramHashmap(
+      String imageName, String type,
+      int normalizationFactor)
+      throws IllegalArgumentException;
 }

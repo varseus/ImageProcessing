@@ -12,13 +12,14 @@ import imageprocessing.model.ImageProcessingModel;
 import static org.junit.Assert.assertEquals;
 
 /**
- * The {@code TestView} to test the methods in TestView class. Version 2 changes: added
- * tests for new functionality of controller. Switched tests
- * to measure equality by comparing image pixels as strings.
+ * The {@code TestView} to test the methods in TestView class. Version 2 changes: added tests for
+ * new functionality of controller. Switched tests to measure equality by comparing image pixels as
+ * strings.
  *
  * @version 2
  */
 public class TestView {
+
   private ImageProcessingView view;
   private Appendable output;
   private ImageProcessingModel model;
@@ -34,17 +35,16 @@ public class TestView {
   }
 
   /**
-   * This subclass represents an Appendable that always throws
-   * an IOException (for testing exception handling).
+   * This subclass represents an Appendable that always throws an IOException (for testing exception
+   * handling).
    */
   static class BadAppendable implements Appendable {
 
     /**
      * Throws an I/0 exception, for testing errors.
      *
-     * @param csq The character sequence to append.  If {@code csq} is
-     *            {@code null}, then the four characters {@code "null"} are
-     *            appended to this Appendable.
+     * @param csq The character sequence to append.  If {@code csq} is {@code null}, then the four
+     *            characters {@code "null"} are appended to this Appendable.
      * @return never returns
      * @throws IOException always
      */
@@ -56,13 +56,11 @@ public class TestView {
     /**
      * Throws an I/0 exception, for testing errors.
      *
-     * @param csq   The character sequence from which a subsequence will be
-     *              appended.  If {@code csq} is {@code null}, then characters
-     *              will be appended as if {@code csq} contained the four
-     *              characters {@code "null"}.
+     * @param csq   The character sequence from which a subsequence will be appended.  If
+     *              {@code csq} is {@code null}, then characters will be appended as if {@code csq}
+     *              contained the four characters {@code "null"}.
      * @param start The index of the first character in the subsequence
-     * @param end   The index of the character following the last character in the
-     *              subsequence
+     * @param end   The index of the character following the last character in the subsequence
      * @return never returns
      * @throws IOException always
      */
@@ -128,7 +126,7 @@ public class TestView {
     this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -141,7 +139,7 @@ public class TestView {
     this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -154,6 +152,6 @@ public class TestView {
     this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 }

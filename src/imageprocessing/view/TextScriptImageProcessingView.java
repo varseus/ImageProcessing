@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * the {@code TextScriptImageProcessingView} represent the view method for
- * the image processing model. Version 2 changes => added saveImageToFIle method.
+ * the {@code TextScriptImageProcessingView} represent the view method for the image processing
+ * model. Version 2 changes => added saveImageToFIle method.
  *
  * @version 2
  */
 public class TextScriptImageProcessingView implements ImageProcessingView {
+
   private final Appendable appendable;
   private final ImageProcessingModel model;
 
@@ -23,7 +24,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    * @throws NullPointerException if null args
    */
   public TextScriptImageProcessingView(Appendable appendable, ImageProcessingModel model)
-          throws NullPointerException {
+      throws NullPointerException {
     this.appendable = Objects.requireNonNull(appendable);
     this.model = Objects.requireNonNull(model);
   }
@@ -42,8 +43,8 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    *
    * @param message the message to be transmitted
    * @return the string being rendered if successful
-   * @throws IOException          if transmission of the board to the provided
-   *                              data destination fails
+   * @throws IOException          if transmission of the board to the provided data destination
+   *                              fails
    * @throws NullPointerException if null args
    */
   @Override
@@ -62,7 +63,7 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    */
   @Override
   public Void saveImageToFile(String imageName, String filepath)
-          throws IllegalArgumentException, IOException {
+      throws IllegalArgumentException, IOException {
     ImageWriteUtil.writePixelsToFile(this.model.pixels(imageName), filepath);
     return null;
   }

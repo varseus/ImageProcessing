@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import imageprocessing.view.Histogram;
-import imageprocessing.view.SwingView;
 
 /**
  * The {@code BasePPMImageProcessingModel} represents the operations and state of an image
- * processor, intended to process a set of PPM images. Operations include:
- * get red/green/blue components, get value/intensity/luma components, bright, darken,
- * flip horizontally/vertically, and load image to and from PPM. Version 2 changes:
- * added support for blur/sharpen/greyscale/sepiatone; save
- * method moved to view; added pixels method to retrieve an image's pixels.
+ * processor, intended to process a set of PPM images. Operations include: get red/green/blue
+ * components, get value/intensity/luma components, bright, darken, flip horizontally/vertically,
+ * and load image to and from PPM. Version 2 changes: added support for
+ * blur/sharpen/greyscale/sepiatone; save method moved to view; added pixels method to retrieve an
+ * image's pixels.
  *
  * @version 2
  */
 public class BasicImageProcessingModel implements ImageProcessingModel {
+
   private final Map<String, Image> images;
 
   public BasicImageProcessingModel() {
@@ -25,8 +24,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Load the PPM image from the specified filePath and assign it
-   * the given name. Overwrites the destination name if already taken.
+   * Load the PPM image from the specified filePath and assign it the given name. Overwrites the
+   * destination name if already taken.
    *
    * @param imageName the name to give the loaded image
    * @param filepath  the file to load the image from
@@ -35,14 +34,14 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void loadImageFromFile(String filepath, String imageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     images.put(imageName, new BasicImage(filepath));
     return null;
   }
 
   /**
-   * Create a greyscale using only the red component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the red component of the given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the red component of
    * @param destImageName the name to give the new image
@@ -51,7 +50,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void redComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).redComponent());
     } catch (Exception e) {
@@ -61,8 +60,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create greyscale using only the green component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create greyscale using only the green component of the given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the green component of
    * @param destImageName the name to give the new image
@@ -71,7 +70,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void greenComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).greenComponent());
     } catch (Exception e) {
@@ -81,8 +80,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create a greyscale using only the blue component of the given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the blue component of the given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to take the blue component of
    * @param destImageName the name to give the new image
@@ -91,7 +90,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void blueComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).blueComponent());
     } catch (Exception e) {
@@ -101,9 +100,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create an image that is the horizontally flipped version
-   * of the specified image, and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is the horizontally flipped version of the specified image, and load it
+   * with the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to horizontally flip
    * @param destImageName the name to give the new image
@@ -112,7 +110,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void horizontalFlip(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).horizontalFlip());
     } catch (Exception e) {
@@ -122,9 +120,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create an image that is the vertically flipped version
-   * of the specified image, and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is the vertically flipped version of the specified image, and load it with
+   * the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to vertically flip
    * @param destImageName the name to give the new image
@@ -133,7 +130,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void verticalFlip(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).verticalFlip());
     } catch (Exception e) {
@@ -143,8 +140,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create a greyscale using only the value component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the value component of a given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the value component of
    * @param destImageName the name to give the new image
@@ -153,7 +150,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void valueComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).valueComponent());
     } catch (Exception e) {
@@ -163,8 +160,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create a greyscale using only the intensity component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the intensity component of a given image, and load it with the
+   * given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the intensity component of
    * @param destImageName the name to give the new image
@@ -173,7 +170,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void intensityComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).intensityComponent());
     } catch (Exception e) {
@@ -183,8 +180,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create a greyscale using only the luma component of a given image,
-   * and load it with the given name. Overwrites the destination name if already taken.
+   * Create a greyscale using only the luma component of a given image, and load it with the given
+   * name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to get the luma component of
    * @param destImageName the name to give the new image
@@ -193,7 +190,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void lumaComponent(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).lumaComponent());
     } catch (Exception e) {
@@ -203,9 +200,9 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create an image that is brighter than the given image by 10 units (unless
-   * already fully brightened), and load it with the given name. Overwrites
-   * the destination name if already taken.
+   * Create an image that is brighter than the given image by 10 units (unless already fully
+   * brightened), and load it with the given name. Overwrites the destination name if already
+   * taken.
    *
    * @param imageName     the name of the image to brighten
    * @param destImageName the name to give the new image
@@ -214,7 +211,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void brighten(String imageName, String destImageName, int amount)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).brighten(amount));
     } catch (Exception e) {
@@ -224,9 +221,8 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create an image that is darker than the given image by 10 units (unless
-   * already fully darkened), and load it with the given name.
-   * Overwrites the destination name if already taken.
+   * Create an image that is darker than the given image by 10 units (unless already fully
+   * darkened), and load it with the given name. Overwrites the destination name if already taken.
    *
    * @param imageName     the name of the image to darken
    * @param destImageName the name to give the new image
@@ -235,7 +231,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void darken(String imageName, String destImageName, int amount)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).darken(amount));
     } catch (Exception e) {
@@ -254,7 +250,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void blur(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).blur());
     } catch (Exception e) {
@@ -264,8 +260,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create an image that is sharpened version of
-   * the given image, and load it with the given name.
+   * Create an image that is sharpened version of the given image, and load it with the given name.
    *
    * @param imageName     the name of the image to sharpen
    * @param destImageName the name to give the new image
@@ -274,7 +269,7 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
    */
   @Override
   public Void sharpen(String imageName, String destImageName)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     try {
       images.put(destImageName, images.get(imageName).sharpen());
     } catch (Exception e) {
@@ -337,13 +332,15 @@ public class BasicImageProcessingModel implements ImageProcessingModel {
 
   /**
    * to make a histogram map.
-   * @param type the type if R G B intensity
+   *
+   * @param type                the type if R G B intensity
    * @param normalizationFactor the normalizer factor
    * @return a new histogram map
    * @throws IllegalArgumentException if given image does not exist
    */
   @Override
-  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type, int normalizationFactor) throws IllegalArgumentException {
+  public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type,
+      int normalizationFactor) throws IllegalArgumentException {
     try {
       return images.get(imageName).makeHistogramHashmap(type, normalizationFactor);
     } catch (Exception e) {

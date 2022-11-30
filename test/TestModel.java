@@ -13,12 +13,13 @@ import java.io.IOException;
 
 /**
  * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class. Version 2
- * changes: added tests for new functionality of controller. Switched tests
- * to measure equality by comparing image pixels as strings.
+ * changes: added tests for new functionality of controller. Switched tests to measure equality by
+ * comparing image pixels as strings.
  *
  * @version 2
  */
 public class TestModel {
+
   private BasicImageProcessingModel model;
 
   @Before
@@ -37,7 +38,7 @@ public class TestModel {
     this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -50,7 +51,7 @@ public class TestModel {
     this.model.loadImageFromFile("testRes/square.bmp", "squareAfterLoadAndSave");
 
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -61,7 +62,7 @@ public class TestModel {
     this.model.redComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-red-grayscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -72,7 +73,7 @@ public class TestModel {
     this.model.blueComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blue-grayscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -83,7 +84,7 @@ public class TestModel {
     this.model.greenComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-green-grayscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -94,7 +95,7 @@ public class TestModel {
     this.model.brighten("square", "squareComponent", 50);
     this.model.loadImageFromFile("res/square-brighten-by50ppm.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -105,7 +106,7 @@ public class TestModel {
     this.model.darken("square", "squareComponent", 50);
     this.model.loadImageFromFile("res/square-darken-50.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -116,7 +117,7 @@ public class TestModel {
     this.model.horizontalFlip("square", "squareComponent");
     this.model.loadImageFromFile("res/square-horizontal.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -127,7 +128,7 @@ public class TestModel {
     this.model.verticalFlip("square", "squareComponent");
     this.model.loadImageFromFile("res/square-vertical.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -139,7 +140,7 @@ public class TestModel {
     this.model.verticalFlip("squareComponent", "squareComponent");
     this.model.loadImageFromFile("res/square-horizontal-vertical.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -151,7 +152,7 @@ public class TestModel {
     this.model.horizontalFlip("squareComponent", "squareComponent");
     this.model.loadImageFromFile("res/square-vertical-horizontal.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -162,7 +163,7 @@ public class TestModel {
     this.model.intensityComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-intensity-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -173,7 +174,7 @@ public class TestModel {
     this.model.lumaComponent("square", "squareComponent");
     this.model.loadImageFromFile("res/square-luma-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -184,7 +185,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blur.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -195,7 +196,7 @@ public class TestModel {
     this.model.sharpen("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sharpen.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -206,7 +207,7 @@ public class TestModel {
     this.model.greyscale("square", "squareComponent");
     this.model.loadImageFromFile("res/square-greyscale.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -217,7 +218,7 @@ public class TestModel {
     this.model.sepiaTone("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sepia-tone.ppm", "squareExpected");
     assertEquals(this.model.pixels("squareExpected").toString(),
-            this.model.pixels("squareComponent").toString());
+        this.model.pixels("squareComponent").toString());
   }
 
   /**
@@ -231,7 +232,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-blur.png");
     this.model.loadImageFromFile("testRes/square-blur.png", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -245,7 +246,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-blur.bmp");
     this.model.loadImageFromFile("testRes/square-blur.bmp", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -259,7 +260,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-sharpen.png");
     this.model.loadImageFromFile("testRes/square-sharpen.png", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -273,7 +274,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-sharpen.bmp");
     this.model.loadImageFromFile("testRes/square-sharpen.bmp", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -287,7 +288,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-greyscale.png");
     this.model.loadImageFromFile("testRes/square-greyscale.png", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -301,7 +302,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-greyscale.bmp");
     this.model.loadImageFromFile("testRes/square-greyscale.bmp", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -315,7 +316,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-sepia-tone.png");
     this.model.loadImageFromFile("testRes/square-sepia-tone.png", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -329,7 +330,7 @@ public class TestModel {
     view.saveImageToFile("squareExpected", "testRes/square-sepia-tone.bmp");
     this.model.loadImageFromFile("testRes/square-sepia-tone.bmp", "squareAfterLoadAndSave");
     assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
-            this.model.pixels("squareExpected").toString());
+        this.model.pixels("squareExpected").toString());
   }
 
   /**
@@ -343,7 +344,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blur.png", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -357,7 +358,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-blur.bmp", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -371,7 +372,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sharpen.png", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -385,7 +386,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sharpen.bmp", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -399,7 +400,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-greyscale.png", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -413,7 +414,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-greyscale.bmp", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -427,7 +428,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sepia-tone.png", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**
@@ -441,7 +442,7 @@ public class TestModel {
     this.model.blur("square", "squareComponent");
     this.model.loadImageFromFile("res/square-sepia-tone.bmp", "squareExpected");
     assertEquals(this.model.pixels("square").toString(),
-            this.model.pixels("squareAfterLoadAndSave").toString());
+        this.model.pixels("squareAfterLoadAndSave").toString());
   }
 
   /**

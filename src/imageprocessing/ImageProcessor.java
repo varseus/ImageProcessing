@@ -20,8 +20,7 @@ public class ImageProcessor {
 
 
   /**
-   * Runs an Image processing controller,
-   * inputting and outputting to console, or reading from the
+   * Runs an Image processing controller, inputting and outputting to console, or reading from the
    * script given by command line args.
    *
    * @param args the script to read from, if applicable
@@ -39,13 +38,16 @@ public class ImageProcessor {
           throw new IllegalArgumentException("Cannot read from given filepath " + args[0] + ".");
         }
       }
-      if ((args[0].equals("-file") && args.length == 2) || (args[0].equals("-text") && args.length == 1)) {
+      if ((args[0].equals("-file") && args.length == 2) || (args[0].equals("-text")
+          && args.length == 1)) {
         BasicImageProcessingModel model = new BasicImageProcessingModel();
-        TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out, model);
-        TextScriptedImageProcessingController controller = new TextScriptedImageProcessingController(
-                model,
-                view,
-                in);
+        TextScriptImageProcessingView view =
+            new TextScriptImageProcessingView(System.out, model);
+        TextScriptedImageProcessingController controller =
+            new TextScriptedImageProcessingController(
+            model,
+            view,
+            in);
 
         controller.startProcessor();
       } else {

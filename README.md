@@ -57,7 +57,7 @@ messages and showing images.
 Class **SwingView** implements the interface
 by displaying a GUI for the user upon 
 construction (with custom Swing components: 
-**Button** and **Histogram**).
+**Button** / **Histogram** / **Text**).
 The class consists of listeners (which await for asynchronous events from the user
 and delegate event handling to the controller) and handlers (which handle the 
 output of data, as driven by the controller).
