@@ -2,6 +2,8 @@ package imageprocessing.view;
 
 import java.io.IOException;
 
+import imageprocessing.model.Image;
+
 /**
  * This class represents operations that should be offered by a text-based view of the image
  * processor. Version 2 changes => added saveImageToFile method.
@@ -23,9 +25,10 @@ public interface ImageProcessingView {
    * Export the given image as a ppm.
    *
    * @param imageName the name of the image to save
+   * @param image the image data to save
    * @return StringBuilder containing the PPM data
    * @throws IllegalArgumentException if the image does not exist
    */
-  Void saveImageToFile(String imageName, String filepath)
+  Void saveImageToFile(Image image, String filepath)
       throws IllegalArgumentException, IOException;
 }

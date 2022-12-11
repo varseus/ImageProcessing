@@ -3,6 +3,8 @@ package imageprocessing.model;
 import java.util.ArrayList;
 import java.util.Map;
 
+import imageprocessing.model.Commands.Command;
+
 /**
  * The {@code MockImageProcessingModel} is a mock of an ImageProcessingModel, which logs all calls
  * made to it to a log. Version 2 changes: added support for blur/sharpen/greyscale/sepiatone; save
@@ -18,6 +20,16 @@ public class MockImageProcessingModel implements ImageProcessingModel {
     this.log = log;
   }
 
+
+  @Override
+  public Void doCommand(Command command, String imageName, String destName) {
+    try {
+      this.log.append("Doing command");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
+  }
 
   /**
    * Load the PPM image from the specified filePath and assign it the given name. Overwrites the
@@ -40,279 +52,6 @@ public class MockImageProcessingModel implements ImageProcessingModel {
   }
 
   /**
-   * Create a greyscale using only the red component of the given image, and load it with the given
-   * name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to take the red component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void redComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("red " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create greyscale using only the green component of the given image, and load it with the given
-   * name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to take the green component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void greenComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("green " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create a greyscale using only the blue component of the given image, and load it with the given
-   * name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to take the blue component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void blueComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("blue " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create an image that is the horizontally flipped version of the specified image, and load it
-   * with the given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to horizontally flip
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void horizontalFlip(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("horizontal " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create an image that is the vertically flipped version of the specified image, and load it with
-   * the given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to vertically flip
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void verticalFlip(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("vertical " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create a greyscale using only the value component of a given image, and load it with the given
-   * name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to get the value component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void valueComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("value " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create a greyscale using only the intensity component of a given image, and load it with the
-   * given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to get the intensity component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void intensityComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("intensity " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create a greyscale using only the luma component of a given image, and load it with the given
-   * name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to get the luma component of
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void lumaComponent(String imageName, String destImageName)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("luma " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create an image that is brighter than the given image by 10 units (unless already fully
-   * brightened), and load it with the given name. Overwrites the destination name if already
-   * taken.
-   *
-   * @param imageName     the name of the image to brighten
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void brighten(String imageName, String destImageName, int amount)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("brighten " + imageName + " to " + destImageName + " " + amount + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * Create an image that is darker than the given image by 10 units (unless already fully
-   * darkened), and load it with the given name. Overwrites the destination name if already taken.
-   *
-   * @param imageName     the name of the image to darken
-   * @param destImageName the name to give the new image
-   * @return null object for use in Callable<> lambda
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void darken(String imageName, String destImageName, int amount)
-      throws IllegalArgumentException {
-    try {
-      this.log.append("darken " + imageName + " to " + destImageName + " " + amount + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * create an image that is blur to the given image, and load it with the given name.
-   *
-   * @param imageName     the name of the image to blur
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void blur(String imageName, String destImageName) throws IllegalArgumentException {
-    try {
-      this.log.append("blur " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * create an image that is sharpening to the given image, and load it with the given name.
-   *
-   * @param imageName     the name of the image to sharpening
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void sharpen(String imageName, String destImageName) throws IllegalArgumentException {
-    try {
-      this.log.append("sharpen " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * create an image that is greyscale with the given image, and load it with the given name.
-   *
-   * @param imageName     the name of the image to greyscale
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void greyscale(String imageName, String destImageName) throws IllegalArgumentException {
-    try {
-      this.log.append("greyscale " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
-   * create an image that is sepia tone with the given image, and load it with the given name.
-   *
-   * @param imageName     the name of the image to sepia tone
-   * @param destImageName the name to give the new image
-   * @return null for use in Callable<> lambda expression
-   * @throws IllegalArgumentException if the image does not exist
-   */
-  @Override
-  public Void sepiaTone(String imageName, String destImageName) throws IllegalArgumentException {
-    try {
-      this.log.append("sepiaTone " + imageName + " to " + destImageName + "\n");
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return null;
-  }
-
-  /**
    * the list of pixels.
    *
    * @param imageName the name of the image
@@ -320,7 +59,7 @@ public class MockImageProcessingModel implements ImageProcessingModel {
    * @throws IllegalArgumentException if it's null
    */
   @Override
-  public ArrayList<ArrayList<Pixel>> pixels(String imageName) throws IllegalArgumentException {
+  public Image image(String imageName) throws IllegalArgumentException {
     try {
       this.log.append("getting pixels from " + imageName + "\n");
     } catch (Exception e) {
@@ -331,7 +70,7 @@ public class MockImageProcessingModel implements ImageProcessingModel {
 
   @Override
   public Map<Integer, Integer> makeHistogramHashmap(String imageName, String type,
-      int normalizationFactor) throws IllegalArgumentException {
+                                                    int normalizationFactor) throws IllegalArgumentException {
     try {
       this.log.append("Making histogram for " + imageName + "\n");
     } catch (Exception e) {

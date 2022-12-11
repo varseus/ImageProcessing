@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  *
  * @version 2
  */
-class GreyscaleImage extends BasicImage {
+public class GreyscaleImage extends BasicImage {
 
   /**
    * Instantiates this GreyscaleImage with the given pixels and max value.

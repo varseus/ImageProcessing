@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import imageprocessing.model.Image;
 import imageprocessing.model.Pixel;
 
 
@@ -23,18 +24,18 @@ class ImageWriteUtil {
   /**
    * Saves the given pixel matrix, representing an image, to a file.
    *
-   * @param pixels   pixels that compose the image to write to the file assumes pixels have byteSize
+   * @param image   image that compose the image to write to the file assumes pixels have byteSize
    *                 of 255
    * @param filepath to save image to
    * @throws IOException              if unable to write to file
    * @throws NullPointerException     if null args
    * @throws IllegalArgumentException if unrecognized filepath or illegal pixel array
    */
-  public static void writePixelsToFile(ArrayList<ArrayList<Pixel>> pixels,
+  public static void writePixelsToFile(Image image,
       String filepath)
       throws IOException, NullPointerException, IllegalArgumentException {
     Objects.requireNonNull(filepath);
-    Objects.requireNonNull(pixels);
+    Objects.requireNonNull(image);
 
     HashMap<String, Boolean> acceptedTypes = new HashMap<String, Boolean>();
     for (String type : ImageIO.getWriterFileSuffixes()) {
@@ -63,9 +64,31 @@ class ImageWriteUtil {
       }
     }
 
+    BufferedImage bufferedImage = new ImageWriteUtil().getBufferedImage(image);
+
+    try {
+      if (!ImageIO.write(bufferedImage, formatName, fileObj)) {
+        ImageWriteUtil.writePPMPixelsToFile(image, filepath);
+      }
+    } catch (Exception imageIOError) {
+      try {
+        ImageWriteUtil.writePPMPixelsToFile(image, filepath);
+      } catch (Exception ppmError) {
+        throw imageIOError;
+      }
+    }
+  }
+
+  /**
+   * Gets the buffered image of an image
+   * @param image to get buffered image of
+   * @return Buffered image of an image
+   */
+  public static BufferedImage getBufferedImage(Image image) {
+    ArrayList<ArrayList<Pixel>> pixels = (image.pixels());
     BufferedImage bufferedImage = new BufferedImage(pixels.get(0).size(),
-        pixels.size(),
-        BufferedImage.TYPE_INT_RGB);
+            pixels.size(),
+            BufferedImage.TYPE_INT_RGB);
 
     for (int i = 0; i < pixels.size(); i++) {
       for (int j = 0; j < pixels.get(0).size(); j++) {
@@ -73,33 +96,25 @@ class ImageWriteUtil {
       }
     }
 
-    try {
-      if (!ImageIO.write(bufferedImage, formatName, fileObj)) {
-        ImageWriteUtil.writePPMPixelsToFile(pixels, filepath);
-      }
-    } catch (Exception imageIOError) {
-      try {
-        ImageWriteUtil.writePPMPixelsToFile(pixels, filepath);
-      } catch (Exception ppmError) {
-        throw imageIOError;
-      }
-    }
-
+    return bufferedImage;
   }
 
   /**
    * Writes the given data to file at the specified filepath.
    *
-   * @param pixels   to write to file
+   * @param image   to write to file
    * @param filepath filepath of the file to write
    * @throws IllegalArgumentException if invalid filepath
    * @throws IOException              if unable to write to file
    * @throws NullPointerException     if null args
    */
-  public static void writePPMPixelsToFile(ArrayList<ArrayList<Pixel>> pixels, String filepath)
+  public static void writePPMPixelsToFile(Image image, String filepath)
       throws IllegalArgumentException, IOException, NullPointerException {
-    Objects.requireNonNull(pixels);
+    Objects.requireNonNull(image);
     Objects.requireNonNull(filepath);
+
+    ArrayList<ArrayList<Pixel>> pixels = image.pixels();
+
     if (filepath.length() < 4 || !filepath.substring(filepath.length() - 4, filepath.length())
         .equals(".ppm")) {
       throw new IllegalArgumentException("Filepath must end in .ppm");

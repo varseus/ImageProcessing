@@ -1,6 +1,7 @@
 package imageprocessing.view;
 
 import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.Image;
 import imageprocessing.model.ImageProcessingModel;
 
 import java.io.IOException;
@@ -62,9 +63,9 @@ public class TextScriptImageProcessingView implements ImageProcessingView {
    * @throws IllegalArgumentException if the image does not exist
    */
   @Override
-  public Void saveImageToFile(String imageName, String filepath)
+  public Void saveImageToFile(Image image, String filepath)
       throws IllegalArgumentException, IOException {
-    ImageWriteUtil.writePixelsToFile(this.model.pixels(imageName), filepath);
+    ImageWriteUtil.writePixelsToFile(image, filepath);
     return null;
   }
 }

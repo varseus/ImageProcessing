@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import imageprocessing.controller.SwingAppFeatures;
+import imageprocessing.model.Image;
 import imageprocessing.model.Pixel;
 
 /**
  * Represents a Swing View for an Image Processor.
  */
-public interface ImageProcessingSwingView {
+public interface ImageProcessingSwingView extends ImageProcessingView{
 
   /**
    * Sets the features/controller to be used by the view.
@@ -22,11 +23,11 @@ public interface ImageProcessingSwingView {
    * Saves the given image data to a file.
    *
    * @param filepath the file location
-   * @param pixels   the image data
+   * @param image   the image data
    * @throws IllegalArgumentException if illegal filepath or image data
    * @throws IOException              if unable to save
    */
-  void saveImageToFile(String filepath, ArrayList<ArrayList<Pixel>> pixels)
+  Void saveImageToFile(Image image, String filepath)
           throws IllegalArgumentException, IOException;
 
   /**
@@ -48,12 +49,36 @@ public interface ImageProcessingSwingView {
   /**
    * Displays the given image to this view.
    *
-   * @param filepath the image to display
+   * @param image the image to display
    */
-  void displayImage(String filepath);
+  void displayImage(Image image);
 
   /**
    * Refresh the view.
    */
   void refresh();
+
+  /**
+   * Get the from image for an operation.
+   * @return from image as a string
+   */
+  String getFrom();
+
+  /**
+   * Get the to image for an operation.
+   * @return to image as a string
+   */
+  String getTo();
+
+  /**
+   * Get the filepath for an image for an operation.
+   * @return filepath as a string
+   */
+  String getFilepath(boolean image);
+
+  /**
+   * Get the to image for an operation.
+   * @return to image as a string
+   */
+  Integer getNextIntToken();
 }

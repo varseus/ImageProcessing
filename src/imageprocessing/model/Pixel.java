@@ -137,5 +137,9 @@ public interface Pixel {
    * @return add 1 if there are R G B intensity
    */
   int addToHashmap(Map<Integer, Integer> map, String type);
+
+  float lowerDelta(float x, String component);
+
+  float upperDelta(float x, String component);
 }
 

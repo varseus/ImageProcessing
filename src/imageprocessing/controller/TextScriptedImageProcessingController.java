@@ -1,12 +1,30 @@
 package imageprocessing.controller;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
+import imageprocessing.model.BasicImageProcessingModel;
+import imageprocessing.model.Commands.BlueComponent;
+import imageprocessing.model.Commands.BlurFilter;
+import imageprocessing.model.Commands.BrightenComponent;
+import imageprocessing.model.Commands.DarkenComponent;
+import imageprocessing.model.Commands.DownsizeCommand;
+import imageprocessing.model.Commands.GreenComponent;
+import imageprocessing.model.Commands.GreyscaleComponent;
+import imageprocessing.model.Commands.HorizontalFlipCommand;
+import imageprocessing.model.Commands.IntensityComponent;
+import imageprocessing.model.Commands.LumaComponent;
+import imageprocessing.model.Commands.RedComponent;
+import imageprocessing.model.Commands.SharpenFilter;
+import imageprocessing.model.Commands.ValueComponent;
+import imageprocessing.model.Commands.VerticalFlipCommand;
+import imageprocessing.model.GreyscaleImage;
 import imageprocessing.model.ImageProcessingModel;
 import imageprocessing.view.TextScriptImageProcessingView;
 
@@ -45,35 +63,40 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
     this.commandMap.put("load", (() -> (
         this.model.loadImageFromFile(this.getFrom(), this.getTo()))));
     this.commandMap.put("save", (() -> (
-        this.view.saveImageToFile(this.getFrom(), this.getTo()))));
+        this.view.saveImageToFile(this.model.image(this.getFrom()), this.getTo()))));
     this.commandMap.put("red-component", (() -> (
-        this.model.redComponent(this.getFrom(), this.getTo()))));
+                    this.model.doCommand(new RedComponent(), this.getFrom(), this.getTo()))));
+        //this.model.redComponent(this.getFrom(), this.getTo()))));
     this.commandMap.put("green-component", (() -> (
-        this.model.greenComponent(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new GreenComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("blue-component", (() -> (
-        this.model.blueComponent(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new BlueComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("value-component", (() -> (
-        this.model.valueComponent(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new ValueComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("intensity-component", (() -> (
-        this.model.intensityComponent(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new IntensityComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("luma-component", (() -> (
-        this.model.lumaComponent(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new LumaComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("horizontal-flip", (() -> (
-        this.model.horizontalFlip(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new HorizontalFlipCommand(), this.getFrom(), this.getTo()))));
     this.commandMap.put("vertical-flip", (() -> (
-        this.model.verticalFlip(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new VerticalFlipCommand(), this.getFrom(), this.getTo()))));
     this.commandMap.put("brighten", (() -> (
-        this.model.brighten(this.getFrom(), this.getTo(), this.getNextIntToken()))));
+        this.model.doCommand(new BrightenComponent(this.getNextIntToken()), this.getFrom(), this.getTo()))));
     this.commandMap.put("darken", (() -> (
-        this.model.darken(this.getFrom(), this.getTo(), this.getNextIntToken()))));
+        this.model.doCommand(new DarkenComponent(this.getNextIntToken()), this.getFrom(), this.getTo()))));
     this.commandMap.put("blur", (() -> (
-        this.model.blur(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new BlurFilter(), this.getFrom(), this.getTo()))));
     this.commandMap.put("sharpen", (() -> (
-        this.model.sharpen(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new SharpenFilter(), this.getFrom(), this.getTo()))));
     this.commandMap.put("greyscale", (() -> (
-        this.model.greyscale(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new GreyscaleComponent(), this.getFrom(), this.getTo()))));
     this.commandMap.put("sepia", (() -> (
-        this.model.sepiaTone(this.getFrom(), this.getTo()))));
+        this.model.doCommand(new GreyscaleComponent(), this.getFrom(), this.getTo()))));
+    this.commandMap.put("downsize", (() -> (
+            this.model.doCommand(
+                    new DownsizeCommand(this.getNextIntToken(), this.getNextIntToken()),
+                    this.getFrom(), this.getTo()))));
   }
 
   /**
@@ -211,8 +234,21 @@ public class TextScriptedImageProcessingController implements ImageProcessingCon
       if (e instanceof IOException) {
         throw new IOException(e.toString());
       } else {
-        throw new IllegalArgumentException("Last field for brighten/darken must be an integer.");
+        throw new IllegalArgumentException("First field must be an integer.");
       }
+    }
+  }
+
+  public static void main(String[] args) {
+    ImageProcessingModel model = new BasicImageProcessingModel();
+    TextScriptImageProcessingView view = new TextScriptImageProcessingView(System.out, model);
+    ImageProcessingController controller = new TextScriptedImageProcessingController(model,
+            view,
+            new InputStreamReader(System.in));
+    try {
+      controller.startProcessor();
+    } catch (Exception e) {
+      System.out.println(e);
     }
   }
 }
