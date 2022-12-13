@@ -10,6 +10,7 @@ import imageprocessing.model.Commands.BlurFilter;
 import imageprocessing.model.Commands.BrightenComponent;
 import imageprocessing.model.Commands.Command;
 import imageprocessing.model.Commands.DarkenComponent;
+import imageprocessing.model.Commands.DownsizeCommand;
 import imageprocessing.model.Commands.GreenComponent;
 import imageprocessing.model.Commands.GreyscaleComponent;
 import imageprocessing.model.Commands.HorizontalFlipCommand;
@@ -64,9 +65,13 @@ public class SwingController implements SwingAppFeatures {
     this.commandMap.put("Flip Vertically", (() -> (
             this.doCommand(new VerticalFlipCommand()))));
     this.commandMap.put("Brighten", (() -> (
-            this.doCommand(new BrightenComponent(this.view.getNextIntToken())))));
+            this.doCommand(new BrightenComponent(this.view.getNextIntToken(
+                    "Specify how much to brighten by:"
+            ))))));
     this.commandMap.put("Darken", (() -> (
-            this.doCommand(new DarkenComponent(this.view.getNextIntToken())))));
+            this.doCommand(new DarkenComponent(this.view.getNextIntToken(
+                    "Specify how much to darken by:"
+            ))))));
     this.commandMap.put("Blur", (() -> (
             this.doCommand(new BlurFilter()))));
     this.commandMap.put("Sharpen", (() -> (
@@ -75,6 +80,10 @@ public class SwingController implements SwingAppFeatures {
             this.doCommand(new GreyscaleComponent()))));
     this.commandMap.put("Sepia", (() -> (
             this.doCommand(new GreyscaleComponent()))));
+    this.commandMap.put("Downsize", (() -> (
+            this.doCommand(new DownsizeCommand(
+                    this.view.getNextIntToken("Specify new width:"),
+                    this.view.getNextIntToken("Specify new height:"))))));
     this.commandMap.put("Change Image", (() -> (
             this.displayImage(this.view.getFrom()))));
   }

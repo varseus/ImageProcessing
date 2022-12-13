@@ -1,45 +1,45 @@
-//import static org.junit.Assert.assertEquals;
-//
-//
-//import imageprocessing.model.BasicImageProcessingModel;
-//
-//import imageprocessing.view.ImageProcessingView;
-//import imageprocessing.view.TextScriptImageProcessingView;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//import java.io.IOException;
-//
-///**
-// * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class. Version 2
-// * changes: added tests for new functionality of controller. Switched tests to measure equality by
-// * comparing image pixels as strings.
-// *
-// * @version 2
-// */
-//public class TestModel {
-//
-//  private BasicImageProcessingModel model;
-//
-//  @Before
-//  public void setup() throws IOException {
-//    this.model = new BasicImageProcessingModel();
-//    this.model.loadImageFromFile("res/square.ppm", "square");
-//  }
-//
-//  /**
-//   * Test loading ppm and png.
-//   */
-//  @Test
-//  public void testSaveAndLoadImageFromPPMAndPNG() throws IOException {
-//    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
-//    view.saveImageToFile("square", "testRes/square.png");
-//    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
-//
-//    assertEquals(this.model.pixels("square").toString(),
-//        this.model.pixels("squareAfterLoadAndSave").toString());
-//  }
+import static org.junit.Assert.assertEquals;
+
+
+import imageprocessing.model.BasicImageProcessingModel;
+
+import imageprocessing.model.Commands.RedComponent;
+import imageprocessing.view.ImageProcessingView;
+import imageprocessing.view.TextScriptImageProcessingView;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+
+/**
+ * The {@code TestModel} to test the methods in BasePPMImageProcessingModel class. Version 2
+ * changes: added tests for new functionality of controller. Switched tests to measure equality by
+ * comparing image pixels as strings.
+ *
+ * @version 2
+ */
+public class TestModel {
+
+  private BasicImageProcessingModel model;
+
+  @Before
+  public void setup() throws IOException {
+    this.model = new BasicImageProcessingModel();
+    this.model.loadImageFromFile("res/square.ppm", "square");
+  }
+
+  /**
+   * Test loading ppm and png.
+   */
+  @Test
+  public void testSaveAndLoadImageFromPPMAndPNG() throws IOException {
+    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+    view.saveImageToFile(this.model.image("square"), "testRes/square.png");
+    this.model.loadImageFromFile("testRes/square.png", "squareAfterLoadAndSave");
+    assertEquals(this.model.image("square").pixels().toString(),
+        this.model.image("squareAfterLoadAndSave").pixels().toString());
+  }
 //
 //  /**
 //   * Test loading ppm and bmp.
@@ -54,16 +54,16 @@
 //        this.model.pixels("squareAfterLoadAndSave").toString());
 //  }
 //
-//  /**
-//   * Test redComponent method.
-//   */
-//  @Test
-//  public void testRedComponent() throws IOException {
-//    this.model.redComponent("square", "squareComponent");
-//    this.model.loadImageFromFile("res/square-red-grayscale.ppm", "squareExpected");
-//    assertEquals(this.model.pixels("squareExpected").toString(),
-//        this.model.pixels("squareComponent").toString());
-//  }
+  /**
+   * Test redComponent method.
+   */
+  @Test
+  public void testRedComponent() throws IOException {
+    this.model.doCommand(new RedComponent(), "square", "squareComponent");
+    this.model.loadImageFromFile("res/square-red-grayscale.ppm", "squareExpected");
+    assertEquals(this.model.image("squareExpected").pixels().toString(),
+        this.model.image("squareComponent").pixels().toString());
+  }
 //
 //  /**
 //   * Test blueComponent method.
@@ -332,6 +332,20 @@
 //    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
 //        this.model.pixels("squareExpected").toString());
 //  }
+
+//  /**
+//   * Test downsize method with ppm, then convert it to bmp.
+//   */
+//  @Test
+//  public void testDownsizeBmp() throws IOException {
+//    this.model.downsize("square", "squareComponent");
+//    this.model.loadImageFromFile("res/square-sepia-tone.bmp", "squareExpected");
+//    ImageProcessingView view = new TextScriptImageProcessingView(new StringBuilder(), this.model);
+//    view.saveImageToFile("squareExpected", "testRes/square-sepia-tone.bmp");
+//    this.model.loadImageFromFile("testRes/square-sepia-tone.bmp", "squareAfterLoadAndSave");
+//    assertEquals(this.model.pixels("squareAfterLoadAndSave").toString(),
+//        this.model.pixels("squareExpected").toString());
+//  }
 //
 //  /**
 //   * Test loading ppm and png then to the blur.
@@ -572,4 +586,4 @@
 //  public void testComponentFailFail16() throws IOException {
 //    this.model.sepiaTone("notsquare", "square");
 //  }
-//}
+}

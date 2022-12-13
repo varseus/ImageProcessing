@@ -78,7 +78,8 @@ public interface ImageProcessingSwingView extends ImageProcessingView{
 
   /**
    * Get the to image for an operation.
+   * @param label the string to ask the user
    * @return to image as a string
    */
-  Integer getNextIntToken();
+  Integer getNextIntToken(String label);
 }
